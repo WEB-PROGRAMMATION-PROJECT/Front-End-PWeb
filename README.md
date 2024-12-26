@@ -84,8 +84,8 @@ Et bien sûr, parce que "Angular" rime avec "spectacular" ! 🌟
 
 ## 📧 Contact
 Pour toute question, remarque ou collaboration, contactez **Donfack Pascal Arthur** :
-- Email : [donfack.pascal@exemple.com](mailto:donfackarthur750@gmail.com)
-- LinkedIn : [VotreLienLinkedIn](https://linkedin.com)
+- Email : [donfackarthur750@gmail.com](mailto:donfackarthur750@gmail.com)
+- LinkedIn : [pascal-arthur-donfack](https://www.linkedin.com/in/pascal-arthur-donfack-567575327/)
 
 ---
 
