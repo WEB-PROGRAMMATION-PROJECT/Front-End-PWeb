@@ -1,11 +1,11 @@
-# Projet Angular Front-End : 4GI Polytechnique
+# Projet Angular Front-End : 4&M1-GI Polytechnique
 
-Bienvenue dans **[Nom du Projet]**, un projet réalisé dans le cadre de la programmation web de 4GI à l'École Nationale Supérieure Polytechnique de Yaoundé. Ce dépôt contient la partie **front-end**, développée avec le framework **Angular**.
+Bienvenue dans **Angular Shop**, un projet réalisé dans le cadre de la programmation web de 4GI à l'École Nationale Supérieure Polytechnique de Yaoundé. Ce dépôt contient la partie **front-end**, développée avec le framework **Angular**.
 
 ---
 
 ## 📜 Description du Projet
-Ce projet vise à **[insérer un objectif général, ex. "créer une plateforme de gestion des stylistes et leurs profils"]**. Il s'agit de mettre en œuvre des concepts avancés de programmation web tout en exploitant les fonctionnalités modernes d'Angular pour le développement front-end.
+Ce projet vise à **créer une plateforme de commerce pour les couturiers**. Il s'agit de mettre en œuvre des concepts avancés de programmation web tout en exploitant les fonctionnalités modernes d'Angular pour le développement front-end.
 
 ---
 
@@ -35,11 +35,11 @@ Pour exécuter ce projet localement, voici les étapes à suivre :
 ### Installation
 1. Clonez ce dépôt :
    ```bash
-   git clone https://github.com/votre-utilisateur/nom-du-repo.git
+   git clone https://github.com/WEB-PROGRAMMATION-PROJECT/Front-End-PWeb.git
    ```
 2. Accédez au dossier du projet :
    ```bash
-   cd nom-du-repo
+   cd Front-End-PWeb
    ```
 3. Installez les dépendances :
    ```bash
@@ -84,15 +84,11 @@ Et bien sûr, parce que "Angular" rime avec "spectacular" ! 🌟
 
 ## 📧 Contact
 Pour toute question, remarque ou collaboration, contactez **Donfack Pascal Arthur** :
-- Email : [donfack.pascal@exemple.com](mailto:donfack.pascal@exemple.com)
+- Email : [donfack.pascal@exemple.com](mailto:donfackarthur750@gmail.com)
 - LinkedIn : [VotreLienLinkedIn](https://linkedin.com)
 
 ---
 
-## 📜 License
-Ce projet est sous licence **[Nom de la licence]**. Utilisez-le à bon escient et n'oubliez pas de mentionner l'équipe 4GI Polytechnique si vous impressionnez quelqu'un avec ce projet. 😉
-
----
 
 **Astuce du jour** : Si jamais tu te perds dans le code Angular, prends une pause et rappelle-toi que même Google utilise Angular. Donc, pas de panique, tu es entre de bonnes mains ! 😎
 
