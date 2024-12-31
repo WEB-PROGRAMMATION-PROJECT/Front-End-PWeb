@@ -1,0 +1,96 @@
+je dois faire une application angular (utilisant css et son saas)(j'utilise la derniere version qui permet des composant standalone et toutes les dernirrees fonctionalites ng-19.0.6)
+
+je te fais un peit resume de l'application :
+1. Objectifs de l'application
+• Pour les stylistes: Offrir une plateforme pour exposer leurs créations, présenter les prix et
+détails des tenues, et faciliter la gestion des commandes.
+• Pour les utilisateurs : Permettre de parcourir les créations, prendre leurs mesures via
+l’application, vérifier la disponibilité des stylistes, et effectuer des paiements en ligne.
+2. Fonctionnalités de l'application
+2.1 Frontend (Angular)
+1. Accueil
+o Page d’accueil présentant les collections mises en avant, les stylistes populaires et les
+offres spéciales.
+o Carrousel de tenues en vedette.
+2. Exploration des Tenues
+o Affichage des tenues par catégories (par exemple : tenues traditionnelles, robes de
+soirée, costumes).
+o Filtrage par type de vêtement, styliste, prix, et disponibilité.
+o Affichage des détails d'une tenue : description, prix, matériaux, délai de confection
+estimé, photos haute qualité.
+3. Profil des Stylistes
+o Présentation des stylistes avec leurs photos, biographie, et style de confection.
+o Liste de tenues créées par chaque styliste.
+o Avis et évaluations pour chaque styliste, affichant des notes et commentaires.
+4. Prise de Mesures
+o Guide pour permettre aux utilisateurs de prendre leurs mesures avec précision
+(vidéos explicatives / instructions).
+o Option pour saisir et sauvegarder les mesures dans le profil de l'utilisateur.
+o Possibilité de prendre une photo pour envoyer des mesures spécifiques à la
+couturière.
+5. Disponibilité des Couturières
+o Affichage du calendrier de chaque couturière pour consulter ses disponibilités.
+o Option de réservation d’une date pour une confection personnalisée.
+ Espace Utilisateur
+o Inscription et connexion des utilisateurs.
+o Gestion du profil utilisateur : historique de commandes, mesures enregistrées,
+adresses de livraison.
+o Suivi des commandes en temps réel.
+
+
+voila un peu de quoi il s'agit (je rappele que vu que tu n'as pas forcement les images je te conseilleraii d'utiiser viaplaceholder dans un premier temps je remplacerai apres)
+
+
+en fait mon boulot a moi consiste a creer le page d'acceuil de cette application web , (nous bossons encore sur le front end) et moi ce que je voudrais c'est imoressioner mon proffesseur avec une page d'aceuil extremement belle , stylee , moderne , bref le maaaximum qui puisse etre fait par un super ingenieur fontEnd et c'est pourquoi je m'adresse a toi en fait.
+je sais faire une si grande page ne sera pas de tout repos , et c'est pour ca que auqnd tu codes , si un message ne suffit pas pour tout le long code , tu peux le faire au message qui suit , (pour ce qui est des trucs qui doivent venir de la BD et du bacend ) vu qu'il n'y a pas encore de backend , ca peut se contenter d'etre d'bord statique (ou gnerre dans une boucle Json a toi de voir le meixu pour es trucs comme les articles polulaires et les meilleirs stylistes et des wigdget qui presente une info articuliere comme l'ardiiste ou le stylise le plus preisee , oudes soldes bref ce genre de chose squoi )
+j'atendds vraiment un sresultat exeptionel , interface moderne , avec principalement du blanc et du blueu , pourquoi pas des efets blur parfois , bref un truc qui dechire ! , une belle landing parge (pour ce qui est du hader ) avec carousel assombri magnifique , et pleins d'autres effets cool (tu es totalement libre). aussi je t;invite a utiliser plein de librairis de composants angular si tu en as besoin , (tu donnes juste les commandes pur installer pour que ca puisse marcher chez moi ).
+
+
+et come je sais que faire un tel travail n'est pas de tout repos en une seule fois , j'ai divie la page d'acceuil en
+ composants principaux : le header , le content , et le footer , (mais en vrai c'est juste le haut , le milleu et le bas ) et on va y aller pas a pas , j'ai deja fait les ng generate :
+
+ import { Component } from '@angular/core';
+
+ @Component({
+   selector: 'app-home-header',
+   imports: [],
+   templateUrl: './home-header.component.html',
+   standalone: true,
+   styleUrl: './home-header.component.css'
+ })
+ export class HomeHeaderComponent {
+
+ }
+
+le content :
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home-content',
+  imports: [],
+  templateUrl: './home-content.component.html',
+  standalone: true,
+  styleUrl: './home-content.component.css'
+})
+export class HomeContentComponent {
+
+}
+
+et le footer :
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home-footer',
+
+  imports: [],
+  templateUrl: './home-footer.component.html',
+  standalone: true,
+  styleUrl: './home-footer.component.css'
+})
+export class HomeFooterComponent {
+
+}
+
+bon vas ydonne le meiluer de toi meme etant donne que pour cette fois tu n'as a faire que le header ! c'est une seule partie alors donne tout que ce soit parfaitement parfait  et comme je suis nouveau dans angular si il y ades trucs a integrer tu signalelle aussi !
+
+(et asussi si il faut que je cree un composant navbar apart tu me signalem aussi mais tu devras le faire tout aussi exeptionel , pour l'instant mon fichier app.component.html est encore vide donc tout est a faire et bon a prendre, surtout qu'en tant que nouveau j'ai encore du mal avec l'agencement des composants)
