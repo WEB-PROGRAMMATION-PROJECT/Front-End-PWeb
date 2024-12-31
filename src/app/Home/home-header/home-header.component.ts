@@ -188,7 +188,7 @@ export class HomeHeaderComponent implements OnInit, AfterViewInit {
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
     if (this.isMenuOpen) {
-      gsap.from('.mobile-menu', {
+      gsap.from('#mobile-menu', {
         x: -100,
         opacity: 0,
         duration: 0.5,

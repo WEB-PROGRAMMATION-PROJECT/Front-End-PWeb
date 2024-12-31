@@ -1,54 +1,64 @@
 <!-- top-designers.component.html -->
-<section class="designers-container">
-  <header class="designers-header">
-    <h2 class="section-title">Nos Maîtres Couturiers</h2>
-    <p class="section-subtitle">L'excellence de la haute couture camerounaise</p>
-  </header>
+<section class="designers-gallery">
+  <h2 class="gallery-title">Populaires en ce moment</h2>
 
   <div class="designers-grid">
     <article
       *ngFor="let designer of designers"
       class="designer-card"
-      [id]="'designer-' + designer.id"
-      [@cardAnimation]
+      [class.expanded]="selectedDesigner === designer"
       (mouseenter)="selectDesigner(designer)"
       (mouseleave)="selectDesigner(null)">
 
-      <div class="card-image-container">
-        <div class="image-overlay"></div>
-        <img [src]="designer.image" [alt]="designer.name" class="designer-image">
-      </div>
-
-      <div class="card-content">
-        <div class="designer-info">
-          <h3 class="designer-name">{{designer.name}}</h3>
-          <p class="designer-role">{{designer.role}}</p>
-          <p class="designer-location">{{designer.location}}</p>
-        </div>
-
-        <div class="designer-specialties">
-          <span
-            *ngFor="let specialty of designer.specialties"
-            class="specialty-tag"
-            [@specialtyAnimation]>
-            {{specialty}}
-          </span>
-        </div>
-
-        <div class="designer-stats">
-          <div class="stat">
-            <span class="stat-number">{{designer.collections}}</span>
-            <span class="stat-label">Collections</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">{{designer.awards}}</span>
-            <span class="stat-label">Prix</span>
-          </div>
+      <!-- Fond dynamique avec effet parallaxe -->
+      <div class="card-background">
+        <div class="image-wrapper">
+          <img [src]="designer.image" [alt]="designer.name" class="designer-image">
+          <div class="image-overlay"></div>
         </div>
       </div>
 
-      <div class="hover-content" [class.active]="selectedDesigner === designer">
-        <button class="discover-btn">Découvrir le Portfolio</button>
+      <!-- Contenu initial (visible par défaut) -->
+      <div class="card-initial-content">
+        <div class="designer-initials">{{ getDesignerInitials(designer.name) }}</div>
+        <h3 class="designer-name">{{designer.name}}</h3>
+        <span class="designer-location">{{designer.location}}</span>
+      </div>
+
+      <!-- Contenu étendu (visible au hover) -->
+      <div class="card-expanded-content">
+        <div class="content-header">
+          <h3 class="designer-name-large">{{designer.name}}</h3>
+          <p class="designer-title">{{designer.role}}</p>
+        </div>
+
+        <div class="content-body">
+          <div class="specialties">
+            <span
+              *ngFor="let specialty of designer.specialties"
+              class="specialty-tag">
+              {{specialty}}
+            </span>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-value">{{designer.collections}}</span>
+              <span class="stat-label">Collections</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">{{designer.awards}}</span>
+              <span class="stat-label">Prix</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-footer">
+          <button class="discover-button">
+            <span class="button-text">Découvrir</span>
+            <span class="button-icon">→</span>
+          </button>
+        </div>
       </div>
     </article>
   </div>

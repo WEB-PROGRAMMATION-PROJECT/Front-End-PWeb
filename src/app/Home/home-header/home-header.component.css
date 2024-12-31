@@ -310,6 +310,7 @@
 .mobile-menu {
   display: none;
   position: fixed;
+
   top: 80px;
   left: 0;
   right: 0;
@@ -329,7 +330,10 @@
   }
 
   .mobile-menu {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
   }
 
   .slide-title {

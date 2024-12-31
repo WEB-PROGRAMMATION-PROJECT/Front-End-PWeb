@@ -53,7 +53,7 @@ export class TopDesignersComponent implements OnInit {
       name: 'Claire Fontaine',
       role: 'Directrice Créative',
       location: 'Paris, France',
-      image: 'designer.jpg',
+      image: 'tail.jpg',
       specialties: ['Haute Couture', 'Robes de Soirée', 'Sur Mesure'],
       collections: 24,
       awards: 7
@@ -63,7 +63,7 @@ export class TopDesignersComponent implements OnInit {
       name: 'Marco Bellini',
       role: 'Maître Tailleur',
       location: 'Milan, Italie',
-      image: 'designer.jpg',
+      image: 'tail.jpg',
       specialties: ['Costumes', 'Tailleur Homme', 'Accessoires'],
       collections: 18,
       awards: 5
@@ -73,18 +73,18 @@ export class TopDesignersComponent implements OnInit {
       name: 'Sofia Chen',
       role: 'Designer Avant-garde',
       location: 'Shanghai, Chine',
-      image: 'designer.jpg',
+      image: 'tail.jpg',
       specialties: ['Mode Contemporaine', 'Streetwear Luxe', 'Artisanat'],
       collections: 15,
       awards: 4
     },
     {
       id: 4,
-      name: 'James Anderson',
-      role: 'Designer Innovant',
-      location: 'Londres, UK',
-      image: 'designer.jpg',
-      specialties: ['Mode Durable', 'Technologie Textile', 'Minimalisme'],
+      name: 'Elena Vasquez',
+      role: 'Styliste Accessoires',
+      location: 'Barcelone, Espagne',
+      image: 'tail.jpg',
+      specialties: ['Sacs à Main', 'Chaussures', 'Bijoux'],
       collections: 12,
       awards: 3
     }
@@ -110,4 +110,9 @@ export class TopDesignersComponent implements OnInit {
   selectDesigner(designer: Designer): void {
     this.selectedDesigner = designer;
   }
+  getDesignerInitials(name: string): string {
+    if (!name) return ''; // Vérifie si le nom est défini
+    return name.split(' ').map(n => n[0]).join('').toUpperCase(); // Retourne les initiales en majuscules
+  }
+
 }
