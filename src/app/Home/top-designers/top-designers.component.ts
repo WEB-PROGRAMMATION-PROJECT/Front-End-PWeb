@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import {NgForOf} from '@angular/common';
+import {DesignerCardComponent} from '../designer-card/designer-card.component';
 
 interface Designer {
   id: number;
@@ -14,37 +15,29 @@ interface Designer {
   awards: number;
 }
 
+interface Promotion {
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+}
+
+interface Platform {
+  title: string;
+  value: string;
+  icon: string;
+}
+
 @Component({
   selector: 'app-top-designers',
   templateUrl: './top-designers.component.html',
   styleUrls: ['./top-designers.component.css'],
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    DesignerCardComponent
   ],
-  animations: [
-    trigger('cardAnimation', [
-      state('void', style({
-        opacity: 0,
-        transform: 'translateY(20px)'
-      })),
-      transition(':enter', [
-        animate('0.6s cubic-bezier(0.4, 0, 0.2, 1)')
-      ])
-    ]),
-    trigger('specialtyAnimation', [
-      state('void', style({
-        opacity: 0,
-        transform: 'translateX(-10px)'
-      })),
-      transition(':enter', [
-        animate('0.4s cubic-bezier(0.4, 0, 0.2, 1)', style({
-          opacity: 1,
-          transform: 'translateX(0)'
-        }))
-      ])
-    ])
-  ]
+
 })
 export class TopDesignersComponent implements OnInit {
   designers: Designer[] = [
@@ -114,5 +107,26 @@ export class TopDesignersComponent implements OnInit {
     if (!name) return ''; // Vérifie si le nom est défini
     return name.split(' ').map(n => n[0]).join('').toUpperCase(); // Retourne les initiales en majuscules
   }
+
+  promotions: Promotion[] = [
+    {
+      title: 'Gardez vos mensurations numériques',
+      description: ' 100% Précis, 100% Fiable, 100% Sécurisé',
+      image: 'expert2.jpg',
+      link: '/expert'
+    },
+    {
+      title: 'Notre Meilleur Modèle',
+      description: 'Une Pièce Unique en Édition Limitée',
+      image: 'model2.jpg',
+      link: '/exclusive'
+    }
+  ];
+
+  platformStats: Platform[] = [
+    { title: 'Créateurs', value: '250+', icon: 'fas fa-users' },
+    { title: 'Collections', value: '1.2k+', icon: 'fas fa-tshirt' },
+    { title: 'Ventes', value: '45k+', icon: 'fas fa-shopping-bag' }
+  ];
 
 }

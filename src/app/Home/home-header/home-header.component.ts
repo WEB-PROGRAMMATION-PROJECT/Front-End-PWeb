@@ -89,7 +89,7 @@ export class HomeHeaderComponent implements OnInit, AfterViewInit {
       description: 'Des créations uniques qui racontent votre histoire'
     },
     {
-      image: 'slide.jpg',
+      image: 'slide3.jpg',
       title: 'L\'Art du Sur-Mesure',
       subtitle: 'Expertise Artisanale',
       description: 'Chaque détail compte, chaque pièce est unique'

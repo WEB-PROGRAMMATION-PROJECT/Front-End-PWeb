@@ -1,1 +1,53 @@
-<p>home-content works!</p>
+<main class="home-content">
+
+  <!-- Models Showcase -->
+  <section class="models-showcase">
+    <div class="section-header">
+      <h2>Modèles Exclusifs</h2>
+      <button class="view-all">Voir tout →</button>
+    </div>
+
+    <div class="models-carousel">
+      <div class="model-grid">
+        <article *ngFor="let model of featuredModels" class="model-card">
+          <div class="model-image">
+            <img [src]="model.image" [alt]="model.name">
+            <div class="hover-info">
+              <span class="price">{{model.price}}€</span>
+              <button class="details-btn">Voir les détails</button>
+            </div>
+          </div>
+          <div class="model-info">
+            <h3>{{model.name}}</h3>
+            <p>Par {{model.designer}}</p>
+          </div>
+        </article>
+      </div>
+      <div class="carousel-controls">
+        <button class="control prev">←</button>
+        <div class="carousel-dots">
+          <span *ngFor="let dot of [1,2,3]" class="dot" [class.active]="dot === 1"></span>
+        </div>
+        <button class="control next">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="categories">
+    <div class="section-header">
+      <h2>Explorez nos Catégories</h2>
+    </div>
+    <div class="categories-grid">
+      <article *ngFor="let category of categories" class="category-card">
+        <div class="category-image">
+          <img [src]="category.image" [alt]="category.name">
+        </div>
+        <div class="category-overlay">
+          <h3>{{category.name}}</h3>
+          <p>{{category.count}} modèles</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
