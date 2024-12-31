@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-home-footer',
   imports: [],
   templateUrl: './home-footer.component.html',
+  standalone: true,
   styleUrl: './home-footer.component.css'
 })
 export class HomeFooterComponent {

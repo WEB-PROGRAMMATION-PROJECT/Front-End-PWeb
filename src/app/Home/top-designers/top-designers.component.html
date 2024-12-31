@@ -1,0 +1,55 @@
+<!-- top-designers.component.html -->
+<section class="designers-container">
+  <header class="designers-header">
+    <h2 class="section-title">Nos Maîtres Couturiers</h2>
+    <p class="section-subtitle">L'excellence de la haute couture camerounaise</p>
+  </header>
+
+  <div class="designers-grid">
+    <article
+      *ngFor="let designer of designers"
+      class="designer-card"
+      [id]="'designer-' + designer.id"
+      [@cardAnimation]
+      (mouseenter)="selectDesigner(designer)"
+      (mouseleave)="selectDesigner(null)">
+
+      <div class="card-image-container">
+        <div class="image-overlay"></div>
+        <img [src]="designer.image" [alt]="designer.name" class="designer-image">
+      </div>
+
+      <div class="card-content">
+        <div class="designer-info">
+          <h3 class="designer-name">{{designer.name}}</h3>
+          <p class="designer-role">{{designer.role}}</p>
+          <p class="designer-location">{{designer.location}}</p>
+        </div>
+
+        <div class="designer-specialties">
+          <span
+            *ngFor="let specialty of designer.specialties"
+            class="specialty-tag"
+            [@specialtyAnimation]>
+            {{specialty}}
+          </span>
+        </div>
+
+        <div class="designer-stats">
+          <div class="stat">
+            <span class="stat-number">{{designer.collections}}</span>
+            <span class="stat-label">Collections</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">{{designer.awards}}</span>
+            <span class="stat-label">Prix</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hover-content" [class.active]="selectedDesigner === designer">
+        <button class="discover-btn">Découvrir le Portfolio</button>
+      </div>
+    </article>
+  </div>
+</section>
