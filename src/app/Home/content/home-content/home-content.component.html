@@ -9,19 +9,10 @@
 
     <div class="models-carousel">
       <div class="model-grid">
-        <article *ngFor="let model of featuredModels" class="model-card">
-          <div class="model-image">
-            <img [src]="model.image" [alt]="model.name">
-            <div class="hover-info">
-              <span class="price">{{model.price}}€</span>
-              <button class="details-btn">Voir les détails</button>
-            </div>
-          </div>
-          <div class="model-info">
-            <h3>{{model.name}}</h3>
-            <p>Par {{model.designer}}</p>
-          </div>
-        </article>
+        <app-model-card
+          *ngFor="let model of featuredModels"
+          [model]="model">
+        </app-model-card>
       </div>
       <div class="carousel-controls">
         <button class="control prev">←</button>

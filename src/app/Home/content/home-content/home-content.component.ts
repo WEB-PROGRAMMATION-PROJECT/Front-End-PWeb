@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 
 // home-content.component.ts
 import { CommonModule } from '@angular/common';
+import {DesignerCardComponent} from '../../../widgets/designer-card/designer-card.component';
+import {ModelCardComponent} from '../../../widgets/model-card/model-card.component';
 
 interface Model {
   id: number;
@@ -22,7 +24,7 @@ interface Category {
 @Component({
   selector: 'app-home-content',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ModelCardComponent],
   templateUrl: "./home-content.component.html",
   styleUrls: ['./home-content.component.css']
 })
@@ -47,6 +49,12 @@ export class HomeContentComponent {
       price: 3000,
       image: 'dress3.webp',
       category: 'Robes' },
+    { id: 2, name: 'Robe Haute Couture Blanc',
+      designer: 'Claire Fontaine',
+      price: 2800,
+      image: 'dress2.jpg',
+      category: 'Robes' },
+
 
   ];
 

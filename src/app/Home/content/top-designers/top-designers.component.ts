@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import {NgForOf} from '@angular/common';
-import {DesignerCardComponent} from '../designer-card/designer-card.component';
+import {DesignerCardComponent} from '../../../widgets/designer-card/designer-card.component';
 
 interface Designer {
   id: number;
