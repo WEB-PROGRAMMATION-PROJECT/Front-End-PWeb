@@ -1,0 +1,101 @@
+<div class="user-space">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="user-info">
+      <div class="avatar-container">
+        <img [src]="userData.avatar" [alt]="userData.name" class="avatar">
+        <div class="status-badge" [class.online]="true"></div>
+      </div>
+      <div class="user-details">
+        <h2>{{ userData.name }}</h2>
+        <p>{{ userData.email }}</p>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <ul>
+        <li *ngFor="let item of menuItems">
+          <a [routerLink]="item.route" routerLinkActive="active" class="menu-item">
+            <i class="icon" [class]="'icon-' + item.icon"></i>
+            <span>{{ item.label }}</span>
+            <span *ngIf="item.badge" class="badge">{{ item.badge }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <button class="logout-button" (click)="logOut()">
+      <i class="icon-logout"></i>
+      <span>Déconnexion</span>
+    </button>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="content-header">
+      <div class="breadcrumb">
+        <span>Espace Client</span>
+        <i class="icon-chevron-right"></i>
+        <span>{{ getCurrentPage() }}</span>
+      </div>
+
+      <div class="actions">
+        <button class="notification-btn">
+          <i class="icon-bell"></i>
+          <span class="notification-badge">3</span>
+        </button>
+        <button class="help-btn">
+          <i class="icon-help-circle"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Quick Actions Panel -->
+  <aside class="quick-actions">
+    <div class="quick-actions-header">
+      <h3>Actions Rapides</h3>
+    </div>
+
+    <div class="quick-actions-content">
+      <button class="quick-action-btn">
+        <i class="icon-plus"></i>
+        <span>Nouvelle Commande</span>
+      </button>
+
+      <button class="quick-action-btn">
+        <i class="icon-edit"></i>
+        <span>Modifier Mesures</span>
+      </button>
+
+      <button class="quick-action-btn">
+        <i class="icon-message"></i>
+        <span>Contacter Styliste</span>
+      </button>
+    </div>
+
+    <div class="latest-activity">
+      <h4>Activité Récente</h4>
+      <ul>
+        <li>
+          <span class="activity-icon">📦</span>
+          <div class="activity-details">
+            <p>Commande #1234 expédiée</p>
+            <small>Il y a 2 heures</small>
+          </div>
+        </li>
+        <li>
+          <span class="activity-icon">📏</span>
+          <div class="activity-details">
+            <p>Mesures mises à jour</p>
+            <small>Hier</small>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </aside>
+</div>
