@@ -79,15 +79,15 @@ export class NavbarComponent implements OnInit {
       ]
     },
     {
-      name: 'Artisans',
-      href: '#',
+      name: 'Stylistes',
+      href: '/stylistes',
       categories: [
-        { name: 'Nos Créateurs', href: '#' },
+        { name: 'Nos Créateurs', href: '/stylistes' },
         { name: 'Ateliers', href: '#' },
         { name: 'Savoir-faire', href: '#' }
       ]
     },
-    { name: 'Mensurations', href: '#' }
+    { name: 'Mensurations', href: '/mensurations' }
   ];
 
   constructor(private el: ElementRef) {}

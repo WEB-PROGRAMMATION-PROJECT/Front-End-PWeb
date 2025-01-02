@@ -1,0 +1,109 @@
+<div class="measurement-guide">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero__overlay"></div>
+    <img [src]="'bgMeure.jpg'" alt="Fashion measurements" class="hero__image">
+    <div class="hero__content">
+      <h1>Guide des Mensurations</h1>
+      <p>Prenez vos mesures avec précision pour des vêtements parfaitement ajustés</p>
+    </div>
+  </section>
+
+  <!-- Search Section -->
+  <section class="search-section">
+    <div class="search-container">
+      <input
+        type="text"
+        [formControl]="searchQuery"
+        placeholder="Rechercher une mesure spécifique..."
+        class="search-input"
+      >
+      <div class="search-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <path fill="none" stroke="currentColor" stroke-width="2" d="M15.5 15.5L20 20M10 17a7 7 0 100-14 7 7 0 000 14z"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content" [@fadeSlide]>
+    <form [formGroup]="measurementForm" class="measurement-form">
+      <div class="step-container">
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+          <div class="progress-dots">
+            <div *ngFor="let step of measurementSteps; let i = index"
+                 [class.active]="i === currentStep"
+                 [class.completed]="i < currentStep"
+                 class="progress-dot">
+              <span class="dot-number">{{ i + 1 }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step Content -->
+        <div class="step-content">
+          <div class="measurement-image">
+            <img [src]="currentStepData.imageUrl" [alt]="currentStepData.title">
+            <div class="image-overlay">
+              <h3>{{ currentStepData.title }}</h3>
+              <p>{{ currentStepData.description }}</p>
+            </div>
+          </div>
+
+          <div class="measurement-details">
+            <div class="input-container">
+              <label [for]="currentStepData.controlName">
+                {{ currentStepData.title }}
+              </label>
+              <div class="input-group">
+                <input
+                  [id]="currentStepData.controlName"
+                  type="number"
+                  [formControlName]="currentStepData.controlName"
+                  [placeholder]="'Entrez la mesure'"
+                >
+                <span class="unit">{{ currentStepData.unit }}</span>
+              </div>
+            </div>
+
+            <div class="tips-container">
+              <h4>Conseils</h4>
+              <ul>
+                <li *ngFor="let tip of currentStepData.tips">{{ tip }}</li>
+              </ul>
+            </div>
+
+            <!-- ... Reste du template identique jusqu'aux boutons ... -->
+            <div class="navigation-buttons">
+              <button
+                type="button"
+                (click)="previousStep()"
+                [disabled]="currentStep === 0"
+                class="btn btn-previous">
+                Précédent
+              </button>
+
+              <button
+                type="button"
+                *ngIf="currentStep < measurementSteps.length - 1"
+                (click)="nextStep()"
+                class="btn btn-next">
+                Suivant
+              </button>
+
+              <button
+                type="button"
+                *ngIf="currentStep === measurementSteps.length - 1"
+                (click)="saveMeasurements()"
+                class="btn btn-save">
+                Enregistrer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+</div>
