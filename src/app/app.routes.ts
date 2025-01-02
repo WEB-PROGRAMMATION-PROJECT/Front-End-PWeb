@@ -8,12 +8,15 @@ import {UserSpaceComponent} from './User/user-space/user-space.component';
 import {UserProfileComponent} from './User/user-profile/user-profile.component';
 import {OrderHistoryComponent} from './User/order-history/order-history.component';
 import {AddressesComponent} from './User/addresses/addresses.component';
+import {ClothingModelsPageComponent} from './clothing-models-page/clothing-models-page.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirige vers une page d'accueil par défaut
   { path: 'home', component: MainHomeComponent }, // Page d'accueil principale
   { path: 'styliste-profile', component: StylisteProfileComponent }, // Page styliste-profile
   { path: 'stylistes', component: DesignersPageComponent }, // Page des stylistes
   { path: 'mensurations', component: MeasurementGuideComponent }, // Page des mensurations
+  { path: 'models', component: ClothingModelsPageComponent }, // Page des mensurations
+
   {
     path: 'user',
     component: UserSpaceComponent,

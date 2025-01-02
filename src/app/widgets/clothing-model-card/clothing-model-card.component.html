@@ -1,0 +1,39 @@
+<!-- clothing-model-card.component.html -->
+<article class="model-card" (mouseenter)="isHovered = true" (mouseleave)="isHovered = false">
+  <div class="card-image-container">
+    <img [src]="model?.imageUrl" [alt]="model?.name" class="model-image">
+    <div class="image-overlay"></div>
+  </div>
+
+  <div class="model-info">
+    <h3 class="model-name">{{model?.name}}</h3>
+    <p class="model-designer">Par {{model?.designer}}</p>
+    <p class="model-price">{{model?.price | currency:'EUR'}}</p>
+  </div>
+
+  <div class="hover-content">
+    <div class="details">
+      <div class="detail-item">
+        <span class="detail-label">Catégorie</span>
+        <span class="detail-value">{{model?.category}}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Matériaux</span>
+        <span class="detail-value">{{model?.materials.join(', ')}}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Délai</span>
+        <span class="detail-value">{{model?.estimatedTime}} jours</span>
+      </div>
+    </div>
+
+    <div class="size-availability">
+      <span *ngFor="let size of model?.availableSizes" class="size-tag">{{size}}</span>
+    </div>
+
+    <button class="order-button" (click)="onOrderClick()">
+      Commander
+      <span class="arrow-icon">→</span>
+    </button>
+  </div>
+</article>

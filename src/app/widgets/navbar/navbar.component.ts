@@ -72,7 +72,7 @@ export class NavbarComponent implements OnInit {
       name: 'Catégories',
       href: '#',
       categories: [
-        { name: 'Robes', href: '#' },
+        { name: 'Robes', href: '/models' },
         { name: 'Costumes', href: '#' },
         { name: 'Accessoires', href: '#' },
         { name: 'Chaussures', href: '#' }
