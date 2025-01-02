@@ -1,0 +1,78 @@
+<!-- clothing-models-page.component.html -->
+<div class="models-page">
+  <header class="page-header">
+    <h1 class="main-title">Collection de Modèles</h1>
+    <p class="subtitle">Explorez notre sélection de créations uniques</p>
+  </header>
+
+  <section class="filters-section">
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Rechercher un modèle..."
+        class="search-input">
+    </div>
+
+    <div class="filters-container">
+      <ng-select
+        [items]="categories"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [(ngModel)]="selectedCategories"
+        (change)="onCategoriesChange()"
+        placeholder="Catégories"
+        class="category-select">
+      </ng-select>
+
+      <ng-select
+        [items]="designers"
+        [(ngModel)]="selectedDesigner"
+        (change)="onDesignerChange()"
+        placeholder="Styliste"
+        class="designer-select">
+      </ng-select>
+
+      <div class="price-filter">
+        <label>Prix</label>
+        <div class="price-inputs">
+          <input
+            type="number"
+            [(ngModel)]="minPrice"
+            (change)="onPriceChange()"
+            placeholder="Min">
+          <span>-</span>
+          <input
+            type="number"
+            [(ngModel)]="maxPrice"
+            (change)="onPriceChange()"
+            placeholder="Max">
+        </div>
+      </div>
+
+      <ng-select
+        [items]="sortOptions"
+        bindLabel="label"
+        bindValue="value"
+        [(ngModel)]="sortOption"
+        (change)="onSortChange()"
+        placeholder="Trier par"
+        class="sort-select">
+      </ng-select>
+    </div>
+  </section>
+
+  <section class="models-grid" *ngIf="filteredModels.length > 0">
+    <app-clothing-model-card
+      *ngFor="let model of filteredModels"
+      [model]="model"
+      (order)="onModelOrder($event)"
+      class="model-card-wrapper">
+    </app-clothing-model-card>
+  </section>
+
+  <div class="no-results" *ngIf="filteredModels.length === 0">
+    <p>Aucun modèle ne correspond à vos critères de recherche.</p>
+  </div>
+</div>

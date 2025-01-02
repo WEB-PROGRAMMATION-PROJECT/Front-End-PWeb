@@ -1,0 +1,60 @@
+<!-- designers-page.component.html -->
+<div class="designers-page">
+  <header class="page-header">
+    <h1 class="main-title">Nos Stylistes d'Exception</h1>
+    <p class="subtitle">Découvrez les créateurs qui donnent vie à vos envies</p>
+  </header>
+
+  <section class="filters-section">
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Rechercher un styliste..."
+        class="search-input">
+    </div>
+
+    <div class="filters-container">
+      <ng-select
+        [items]="specialtiesList"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [(ngModel)]="selectedSpecialties"
+        (change)="onSpecialtiesChange()"
+        placeholder="Spécialités"
+        class="specialty-select">
+      </ng-select>
+
+      <ng-select
+        [items]="locationsList"
+        [(ngModel)]="selectedLocation"
+        (change)="onLocationChange()"
+        placeholder="Localisation"
+        class="location-select">
+      </ng-select>
+
+      <ng-select
+        [items]="sortOptions"
+        bindLabel="label"
+        bindValue="value"
+        [(ngModel)]="sortOption"
+        (change)="onSortChange()"
+        placeholder="Trier par"
+        class="sort-select">
+      </ng-select>
+    </div>
+  </section>
+
+  <section class="designers-grid" *ngIf="filteredDesigners.length > 0">
+    <app-designer-card
+      *ngFor="let designer of filteredDesigners"
+      [designer]="designer"
+      class="designer-card-wrapper">
+    </app-designer-card>
+  </section>
+
+  <div class="no-results" *ngIf="filteredDesigners.length === 0">
+    <p>Aucun styliste ne correspond à vos critères de recherche.</p>
+  </div>
+</div>
