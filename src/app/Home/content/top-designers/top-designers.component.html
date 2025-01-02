@@ -1,0 +1,45 @@
+<section class="designers-section">
+  <!-- En-tête avec statistiques -->
+  <div class="section-header">
+    <h1 class="main-title">Créateurs de Mode</h1>
+    <div class="platform-stats">
+      <div *ngFor="let stat of platformStats" class="stat-box">
+        <i [class]="stat.icon"></i>
+        <h3>{{stat.value}}</h3>
+        <p>{{stat.title}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section designers -->
+  <section class="designers-gallery">
+    <h2 class="gallery-title">Sont populaires en ce moment...</h2>
+    <div class="designers-grid">
+      <app-designer-card
+        *ngFor="let designer of designers"
+        [designer]="designer">
+      </app-designer-card>
+    </div>
+    <div class="ViewAll">
+      <button class="discover-button" >
+        <span class="button-text">Voir tous les stylistes</span>
+        <span class="button-icon">→</span>
+      </button>
+    </div>
+
+  </section>
+
+  <!-- Promotions -->
+  <section class="promotions-section">
+    <div class="promotions-grid">
+      <div *ngFor="let promo of promotions" class="promo-card">
+        <img [src]="promo.image" [alt]="promo.title" class="promo-image">
+        <div class="promo-content">
+          <h3>{{promo.title}}</h3>
+          <p>{{promo.description}}</p>
+          <a [href]="promo.link" class="promo-link">Découvrir →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

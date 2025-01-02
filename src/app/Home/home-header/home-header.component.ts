@@ -20,11 +20,12 @@ import { gsap } from 'gsap';
 gsap.registerPlugin(ScrollTrigger);
 
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import {NavbarComponent} from '../../navbar/navbar.component';
 
 @Component({
   selector: 'app-home-header',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, NavbarComponent],
   templateUrl: './home-header.component.html',
   styleUrls: ['./home-header.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // Ajoutez cette ligne
@@ -59,7 +60,6 @@ export class HomeHeaderComponent implements OnInit, AfterViewInit {
   faBars = faBars;
 
   isMenuOpen = false;
-  isScrolled = false;
   currentSlideIndex = 0;
   swiperConfig = {
     loop: true,
@@ -89,7 +89,7 @@ export class HomeHeaderComponent implements OnInit, AfterViewInit {
       description: 'Des créations uniques qui racontent votre histoire'
     },
     {
-      image: 'slide.jpg',
+      image: 'slide3.jpg',
       title: 'L\'Art du Sur-Mesure',
       subtitle: 'Expertise Artisanale',
       description: 'Chaque détail compte, chaque pièce est unique'
@@ -105,17 +105,15 @@ export class HomeHeaderComponent implements OnInit, AfterViewInit {
   private swiper: any;
 
   constructor() {
-    window.addEventListener('scroll', () => {
-      this.isScrolled = window.scrollY > 50;
-    });
+
   }
 
   ngOnInit() {
-    this.initializeAnimations();
+
   }
 
   ngAfterViewInit() {
-    // this.initializeSwiper();
+    this.initializeSwiper();
     this.initializeScrollAnimations();
 
   }
@@ -125,7 +123,7 @@ export class HomeHeaderComponent implements OnInit, AfterViewInit {
       loop: true,
       speed: 1000,
       autoplay: {
-        delay: 5000,
+        delay: 3000,
         disableOnInteraction: false,
       },
       pagination: {
@@ -141,21 +139,15 @@ export class HomeHeaderComponent implements OnInit, AfterViewInit {
       },
       on: {
         slideChange: () => {
-          this.currentSlideIndex = this.swiper.realIndex;
+          console.log("Slide changed");
+          this.currentSlideIndex = this.swiper.realIndex ;
           this.animateSlideContent();
+
         }
       }
     });
   }
 
-  private initializeAnimations() {
-    gsap.from('.nav-content', {
-      y: -100,
-      opacity: 0,
-      duration: 1,
-      ease: 'power3.out'
-    });
-  }
 
   private initializeScrollAnimations() {
     gsap.registerPlugin(ScrollTrigger); // Enregistrement du plugin
@@ -185,15 +177,5 @@ export class HomeHeaderComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-    if (this.isMenuOpen) {
-      gsap.from('#mobile-menu', {
-        x: -100,
-        opacity: 0,
-        duration: 0.5,
-        ease: 'power3.out'
-      });
-    }
-  }
+
 }

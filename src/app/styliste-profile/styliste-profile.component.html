@@ -1,0 +1,224 @@
+<!-- styliste-profile.component.html -->
+<div class="profile-container" #profileContainer>
+  <!-- Section Header -->
+  <div class="profile-header">
+    <div class="profile-cover" [style.backgroundImage]="'url(' + styliste.coverUrl + ')'">
+      <div class="overlay"></div>
+    </div>
+
+    <div class="profile-info">
+      <div class="profile-avatar">
+        <img [src]="styliste.photoUrl" [alt]="styliste.nom" />
+        <div class="status-badge" [class.online]="isOnline">
+          {{ isOnline ? 'En ligne' : 'Hors ligne' }}
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <h1>{{styliste.nom}}</h1>
+        <p class="subtitle">{{styliste.titre}}</p>
+
+        <div class="stats-container">
+          <div class="stat" *ngFor="let stat of statsArray">
+<!--            <div class="stat-value" [countUp]="stat.value" [duration]="2.5">0</div>-->
+            <div class="stat-value" >0</div>
+
+            <div class="stat-label">{{stat.label}}</div>
+          </div>
+        </div>
+
+        <div class="tags-container">
+          <span class="tag" *ngFor="let specialite of styliste.specialites">
+            {{specialite}}
+          </span>
+        </div>
+
+        <div class="social-links">
+          <a *ngIf="styliste.reseauxSociaux.instagram" href="#" class="social-link instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a *ngIf="styliste.reseauxSociaux.pinterest" href="#" class="social-link pinterest">
+            <i class="fab fa-pinterest"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="actions-container">
+        <button class="btn-contact" (click)="openContactModal('+237658866639')">
+          <i class="fas fa-envelope"></i>
+          Contacter
+        </button>
+        <button class="btn-follow" [class.following]="isFollowing" (click)="toggleFollow()">
+          {{ isFollowing ? 'Abonné' : "S'abonner" }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="content-tabs">
+    <div class="tab-container">
+      <div class="tab" *ngFor="let tab of tabs"
+           [class.active]="activeTab === tab.id"
+           (click)="setActiveTab(tab.id)">
+        {{tab.label}}
+        <div class="tab-indicator"></div>
+      </div>
+    </div>
+
+    <!-- Créations Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'creations'">
+      <div class="filters-bar">
+        <div class="search-container">
+          <input type="text" [(ngModel)]="searchTerm" placeholder="Rechercher une création...">
+          <i class="fas fa-search"></i>
+        </div>
+
+        <div class="filter-chips">
+          <div class="chip" *ngFor="let category of categories"
+               [class.active]="selectedCategory === category"
+               (click)="filterByCategory(category)">
+            {{category}}
+          </div>
+        </div>
+      </div>
+
+      <div class="creations-grid">
+        <div class="creation-card" *ngFor="let creation of filteredCreations"
+             [@cardAnimation]="'in'"
+             (mouseenter)="onCardHover(creation.id)"
+             (mouseleave)="onCardLeave(creation.id)">
+          <div class="card-image">
+            <img [src]="creation.images[0]" [alt]="creation.nom" loading="lazy">
+            <div class="card-overlay">
+              <button class="btn-details" (click)="openCreationDetails(creation)">
+                Voir les détails
+              </button>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3>{{creation.nom}}</h3>
+            <p class="price">{{creation.prix | currency:'EUR':'symbol'}}</p>
+            <p class="description">{{creation.description}}</p>
+            <div class="card-tags">
+              <span class="tag" *ngFor="let materiau of creation.materiaux">
+                {{materiau}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Avis Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'avis'">
+      <div class="reviews-summary">
+        <div class="rating-circle">
+          <svg>
+            <circle cx="60" cy="60" r="54"></circle>
+            <circle cx="60" cy="60" r="54" [style.strokeDashoffset]="calculateRatingCircle()"></circle>
+          </svg>
+          <div class="rating-value">
+            {{styliste.stats.note}}
+          </div>
+        </div>
+
+        <div class="rating-details">
+          <div class="rating-bar" *ngFor="let rating of ratingDistribution">
+            <span class="stars">{{rating.stars}} étoiles</span>
+            <div class="bar-container">
+              <div class="bar" [style.width]="rating.percentage + '%'"></div>
+            </div>
+            <span class="percentage">{{rating.percentage}}%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reviews-list">
+        <div class="review-card" *ngFor="let avis of avis" [@reviewAnimation]>
+          <div class="review-header">
+            <img [src]="avis.clientPhoto" [alt]="avis.clientNom" class="reviewer-avatar">
+            <div class="review-meta">
+              <h4>{{avis.clientNom}}</h4>
+              <div class="stars-container">
+                <ngx-stars [initialStars]="avis.note" [readonly]="true"></ngx-stars>
+              </div>
+              <span class="review-date">{{avis.date | date:'mediumDate'}}</span>
+            </div>
+          </div>
+
+          <p class="review-content">{{avis.commentaire}}</p>
+
+          <div class="review-photos" *ngIf="avis.photos?.length">
+            <img *ngFor="let photo of avis.photos" [src]="photo"
+                 (click)="openPhotoGallery(avis.photos)" loading="lazy">
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendrier Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'calendar'">
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <h3>Disponibilités</h3>
+          <div class="calendar-legend">
+            <span class="legend-item available">
+              <span class="dot"></span> Disponible
+            </span>
+            <span class="legend-item booked">
+              <span class="dot"></span> Réservé
+            </span>
+          </div>
+        </div>
+
+        <full-calendar [options]="calendarOptions"></full-calendar>
+
+        <div class="booking-info" *ngIf="selectedDate">
+          <div class="info-card">
+            <h4>{{selectedDate | date:'fullDate'}}</h4>
+            <p>Horaires disponibles :</p>
+            <div class="time-slots">
+              <button *ngFor="let slot of availableTimeSlots"
+                      [class.selected]="selectedTimeSlot === slot"
+                      (click)="selectTimeSlot(slot)">
+                {{slot}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals -->
+<ng-template #contactModal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4>Contacter {{styliste.nom}}</h4>
+      <button class="close-btn" (click)="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="contactForm" (ngSubmit)="submitContact()">
+        <div class="form-group">
+          <label>Sujet</label>
+          <input type="text" formControlName="subject" placeholder="Sujet de votre message">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea formControlName="message" rows="5" placeholder="Votre message..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="closeModal()">Annuler</button>
+          <button type="submit" class="btn-send" [disabled]="!contactForm.valid">
+            <i class="fas fa-paper-plane"></i>
+            Envoyer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

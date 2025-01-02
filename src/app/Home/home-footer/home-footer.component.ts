@@ -1,12 +1,12 @@
+// home-footer.component.ts
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home-footer',
-  imports: [],
-  templateUrl: './home-footer.component.html',
   standalone: true,
-  styleUrl: './home-footer.component.css'
+  imports: [CommonModule],
+  templateUrl: "./home-footer.component.html",
+  styleUrls: ['./home-footer.component.css']
 })
-export class HomeFooterComponent {
-
-}
+export class HomeFooterComponent {}

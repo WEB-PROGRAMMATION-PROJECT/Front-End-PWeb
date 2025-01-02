@@ -1,0 +1,98 @@
+<header class="navbar_fox" [class.navbar--fixed_fox]="isFixed" [class.navbar--hidden_fox]="hideNav">
+  <div class="navbar__container_fox">
+    <!-- Logo -->
+    <div class="navbar__brand_fox">
+      <button class="navbar__mobile-toggle_fox" (click)="toggleMobileMenu()" *ngIf="!isSearchActive">
+        <fa-icon [icon]="faBars"></fa-icon>
+      </button>
+      <a href="/" class="navbar__logo_fox">
+        <span class="navbar__logo-text_fox">HAUTE</span>
+        <span class="navbar__logo-subtext_fox">COUTURE</span>
+      </a>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="navbar__nav_fox" [class.navbar__nav--hidden_fox]="isSearchActive">
+      <div class="navbar__items_fox">
+        <div class="navbar__item_fox" *ngFor="let item of menuItems">
+          <a [href]="item.href" class="navbar__link_fox" *ngIf="!item.categories">
+            {{item.name}}
+          </a>
+
+          <div class="navbar__dropdown-wrapper_fox" *ngIf="item.categories">
+            <button class="navbar__link_fox">{{item.name}}</button>
+
+            <div class="navbar__megamenu_fox">
+              <div class="navbar__categories_fox">
+                <div class="navbar__category-col_fox">
+                  <h3 class="navbar__category-title_fox">Catégories</h3>
+                  <a [href]="category.href"
+                     class="navbar__category-link_fox"
+                     *ngFor="let category of item.categories">
+                    {{category.name}}
+                    <span class="navbar__category-description_fox" *ngIf="category.description">
+                      {{category.description}}
+                    </span>
+                  </a>
+                </div>
+
+                <div class="navbar__featured_fox" *ngIf="item.featured">
+                  <div class="navbar__featured-content_fox">
+                    <h3 class="navbar__featured-title_fox">{{item.featured.title}}</h3>
+                    <p class="navbar__featured-description_fox">{{item.featured.description}}</p>
+                    <a [href]="item.featured.link" class="navbar__featured-link_fox">
+                      Découvrir
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Actions -->
+    <div class="navbar__actions_fox">
+      <button class="navbar__action-btn_fox" (click)="toggleSearch()">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </button>
+
+      <div class="navbar__search_fox" *ngIf="isSearchActive">
+        <input type="text"
+               class="navbar__search-input_fox"
+               placeholder="Rechercher..."
+               (blur)="isSearchActive = false">
+      </div>
+
+
+
+
+      <a href="#" class="navbar__action-btn_fox">
+        <fa-icon [icon]="faUser"></fa-icon>
+      </a>
+
+      <a href="#" class="navbar__cart_fox">
+        <fa-icon [icon]="faShoppingBag"></fa-icon>
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="navbar__mobile-menu_fox" *ngIf="isMobileMenuOpen">
+    <div class="navbar__mobile-items_fox">
+      <div class="navbar__mobile-item_fox" *ngFor="let item of menuItems">
+        <a [href]="item.href" class="navbar__mobile-link_fox">
+          {{item.name}}
+        </a>
+        <div class="navbar__mobile-categories_fox" *ngIf="item.categories">
+          <a [href]="category.href"
+             class="navbar__mobile-category_fox"
+             *ngFor="let category of item.categories">
+            {{category.name}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

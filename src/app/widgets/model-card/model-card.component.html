@@ -1,0 +1,14 @@
+
+<article  class="model-card">
+  <div class="model-image">
+    <img [src]="model.image" [alt]="model.name">
+    <div class="hover-info">
+      <span class="price">{{model.price}}€</span>
+      <button class="details-btn">Voir les détails</button>
+    </div>
+  </div>
+  <div class="model-info">
+    <h3>{{model.name}}</h3>
+    <p>Par {{model.designer}}</p>
+  </div>
+</article>

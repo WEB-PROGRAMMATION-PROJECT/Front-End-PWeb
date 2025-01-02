@@ -1,60 +1,7 @@
+
+
 <header class="header-container">
-  <!-- Barre de navigation principale -->
-  <nav class="main-nav" [class.scrolled]="isScrolled">
-    <div class="nav-content">
-      <div class="nav-left">
-        <button class="menu-toggle" (click)="toggleMenu()">
-          <fa-icon [icon]="faBars"></fa-icon>
-        </button>
-        <div class="logo" @fadeInOut>
-          <h1>HAUTE</h1>
-          <span class="logo-accent">COUTURE</span>
-        </div>
-      </div>
 
-      <div class="nav-center">
-        <div class="nav-links" [class.active]="!isMenuOpen">
-          <a href="#" class="nav-link">Collections
-            <span class="link-hover"></span>
-          </a>
-          <a href="#" class="nav-link">Stylistes
-            <span class="link-hover"></span>
-          </a>
-          <a href="#" class="nav-link">Sur Mesure
-            <span class="link-hover"></span>
-          </a>
-          <a href="#" class="nav-link">Journal
-            <span class="link-hover"></span>
-          </a>
-        </div>
-      </div>
-
-      <div class="nav-right">
-        <div class="nav-actions">
-          <button class="icon-btn search-btn" aria-label="Rechercher">
-            <fa-icon [icon]="faSearch"></fa-icon>
-            <span class="btn-tooltip">Rechercher</span>
-          </button>
-          <button class="icon-btn account-btn" aria-label="Mon compte">
-            <fa-icon [icon]="faUser"></fa-icon>
-            <span class="btn-tooltip">Mon compte</span>
-          </button>
-          <button class="icon-btn cart-btn" aria-label="Panier">
-            <fa-icon [icon]="faShoppingBag"></fa-icon>
-            <span class="btn-tooltip">Panier</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Menu mobile -->
-    <div class="mobile-menu" id="mobile-menu" [@slideInOut] *ngIf="isMenuOpen">
-        <a href="#" class="mobile-link">Collections</a>
-        <a href="#" class="mobile-link">Stylistes</a>
-        <a href="#" class="mobile-link">Sur Mesure</a>
-        <a href="#" class="mobile-link">Journal</a>
-    </div>
-  </nav>
 
   <!-- Section héro avec carousel -->
 
@@ -69,11 +16,11 @@
           <div class="slide-overlay">
             <div class="slide-content-inner">
               <span class="slide-subtitle">{{slide.subtitle}}</span>
-              <h2 class="slide-title">{{slide.title}}</h2>
+              <h2 class="slide-title" style="color: #ffffff !important;opacity: 1">{{slide.title}}</h2>
               <p class="slide-description">{{slide.description}}</p>
               <div class="slide-cta">
-                <button class="cta-button primary">Découvrir la collection</button>
-                <button class="cta-button secondary">Prendre rendez-vous</button>
+                <button class="cta-button primary">Découvrir les collections</button>
+                <button class="cta-button secondary">Prendre mes mensurations</button>
               </div>
             </div>
           </div>
