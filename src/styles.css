@@ -3,3 +3,10 @@
 @import 'swiper/css';
 @import 'swiper/css/effect-fade';
 @import 'swiper/css/pagination';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+body{
+  filter: brightness(100%);
+}

@@ -115,7 +115,7 @@ export class HomeHeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // this.initializeSwiper();
+    this.initializeSwiper();
     this.initializeScrollAnimations();
 
   }
@@ -125,7 +125,7 @@ export class HomeHeaderComponent implements OnInit, AfterViewInit {
       loop: true,
       speed: 1000,
       autoplay: {
-        delay: 5000,
+        delay: 3000,
         disableOnInteraction: false,
       },
       pagination: {

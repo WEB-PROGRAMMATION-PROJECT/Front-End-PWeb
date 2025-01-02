@@ -87,6 +87,12 @@
   letter-spacing: 2px;
   position: relative;
   padding: 0.5rem 0;
+  transition: all 0.2s ease-in-out;
+}
+.nav-link:hover{
+  color: white;
+  font-weight: 900;
+  transform: scale(1.1);
 }
 
 .link-hover {
@@ -149,6 +155,7 @@
 .hero-section {
   height: 0vh;
   width: 100%;
+  filter:brightness(70%);
 }
 
 .swiper-container {
@@ -212,7 +219,7 @@
   font-weight: 300;
   line-height: 1.6;
   margin-bottom: 2rem;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .slide-cta {
@@ -338,6 +345,7 @@
 
   .slide-title {
     font-size: 3.5rem;
+
   }
 }
 
