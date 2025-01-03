@@ -1,0 +1,16 @@
+.profile-styliste-container {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+  }
+  
+  .profile-styliste-container h1 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .profile-styliste-container p {
+    font-size: 18px;
+    color: #555;
+  }
+  
