@@ -1,0 +1,145 @@
+<div class="container">
+  <header class="header">
+    <h1>Nouvelle Création</h1>
+    <div class="progress-indicator">
+      <div class="progress-step" [class.active]="currentStep >= 1">1. Détails</div>
+      <div class="progress-step" [class.active]="currentStep >= 2">2. Matériaux</div>
+      <div class="progress-step" [class.active]="currentStep >= 3">3. Photos</div>
+      <div class="progress-step" [class.active]="currentStep >= 4">4. Prix</div>
+    </div>
+  </header>
+
+  <form [formGroup]="modelForm" (ngSubmit)="onSubmit()" class="form">
+    <!-- Step 1: General Details -->
+    <section class="step" *ngIf="currentStep === 1">
+      <div class="form-field">
+        <label>Nom de la création</label>
+        <input type="text" formControlName="name" placeholder="ex: Robe Élégante Sirène">
+        <span class="error" *ngIf="modelForm.get('name')?.errors?.['required']">Le nom est requis</span>
+      </div>
+
+      <div class="form-field categories">
+        <label>Catégories (max 3)</label>
+        <div class="categories-grid">
+          @for (category of availableCategories; track category) {
+            <div class="category-chip"
+                 [class.selected]="isSelectedCategory(category)"
+                 (click)="toggleCategory(category)"
+                 [class.disabled]="!isSelectedCategory(category) && selectedCategories.length >= 3">
+              {{category}}
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Description</label>
+        <textarea formControlName="description" rows="4" placeholder="Décrivez votre création..."></textarea>
+      </div>
+    </section>
+
+    <!-- Step 2: Materials -->
+    <section class="step" *ngIf="currentStep === 2">
+      <div class="materials" formArrayName="materials">
+        @for (material of materials.controls; track $index) {
+          <div class="material-card" [formGroupName]="$index">
+            <input type="text" formControlName="name" placeholder="Nom du matériau">
+            <textarea formControlName="description" placeholder="Description et spécificités"></textarea>
+            <button type="button" class="remove-btn" (click)="removeMaterial($index)">×</button>
+          </div>
+        }
+        <button type="button" class="add-btn" (click)="addMaterial()">
+          + Ajouter un matériau
+        </button>
+      </div>
+    </section>
+
+    <!-- Step 3: Photos -->
+    <section class="step" *ngIf="currentStep === 3">
+      <div class="photo-upload">
+        <div class="dropzone"
+             (dragover)="onDragOver($event)"
+             (drop)="onDrop($event)"
+             [class.drag-active]="isDragging">
+          <input type="file"
+                 #fileInput
+                 (change)="onFileSelected($event)"
+                 accept="image/*"
+                 multiple>
+          <div class="upload-message">
+            <i class="upload-icon"></i>
+            <p>Glissez vos photos ici ou cliquez pour sélectionner</p>
+            <span>Max 5 photos - Format: JPG, PNG</span>
+          </div>
+        </div>
+
+        <div class="photo-grid" formArrayName="images">
+          @for (image of images.controls; track $index) {
+            <div class="photo-card" [formGroupName]="$index">
+              <img [src]="image.get('url')?.value" [alt]="image.get('alt')?.value">
+              <button type="button" class="remove-btn" (click)="removeImage($index)">×</button>
+              <button type="button" class="cover-btn"
+                      (click)="setCoverImage($index)"
+                      [class.is-cover]="isCoverImage($index)">
+                ★
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4: Pricing -->
+    <section class="step" *ngIf="currentStep === 4">
+      <div formGroupName="approximatePrice" class="price-section">
+        <h3>Fourchette de prix (€)</h3>
+        <div class="price-range">
+          <div class="form-field">
+            <label>Minimum</label>
+            <input type="number" formControlName="min">
+          </div>
+          <div class="form-field">
+            <label>Maximum</label>
+            <input type="number" formControlName="max">
+          </div>
+        </div>
+      </div>
+
+      <div formGroupName="estimatedTime" class="time-section">
+        <h3>Délai de confection (semaines)</h3>
+        <div class="time-range">
+          <div class="form-field">
+            <label>Minimum</label>
+            <input type="number" formControlName="min">
+          </div>
+          <div class="form-field">
+            <label>Maximum</label>
+            <input type="number" formControlName="max">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="form-actions">
+      <button type="button"
+              *ngIf="currentStep > 1"
+              (click)="previousStep()"
+              class="previous-btn">
+        Précédent
+      </button>
+      <button type="button"
+              *ngIf="currentStep < 4"
+              (click)="nextStep()"
+              class="next-btn"
+              [disabled]="!isCurrentStepValid()">
+        Suivant
+      </button>
+      <button type="submit"
+              *ngIf="currentStep === 4"
+              [disabled]="!modelForm.valid"
+              class="submit-btn">
+        Publier
+      </button>
+    </div>
+  </form>
+</div>

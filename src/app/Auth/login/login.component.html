@@ -1,0 +1,70 @@
+<div class="login-container">
+  <div class="form-container">
+    <div class="form-header">
+      <h1>Connexion</h1>
+      <p>Accédez à votre espace personnel</p>
+    </div>
+
+    <div class="user-type-selector">
+      <button
+        [class.active]="userType === 'client'"
+        (click)="onUserTypeChange('client')">
+        Client
+      </button>
+      <button
+        [class.active]="userType === 'stylist'"
+        (click)="onUserTypeChange('stylist')">
+        Styliste
+      </button>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="votre@email.com">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="password-input">
+          <input
+            id="password"
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Votre mot de passe">
+          <button type="button"
+                  (click)="togglePasswordVisibility()"
+                  class="password-toggle">
+            <i [class]="isPasswordVisible ? 'eye-open' : 'eye-closed'"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-options">
+        <label class="remember-me">
+          <input type="checkbox" formControlName="rememberMe">
+          Se souvenir de moi
+        </label>
+        <a href="/reset-password" class="forgot-password">Mot de passe oublié ?</a>
+      </div>
+
+      <button type="submit"
+              class="submit-button"
+              [disabled]="!loginForm.valid">
+        Se connecter
+      </button>
+
+      <div class="register-link">
+        Pas encore de compte ? <a href="/register">Inscrivez-vous</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="image-container">
+    <img [src]="'login.jpg'" alt="Fashion design" class="login-image">
+  </div>
+</div>
