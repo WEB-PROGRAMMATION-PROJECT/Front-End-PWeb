@@ -1,0 +1,123 @@
+<div class="checkout-container" [class.loading]="loading">
+  <div class="checkout-header">
+    <h1>Finaliser la commande</h1>
+    <div class="order-id">Commande #{{orderSummary.id}}</div>
+  </div>
+
+  <div class="checkout-content" *ngIf="currentStep === 1">
+    <div class="order-details">
+      <div class="order-summary">
+        <h2>Résumé de la commande</h2>
+
+        <div class="items-list">
+          <div class="item" *ngFor="let item of orderSummary.items">
+            <div class="item-details">
+              <h3>{{item.name}}</h3>
+              <p class="styliste">Par {{item.styliste}}</p>
+            </div>
+            <div class="item-price">{{item.price | number}} FCFA</div>
+          </div>
+        </div>
+
+        <div class="summary-details">
+          <div class="summary-row">
+            <span>Sous-total</span>
+            <span>{{orderSummary.subtotal | number}} FCFA</span>
+          </div>
+          <div class="summary-row">
+            <span>Frais de service</span>
+            <span>{{orderSummary.serviceFee | number}} FCFA</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span>{{orderSummary.total | number}} FCFA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-section">
+      <form [formGroup]="paymentForm" (ngSubmit)="processPayment()" class="payment-form">
+        <h2>Méthode de paiement</h2>
+
+        <div class="payment-methods">
+          <div class="form-group payment-method-group">
+            <div *ngFor="let method of paymentMethods" class="payment-method-option">
+              <input
+                type="radio"
+                [id]="method.id"
+                [value]="method.id"
+                formControlName="paymentMethod"
+              >
+              <label [for]="method.id" class="payment-method-label">
+                <img [src]="method.icon" [alt]="method.name">
+                <span>{{method.name}}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group phone-group">
+          <label for="phoneNumber">Numéro de téléphone</label>
+          <div class="phone-input-wrapper">
+            <span class="country-code">+237</span>
+            <input
+              id="phoneNumber"
+              type="tel"
+              formControlName="phoneNumber"
+              placeholder="6XX XXX XXX"
+              (input)="formatPhoneNumber($event)"
+              [class.error]="paymentForm.get('phoneNumber')?.invalid && paymentForm.get('phoneNumber')?.touched"
+            >
+          </div>
+          <div class="error-message" *ngIf="paymentForm.get('phoneNumber')?.invalid && paymentForm.get('phoneNumber')?.touched">
+            Veuillez entrer un numéro de téléphone valide (9 chiffres)
+          </div>
+        </div>
+
+        <div class="form-group terms-group">
+          <label class="checkbox-container">
+            <input type="checkbox" formControlName="acceptTerms">
+            <span class="checkmark"></span>
+            J'accepte les <a href="/terms" target="_blank">conditions de paiement</a>
+          </label>
+        </div>
+
+        <div class="payment-actions">
+          <button
+            type="button"
+            class="back-button"
+            routerLink="/cart"
+          >
+            Retour
+          </button>
+
+          <button
+            type="submit"
+            [disabled]="!paymentForm.valid || loading"
+            class="submit-button"
+          >
+            <span *ngIf="!loading">Payer {{orderSummary.total | number}} FCFA</span>
+            <span *ngIf="loading">
+<svg class="spinner" viewBox="0 0 50 50">
+<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+  </svg>
+Traitement...
+</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="success-message" *ngIf="currentStep === 2">
+    <div class="success-icon">✓</div>
+    <h2>Paiement réussi !</h2>
+    <p>Votre commande a été confirmée. Vous allez être redirigé vers vos commandes...</p>
+  </div>
+
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="loader"></div>
+  </div>
+</div>
+

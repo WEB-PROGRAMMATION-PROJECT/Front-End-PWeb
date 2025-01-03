@@ -12,8 +12,8 @@ import {ClothingModelsPageComponent} from './Products/clothing-models-page/cloth
 import {RegistrationComponent} from './Auth/registration/registration.component';
 import {LoginComponent} from './Auth/login/login.component';
 import {ModelDetailComponent} from './Products/model-detail/model-detail.component';
-import {CheckoutComponent} from './checkout/checkout.component';
-import {AddModelComponentComponent} from './add-model-component/add-model-component.component';
+import {CheckoutComponent} from './Products/checkout/checkout.component';
+import {AddModelComponentComponent} from './Stylistes/add-model-component/add-model-component.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirige vers une page d'accueil par défaut
   { path: 'home', component: MainHomeComponent }, // Page d'accueil principale
