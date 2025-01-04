@@ -253,5 +253,34 @@
       "estimatedTime": 10,
       "availableSizes": ["48", "50", "52"]
     }
+  ],
+  "userInfo": {
+    "id": 1,
+    "firstName": "John",
+    "name": "John",
+    "lastName": "Doe",
+    "email": "johndoe@example.com",
+    "phone": "123-456-7890",
+    "bust": "34",
+    "waist": "28",
+    "hips": "36",
+    "avatar": "testMini.jpg"
+  },
+  "userOrders": [
+    {
+      "id": "CMD001",
+      "date": "Sat Jan 04 2025 18:38:50 GMT+0100",
+      "status": "in_progress",
+      "items": [
+        {
+          "name": "Robe sur mesure",
+          "price": 150,
+          "quantity": 1,
+          "image": "test.jpg"
+        }
+      ],
+      "total": 150,
+      "styliste": "Marie Dubois"
+    }
   ]
 }

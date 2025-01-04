@@ -1,76 +1,23 @@
-// profile.component.ts
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {UserInfo, UserService} from '../../../services/User/user.service';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  template: `
-    <div class="profile-container">
-      <h1>Mon Profil</h1>
-
-      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
-        <div class="profile-header">
-          <div class="profile-image">
-            <img [src]="profileImage || 'test.jpg'" alt="Photo de profil">
-            <button type="button" class="change-photo-btn">Changer la photo</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="firstName">Prénom</label>
-          <input id="firstName" type="text" formControlName="firstName">
-        </div>
-
-        <div class="form-group">
-          <label for="lastName">Nom</label>
-          <input id="lastName" type="text" formControlName="lastName">
-        </div>
-
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" type="email" formControlName="email">
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Téléphone</label>
-          <input id="phone" type="tel" formControlName="phone">
-        </div>
-
-        <div class="measurements-section">
-          <h2>Mes Mesures</h2>
-          <div class="measurements-grid">
-            <div class="form-group">
-              <label for="bust">Tour de poitrine (cm)</label>
-              <input id="bust" type="number" formControlName="bust">
-            </div>
-            <div class="form-group">
-              <label for="waist">Tour de taille (cm)</label>
-              <input id="waist" type="number" formControlName="waist">
-            </div>
-            <div class="form-group">
-              <label for="hips">Tour de hanches (cm)</label>
-              <input id="hips" type="number" formControlName="hips">
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" class="submit-btn">Enregistrer les modifications</button>
-      </form>
-    </div>
-  `,
+  templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
   profileForm: FormGroup;
   profileImage: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private userService: UserService) {
     this.profileForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: [''],
+      lastName: [''],
       email: ['', [Validators.required, Validators.email]],
       phone: [''],
       bust: [''],
@@ -79,10 +26,48 @@ export class UserProfileComponent {
     });
   }
 
-  onSubmit() {
+  ngOnInit(): void {
+    this.loadUserInfo();
+  }
+  userId=1;
+
+  loadUserInfo(): void {
+    this.userService.getUserInfo(this.userId).subscribe({
+      next: (userInfo: UserInfo) => {
+        // Préremplir les champs du formulaire avec les données de userInfo
+        this.profileForm.patchValue({
+          firstName: userInfo.firstName || '',
+          lastName: userInfo.lastName || '',
+          email: userInfo.email || '',
+          phone: userInfo.phone || '',
+          bust: userInfo.bust || '',
+          waist: userInfo.waist || '',
+          hips: userInfo.hips || ''
+        });
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des données utilisateur :', err);
+      }
+    });
+  }
+  onSubmit(): void {
     if (this.profileForm.valid) {
-      console.log(this.profileForm.value);
-      // Implement save logic here
+      const updatedUserInfo = this.profileForm.value;
+      console.log("valeurs du formulaire", updatedUserInfo);
+
+      // Enregistrer les modifications via le service
+      this.userService.updateUserInfo(updatedUserInfo).subscribe({
+        next: () => {
+          console.log('Les modifications ont été enregistrées avec succès !');
+          alert('Profil mis à jour avec succès.');
+        },
+        error: (err) => {
+          console.error('Erreur lors de la mise à jour du profil :', err);
+          alert('Une erreur est survenue. Veuillez réessayer.');
+        }
+      });
+    } else {
+      alert('Veuillez remplir tous les champs requis correctement.');
     }
   }
 }
