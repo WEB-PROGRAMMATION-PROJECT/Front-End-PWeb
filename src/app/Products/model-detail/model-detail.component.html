@@ -1,0 +1,155 @@
+<!-- model-detail.component.html -->
+<main>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <img [src]="currentImage().url" [alt]="currentImage().alt">
+    <div class="hero-section__overlay"></div>
+    <div class="hero-section__content">
+      <h1>{{ model.name }}</h1>
+      <p>{{ model.description }}</p>
+    </div>
+  </section>
+
+  <!-- Thumbnail Gallery -->
+  <div class="thumbnail-gallery">
+    <div
+      *ngFor="let image of model.images; let i = index"
+      class="thumbnail__item"
+      [class.active]="currentImageIndex() === i"
+      (click)="setCurrentImageIndex(i)"
+    >
+      <img [src]="image.url" [alt]="image.alt">
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Left Column -->
+    <div class="content-left">
+      <!-- Story Section -->
+      <section class="info-section">
+        <h2 class="info-section__title">À propos de cette création</h2>
+        <p>{{ model.story }}</p>
+      </section>
+
+      <!-- Price & Time Section -->
+      <section class="metrics-grid">
+        <div class="metric-card">
+          <h3>Prix approximatif</h3>
+          <p class="metric-value">
+            {{ model.approximatePrice.min | currency:'XAF':'symbol-narrow' }} -
+            {{ model.approximatePrice.max | currency:'XAF':'symbol-narrow' }}
+          </p>
+        </div>
+        <div class="metric-card">
+          <h3>Délai estimé</h3>
+          <p class="metric-value">
+            {{ model.estimatedTime.min }}-{{ model.estimatedTime.max }}
+            {{ model.estimatedTime.unit }}
+          </p>
+        </div>
+      </section>
+
+      <!-- Materials Section -->
+      <section class="info-section">
+        <h2 class="info-section__title">Matériaux</h2>
+        <div class="materials-grid">
+          <div class="info-card" *ngFor="let material of model.materials">
+            <h3>{{ material.name }}</h3>
+            <p>{{ material.description }}</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Right Column -->
+    <div class="content-right">
+      <!-- Designer Card -->
+      <div class="designer-card">
+        <div class="designer-profile">
+          <div class="designer-avatar">
+            <img [src]="model.designer.avatar" [alt]="model.designer.name">
+          </div>
+          <div class="designer-info">
+            <h3>{{ model.designer.name }}</h3>
+            <div class="designer-stats">
+              <span class="rating">★ {{ model.designer.rating }}</span>
+              <span class="separator">·</span>
+              <span>{{ model.designer.completedOrders }} commandes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="designer-details">
+          <p>{{ model.designer.bio }}</p>
+
+          <div class="specialties">
+            <h4>Spécialités</h4>
+            <div class="style-tags">
+              <span class="style-tag" *ngFor="let specialty of model.designer.specialties">
+                {{ specialty }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button class="btn btn-primary" (click)="openOrderDialog()">
+            Commander
+          </button>
+          <button class="btn btn-secondary" (click)="addToFavorites()">
+            Ajouter aux favoris
+          </button>
+        </div>
+      </div>
+
+      <!-- Styles Section -->
+      <section class="styles-section">
+        <h3>Style</h3>
+        <div class="style-tags">
+          <span class="style-tag" *ngFor="let style of model.styles">
+            {{ style }}
+          </span>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- Order Dialog -->
+<div class="dialog-overlay fade-in" *ngIf="showOrderDialog()">
+  <div class="dialog-content slide-up">
+    <h2>Commander ce modèle</h2>
+
+    <div class="dialog-body">
+      <p>
+        Pour commander ce modèle, vous allez être mis en relation avec le styliste
+        pour discuter des détails spécifiques, notamment :
+      </p>
+
+      <ul>
+        <li>Vos mesures exactes</li>
+        <li>Les ajustements souhaités</li>
+        <li>Le prix final en fonction de vos besoins</li>
+        <li>Le délai de confection</li>
+      </ul>
+
+      <div class="info-card">
+        <p>
+          Une fois les détails convenus, le styliste fixera le prix final et vous
+          pourrez procéder au paiement via notre plateforme sécurisée.
+        </p>
+      </div>
+
+      <div class="dialog-actions">
+        <button class="btn btn-secondary" (click)="closeOrderDialog()">
+          Annuler
+        </button>
+        <button class="btn btn-primary" (click)="contactDesigner()">
+          Contacter le styliste
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,134 @@
+// src/app/features/model-detail/model-detail.component.scss
+
+.model-detail {
+  @apply relative min-h-screen bg-white;
+
+  // Hero section avec image principale
+  .hero-section {
+    @apply relative h-[80vh] overflow-hidden;
+
+    &__image {
+      @apply w-full h-full object-cover transition-transform duration-700;
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+
+    &__overlay {
+      @apply absolute bottom-0 left-0 right-0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+      height: 40%;
+    }
+
+    &__content {
+      @apply absolute bottom-8 left-8 right-8 text-white z-10;
+    }
+  }
+
+  // Galerie miniature
+  .thumbnail-gallery {
+    @apply flex gap-2 mt-4 overflow-x-auto hide-scrollbar;
+    scroll-snap-type: x mandatory;
+
+    &__item {
+      @apply relative flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden cursor-pointer;
+      scroll-snap-align: start;
+
+      &::after {
+        content: '';
+        @apply absolute inset-0 bg-black opacity-0 transition-opacity;
+      }
+
+      &:hover::after {
+        @apply opacity-20;
+      }
+
+      &--active {
+        @apply ring-2 ring-offset-2 ring-black;
+      }
+    }
+  }
+
+  // Section des détails
+  .details-section {
+    @apply max-w-7xl mx-auto px-4 py-12;
+
+    &__grid {
+      @apply grid grid-cols-1 lg:grid-cols-2 gap-12;
+    }
+
+    &__heading {
+      @apply font-serif text-4xl mb-6;
+
+      &::after {
+        content: '';
+        @apply block w-24 h-0.5 bg-black mt-4;
+      }
+    }
+  }
+
+  // Carte du designer
+  .designer-card {
+    @apply bg-gray-50 rounded-xl p-6 transform transition-transform duration-300;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    &__avatar {
+      @apply relative w-20 h-20 rounded-full overflow-hidden mb-4;
+
+      &::after {
+        content: '';
+        @apply absolute inset-0 border-2 border-black rounded-full;
+        animation: pulse 2s infinite;
+      }
+    }
+  }
+
+  // Boutons d'action
+  .action-buttons {
+    @apply fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200
+    p-4 flex gap-4 justify-center md:static md:border-0 md:p-0 md:mt-8;
+
+    button {
+      @apply px-8 py-3 rounded-full text-lg font-medium transition-all duration-300
+      transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2;
+
+      &.primary {
+        @apply bg-black text-white hover:bg-gray-900;
+      }
+
+      &.secondary {
+        @apply border-2 border-black text-black hover:bg-black hover:text-white;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Utilitaires
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

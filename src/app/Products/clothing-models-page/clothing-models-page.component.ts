@@ -1,6 +1,6 @@
 // clothing-models-page.component.ts
 import { Component, OnInit } from '@angular/core';
-import {ClothingModelCardComponent} from '../widgets/clothing-model-card/clothing-model-card.component';
+import {ClothingModelCardComponent} from '../../widgets/clothing-model-card/clothing-model-card.component';
 import {FormsModule} from '@angular/forms';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {NgForOf, NgIf} from '@angular/common';
