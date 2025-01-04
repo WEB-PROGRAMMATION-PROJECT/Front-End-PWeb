@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
 import {
   faSearch,
   faUser,
@@ -10,6 +11,7 @@ import {
   faBell
 } from '@fortawesome/free-solid-svg-icons';
 import { gsap } from 'gsap';
+import {CategoryService} from '../../services/category.service';
 
 interface Category {
   name: string;
@@ -72,25 +74,38 @@ export class NavbarComponent implements OnInit {
       name: 'Catégories',
       href: '#',
       categories: [
-        { name: 'Robes', href: '/models' },
-        { name: 'Costumes', href: '#' },
-        { name: 'Accessoires', href: '#' },
-        { name: 'Chaussures', href: '#' }
+      // les catégories seront chargées dynamiquement
       ]
     },
     {
       name: 'Stylistes',
       href: '/stylistes',
-      categories: [
-        { name: 'Nos Créateurs', href: '/stylistes' },
-        { name: 'Ateliers', href: '#' },
-        { name: 'Savoir-faire', href: '#' }
-      ]
+
     },
     { name: 'Mensurations', href: '/mensurations' }
   ];
+  categories: Category[] = [];
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef, private categoryService: CategoryService) {}
+
+  ngOnInit() {
+    this.initAnimations();
+    this.loadCategories();
+  }
+
+  private loadCategories(): void {
+    this.categoryService.getCategories().subscribe(
+      (data) => {
+        this.categories = data;
+        this.menuItems.find((item) => item.name === 'Catégories')!.categories = this.categories;
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des catégories', error);
+      }
+    );
+  }
+
+
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
@@ -119,9 +134,6 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.initAnimations();
-  }
 
   private initAnimations() {
     gsap.from('.navbar_fox', {

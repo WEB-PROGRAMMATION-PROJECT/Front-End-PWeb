@@ -5,10 +5,11 @@ import {HomeContentComponent} from './Home/content/home-content/home-content.com
 import {HomeFooterComponent} from './Home/home-footer/home-footer.component';
 import {TopDesignersComponent} from './Home/content/top-designers/top-designers.component';
 import {NavbarComponent} from './widgets/navbar/navbar.component';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HomeFooterComponent, NavbarComponent],
+  imports: [RouterOutlet, HomeFooterComponent, NavbarComponent,HttpClientModule],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.css'

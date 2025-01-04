@@ -1,0 +1,8 @@
+{
+  "categories": [
+    { "id": 1, "name": "Robes", "href": "/models" },
+    { "id": 2, "name": "Costumes", "href": "#" },
+    { "id": 3, "name": "Accessoires", "href": "#" },
+    { "id": 4, "name": "Chaussures", "href": "#" }
+  ]
+}
