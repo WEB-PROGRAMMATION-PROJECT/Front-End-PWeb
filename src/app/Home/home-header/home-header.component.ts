@@ -20,13 +20,11 @@ import { gsap } from 'gsap';
 gsap.registerPlugin(ScrollTrigger);
 
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import {NavbarComponent} from '../../widgets/navbar/navbar.component';
-import {HttpClientModule} from '@angular/common/http';
 
 @Component({
   selector: 'app-home-header',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule,HttpClientModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './home-header.component.html',
   styleUrls: ['./home-header.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // Ajoutez cette ligne

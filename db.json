@@ -1,8 +1,257 @@
 {
   "categories": [
-    { "id": 1, "name": "Robes", "href": "/models" },
-    { "id": 2, "name": "Costumes", "href": "#" },
-    { "id": 3, "name": "Accessoires", "href": "#" },
-    { "id": 4, "name": "Chaussures", "href": "#" }
+    {
+      "id": 1,
+      "name": "Robes de Soirée",
+      "image": "robe.webp",
+      "count": 156,
+      "href": "/models"
+    },
+    {
+      "id": 2,
+      "name": "Costumes",
+      "image": "costume.jpg",
+      "count": 19,
+      "href": "/costumes"
+    },
+    {
+      "id": 3,
+      "name": "Tenues Cocktail",
+      "image": "cocktail.webp",
+      "count": 124,
+      "href": "/tenues-cocktail"
+    },
+    {
+      "id": 4,
+      "name": "Tenue Africaine",
+      "image": "africaine.webp",
+      "count": 78,
+      "href": "/tenues-africaines"
+    }
+  ],
+
+  "TopDesigners": [
+    {
+      "id": 1,
+      "name": "Claire Fontaine",
+      "role": "Directrice Créative",
+      "location": "Paris, France",
+      "image": "tail.jpg",
+      "specialties": ["Haute Couture", "Robes de Soirée", "Sur Mesure"],
+      "collections": 24,
+      "awards": 7
+    },
+    {
+      "id": 2,
+      "name": "Marco Bellini",
+      "role": "Maître Tailleur",
+      "location": "Milan, Italie",
+      "image": "tail.jpg",
+      "specialties": ["Costumes", "Tailleur Homme", "Accessoires"],
+      "collections": 18,
+      "awards": 5
+    },
+    {
+      "id": 3,
+      "name": "Sofia Chen",
+      "role": "Designer Avant-garde",
+      "location": "Shanghai, Chine",
+      "image": "tail.jpg",
+      "specialties": ["Mode Contemporaine", "Streetwear Luxe", "Artisanat"],
+      "collections": 15,
+      "awards": 4
+    },
+    {
+      "id": 4,
+      "name": "Elena Vasquez",
+      "role": "Styliste Accessoires",
+      "location": "Barcelone, Espagne",
+      "image": "tail.jpg",
+      "specialties": ["Sacs à Main", "Chaussures", "Bijoux"],
+      "collections": 12,
+      "awards": 3
+    }
+  ],
+
+  "promotions": [
+    {
+      "title": "Gardez vos mensurations numériques",
+      "description": "100% Précis, 100% Fiable, 100% Sécurisé",
+      "image": "expert2.jpg",
+      "link": "/expert"
+    },
+    {
+      "title": "Notre Meilleur Modèle",
+      "description": "Une Pièce Unique en Édition Limitée",
+      "image": "model2.jpg",
+      "link": "/exclusive"
+    }
+  ],
+
+  "topModels": [
+    {
+      "id": 1,
+      "name": "Robe Haute Couture Noir",
+      "designer": "Claire Fontaine",
+      "price": 2500,
+      "image": "dress1.jpg",
+      "category": "Robes"
+    },
+    {
+      "id": 2,
+      "name": "Robe Haute Couture Blanc",
+      "designer": "Claire Fontaine",
+      "price": 2800,
+      "image": "dress2.jpg",
+      "category": "Robes"
+    },
+    {
+      "id": 3,
+      "name": "Robe Haute Couture Rose",
+      "designer": "Claire Fontaine",
+      "price": 3000,
+      "image": "dress3.webp",
+      "category": "Robes"
+    },
+    {
+      "id": 2,
+      "name": "Robe Haute Couture Blanc",
+      "designer": "Claire Fontaine",
+      "price": 2800,
+      "image": "dress2.jpg",
+      "category": "Robes"
+    }
+  ],
+  "fashionModel": [
+    {
+      "id": "model-001",
+      "name": "Robe de Soirée Élégante",
+      "description": "Une création unique alliant modernité et élégance traditionnelle",
+      "story": "Inspirée des motifs traditionnels africains...",
+      "images": [
+        { "url": "modelLarge.jpg", "alt": "Vue frontale de la robe", "isCover": true },
+        { "url": "modelLarge.jpg", "alt": "Vue de dos", "isCover": false },
+        { "url": "model2.jpg", "alt": "Détails des finitions", "isCover": false }
+      ],
+      "approximatePrice": { "min": 75000, "max": 150000, "currency": "XAF" },
+      "estimatedTime": { "min": 2, "max": 3, "unit": "semaines" },
+      "materials": [
+        { "name": "Soie Naturelle", "description": "Tissu principal, doux et élégant" },
+        { "name": "Dentelle", "description": "Pour les finitions et détails" }
+      ],
+      "designer": {
+        "id": "designer-001",
+        "name": "Marie Kouam",
+        "avatar": "testMini.jpg",
+        "rating": 4.8,
+        "completedOrders": 127,
+        "experience": 8,
+        "responseTime": "< 24h",
+        "whatsapp": "+237600000000",
+        "bio": "Passionnée de mode depuis plus de 8 ans",
+        "specialties": ["Robes de soirée", "Tenues traditionnelles"]
+      },
+      "styles": ["Moderne", "Élégant", "Traditionnel"],
+      "category": "Robes de soirée",
+      "createdAt": "2024-01-02",
+      "status": "available",
+      "comments": [
+        {
+          "id": "comment-001",
+          "userId": "user-001",
+          "userName": "Sophie M.",
+          "userAvatar": "testMini.jpg",
+          "content": "Cette robe est magnifique !",
+          "createdAt": "2024-01-03T14:30:00",
+          "likes": 5
+        },
+        {
+          "id": "comment-002",
+          "userId": "user-002",
+          "userName": "Pierre K.",
+          "userAvatar": "testMini.jpg",
+          "content": "Le rapport qualité-prix est excellent.",
+          "createdAt": "2024-01-03T16:45:00",
+          "likes": 3
+        }
+      ]
+    }
+  ],
+  "designers": [
+    {
+      "id": 1,
+      "name": "Designer 1",
+      "role": "Styliste Haute Couture",
+      "location": "Paris",
+      "image": "tail.jpg",
+      "specialties": ["Haute Couture", "Prêt-à-porter"],
+      "collections": 12,
+      "awards": 5,
+      "rating": 4.5,
+      "experience": 10
+    },
+
+    {
+      "id":3 ,
+      "name": "Designer 3 hahah",
+      "role": "Styliste Haute Couture",
+      "location": "Paris",
+      "image": "tail.jpg",
+      "specialties": ["Haute Couture", "Prêt-à-porter"],
+      "collections": 12,
+      "awards": 5,
+      "rating": 4.5,
+      "experience": 10
+    },
+    {
+      "id": 2,
+      "name": "Designer 2",
+      "role": "Styliste Prêt-à-porter",
+      "location": "Marseille",
+      "image": "tail.jpg",
+      "specialties": ["Mode Traditionnelle", "Robes de Mariée"],
+      "collections": 15,
+      "awards": 3,
+      "rating": 4.0,
+      "experience": 8
+    },
+    {
+      "id": 4,
+      "name": "Designer 4",
+      "role": "Styliste Prêt-à-porter",
+      "location": "Marseille",
+      "image": "tail.jpg",
+      "specialties": ["Mode Traditionnelle", "Robes de Mariée"],
+      "collections": 15,
+      "awards": 3,
+      "rating": 4.0,
+      "experience": 8
+    }
+  ],
+  "locations": ["Paris", "Lyon", "Marseille", "Bordeaux", "Lille"],
+  "specialties": ["Haute Couture", "Prêt-à-porter", "Mode Traditionnelle", "Robes de Mariée", "Costumes sur Mesure", "Mode Éthique"],
+  "clothingModels": [
+    {
+      "id": 1,
+      "name": "Robe de Soirée Élégante",
+      "designer": "Marie Laurent",
+      "price": 599.99,
+      "imageUrl": "cocktail.webp",
+      "category": "Robes",
+      "materials": ["Soie", "Dentelle"],
+      "estimatedTime": 15,
+      "availableSizes": ["36", "38", "40", "42"]
+    },
+    {
+      "id": 2,
+      "name": "Costume Classique",
+      "designer": "Jean Dupont",
+      "price": 799.99,
+      "imageUrl": "cocktail.webp",
+      "category": "Costumes",
+      "materials": ["Laine", "Soie"],
+      "estimatedTime": 10,
+      "availableSizes": ["48", "50", "52"]
+    }
   ]
 }

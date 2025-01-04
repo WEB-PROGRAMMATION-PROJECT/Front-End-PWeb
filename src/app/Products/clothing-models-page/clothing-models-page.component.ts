@@ -4,6 +4,7 @@ import {ClothingModelCardComponent} from '../../widgets/clothing-model-card/clot
 import {FormsModule} from '@angular/forms';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {NgForOf, NgIf} from '@angular/common';
+import {Category, CategoryService} from '../../services/Articles/category.service';
 
 interface SortOption {
   label: string;
@@ -53,14 +54,7 @@ export class ClothingModelsPageComponent implements OnInit {
   ];
 
   // Données des filtres
-  categories: string[] = [
-    'Robes',
-    'Costumes',
-    'Tenues traditionnelles',
-    'Tenues de soirée',
-    'Casual',
-    'Accessoires'
-  ];
+  categories: string[] = [];
 
   designers: string[] = []; // À remplir depuis le service
 
@@ -68,63 +62,27 @@ export class ClothingModelsPageComponent implements OnInit {
   allModels: ClothingModel[] = [];
   filteredModels: ClothingModel[] = [];
 
-  constructor() {} // Injecter les services nécessaires
+  constructor(private clothingModelService: CategoryService) {}
 
   ngOnInit(): void {
     this.loadInitialData();
   }
 
   loadInitialData(): void {
-    // Simulons des données pour l'exemple
-    this.allModels = [
-      {
-        id: 1,
-        name: 'Robe de Soirée Élégante',
-        designer: 'Marie Laurent',
-        price: 599.99,
-        imageUrl: 'cocktail.webp',
-        category: 'Robes',
-        materials: ['Soie', 'Dentelle'],
-        estimatedTime: 15,
-        availableSizes: ['36', '38', '40', '42']
-      },
-      {
-        id: 1,
-        name: 'Robe de Soirée Élégante',
-        designer: 'Marie Laurent',
-        price: 599.99,
-        imageUrl: 'dress3.webp',
-        category: 'Robes',
-        materials: ['Soie', 'Dentelle'],
-        estimatedTime: 15,
-        availableSizes: ['36', '38', '40', '42']
-      },
-      {
-        id: 1,
-        name: 'Robe de Soirée Élégante',
-        designer: 'Marie Laurent',
-        price: 599.99,
-        imageUrl: 'cocktail.webp',
-        category: 'Robes',
-        materials: ['Soie', 'Dentelle'],
-        estimatedTime: 15,
-        availableSizes: ['36', '38', '40', '42']
-      },
-      {
-        id: 1,
-        name: 'Robe de Soirée Élégante',
-        designer: 'Marie Laurent',
-        price: 599.99,
-        imageUrl: 'cocktail.webp',
-        category: 'Robes',
-        materials: ['Soie', 'Dentelle'],
-        estimatedTime: 15,
-        availableSizes: ['36', '38', '40', '42']
-      },
-      // Ajouter plus de modèles ici
-    ];
+    // Charger les modèles, designers, et catégories depuis le service
+    this.clothingModelService.getClothingModels().subscribe(models => {
+      this.allModels = models;
+      this.applyFilters();
+    });
 
-    this.applyFilters();
+    this.clothingModelService.getDesigners().subscribe(designers => {
+      // @ts-ignore
+      this.designers = designers.map(designer => designer.name);
+    });
+
+    this.clothingModelService.getCategories().subscribe(categories => {
+      this.categories = categories.map(category => category.name);
+    });
   }
 
   // Gestionnaires d'événements de filtrage

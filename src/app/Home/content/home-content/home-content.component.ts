@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 // home-content.component.ts
 import { CommonModule } from '@angular/common';
 import {DesignerCardComponent} from '../../../widgets/designer-card/designer-card.component';
 import {ModelCardComponent} from '../../../widgets/model-card/model-card.component';
+import {HomeDataServiceService} from '../../../services/Home/home-data-service.service';
+import {Category as CategoryService} from '../../../services/Articles/category.service';
 
 interface Model {
   id: number;
@@ -28,60 +30,26 @@ interface Category {
   templateUrl: "./home-content.component.html",
   styleUrls: ['./home-content.component.css']
 })
-export class HomeContentComponent {
+export class HomeContentComponent implements OnInit {
+
+  constructor(private homeDataService : HomeDataServiceService) {}
+
   featuredModels: Model[] = [
-    {
-      id: 1,
-      name: 'Robe Haute Couture Noir',
-      designer: 'Claire Fontaine',
-      price: 2500,
-      image: 'dress1.jpg',
-      category: 'Robes'
-    },
-    // Add more models...
-    { id: 2, name: 'Robe Haute Couture Blanc',
-      designer: 'Claire Fontaine',
-      price: 2800,
-      image: 'dress2.jpg',
-      category: 'Robes' },
-    { id: 3, name: 'Robe Haute Couture Rose',
-      designer: 'Claire Fontaine',
-      price: 3000,
-      image: 'dress3.webp',
-      category: 'Robes' },
-    { id: 2, name: 'Robe Haute Couture Blanc',
-      designer: 'Claire Fontaine',
-      price: 2800,
-      image: 'dress2.jpg',
-      category: 'Robes' },
-
-
   ];
 
   categories: Category[] = [
-    {
-      id: 1,
-      name: 'Robes de Soirée',
-      image: 'robe.webp',
-      count: 156
-    },
-    {
-      id: 2,
-      name: 'Costumes',
-      image: 'costume.jpg',
-      count: 89
-    },
-    {
-      id: 3,
-      name: 'Tenues Cocktail',
-      image: 'cocktail.webp',
-      count: 124
-    },
-    {
-      id: 4,
-      name: 'Tenue Africaine',
-      image: 'africaine.webp',
-      count: 78
-    }
+
   ];
+
+  ngOnInit(): void {
+
+    this.homeDataService.getTopModels().subscribe((data) => {
+      this.featuredModels = data;
+    });
+
+    // Charger les promotions
+    this.homeDataService.getCategories().subscribe((data) => {
+      this.categories = data;
+    });
+  }
 }

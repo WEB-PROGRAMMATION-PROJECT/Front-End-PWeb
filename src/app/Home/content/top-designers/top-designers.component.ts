@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import {NgForOf} from '@angular/common';
 import {DesignerCardComponent} from '../../../widgets/designer-card/designer-card.component';
+import {HomeDataServiceService} from '../../../services/Home/home-data-service.service';
 
 interface Designer {
   id: number;
@@ -41,53 +42,27 @@ interface Platform {
 })
 export class TopDesignersComponent implements OnInit {
   designers: Designer[] = [
-    {
-      id: 1,
-      name: 'Claire Fontaine',
-      role: 'Directrice Créative',
-      location: 'Paris, France',
-      image: 'tail.jpg',
-      specialties: ['Haute Couture', 'Robes de Soirée', 'Sur Mesure'],
-      collections: 24,
-      awards: 7
-    },
-    {
-      id: 2,
-      name: 'Marco Bellini',
-      role: 'Maître Tailleur',
-      location: 'Milan, Italie',
-      image: 'tail.jpg',
-      specialties: ['Costumes', 'Tailleur Homme', 'Accessoires'],
-      collections: 18,
-      awards: 5
-    },
-    {
-      id: 3,
-      name: 'Sofia Chen',
-      role: 'Designer Avant-garde',
-      location: 'Shanghai, Chine',
-      image: 'tail.jpg',
-      specialties: ['Mode Contemporaine', 'Streetwear Luxe', 'Artisanat'],
-      collections: 15,
-      awards: 4
-    },
-    {
-      id: 4,
-      name: 'Elena Vasquez',
-      role: 'Styliste Accessoires',
-      location: 'Barcelone, Espagne',
-      image: 'tail.jpg',
-      specialties: ['Sacs à Main', 'Chaussures', 'Bijoux'],
-      collections: 12,
-      awards: 3
-    }
+
   ];
+
+  promotions: Promotion[] = [
+  ];
+
 
   selectedDesigner: Designer | null = null;
 
-  constructor() {}
+  constructor(private homeDataService : HomeDataServiceService) {}
 
   ngOnInit(): void {
+    // Charger les designers
+    this.homeDataService.getTopDesigners().subscribe((data) => {
+      this.designers = data;
+    });
+
+    // Charger les promotions
+    this.homeDataService.getPromotions().subscribe((data) => {
+      this.promotions = data;
+    });
     // Animation staggered delay
     this.designers.forEach((designer, index) => {
       setTimeout(() => {
@@ -98,6 +73,8 @@ export class TopDesignersComponent implements OnInit {
         }
       }, index * 200);
     });
+
+
   }
 
   selectDesigner(designer: Designer): void {
@@ -108,20 +85,6 @@ export class TopDesignersComponent implements OnInit {
     return name.split(' ').map(n => n[0]).join('').toUpperCase(); // Retourne les initiales en majuscules
   }
 
-  promotions: Promotion[] = [
-    {
-      title: 'Gardez vos mensurations numériques',
-      description: ' 100% Précis, 100% Fiable, 100% Sécurisé',
-      image: 'expert2.jpg',
-      link: '/expert'
-    },
-    {
-      title: 'Notre Meilleur Modèle',
-      description: 'Une Pièce Unique en Édition Limitée',
-      image: 'model2.jpg',
-      link: '/exclusive'
-    }
-  ];
 
   platformStats: Platform[] = [
     { title: 'Créateurs', value: '250+', icon: 'fas fa-users' },

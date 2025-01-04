@@ -11,7 +11,7 @@ import {
   faBell
 } from '@fortawesome/free-solid-svg-icons';
 import { gsap } from 'gsap';
-import {CategoryService} from '../../services/category.service';
+import {CategoryService} from '../../services/Articles/category.service';
 
 interface Category {
   name: string;

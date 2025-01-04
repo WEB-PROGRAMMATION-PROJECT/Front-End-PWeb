@@ -23,7 +23,7 @@
         [(ngModel)]="selectedSpecialties"
         (change)="onSpecialtiesChange()"
         placeholder="Spécialités"
-        class="specialty-select">
+        class="specialty-select selector">
       </ng-select>
 
       <ng-select
@@ -31,7 +31,7 @@
         [(ngModel)]="selectedLocation"
         (change)="onLocationChange()"
         placeholder="Localisation"
-        class="location-select">
+        class="location-select selector">
       </ng-select>
 
       <ng-select
@@ -41,7 +41,7 @@
         [(ngModel)]="sortOption"
         (change)="onSortChange()"
         placeholder="Trier par"
-        class="sort-select">
+        class="sort-select selector">
       </ng-select>
     </div>
   </section>
