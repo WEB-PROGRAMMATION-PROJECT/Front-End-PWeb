@@ -3,7 +3,7 @@ import {StylisteProfileComponent} from './Stylistes/styliste-profile/styliste-pr
 import {AppComponent} from './app.component';
 import {MainHomeComponent} from './Home/main-home/main-home.component';
 import {DesignersPageComponent} from './Stylistes/designers-page/designers-page.component';
-import {MeasurementGuideComponent} from './measurement-guide/measurement-guide.component';
+import {MeasurementGuideComponent} from './User/measurement-guide/measurement-guide.component';
 import {UserSpaceComponent} from './User/UserSpace/user-space/user-space.component';
 import {UserProfileComponent} from './User/UserSpace/user-profile/user-profile.component';
 import {OrderHistoryComponent} from './User/UserSpace/order-history/order-history.component';
