@@ -101,28 +101,40 @@ export class CheckoutComponent implements OnInit {
           phoneNumber: this.paymentForm.get('phoneNumber')?.value,
           amount: this.orderSummary.total,
           orderId: this.orderSummary.id,
+          customerName: 'Client', // À remplacer par le nom réel du client
         };
 
-        // Initialiser le paiement avec CinetPay
-        this.cinetPayService.initializePayment(paymentDetails)
-          .subscribe({
-            next: (response) => {
-              // Rediriger vers l'URL de paiement CinetPay
-              window.location.href = response.data.payment_url;
-            },
-            error: (error) => {
-              console.error('Erreur d\'initialisation du paiement:', error);
-              this.loading = false;
-              // Gérer l'erreur (afficher un message à l'utilisateur)
-            }
-          });
+        // Initialiser le widget de paiement
+        const result = await this.cinetPayService.initializePayment(paymentDetails);
 
+        if (result.status === "ACCEPTED") {
+          // Mettre à jour le statut de la commande
+          await this.orderService.updateOrderPaymentStatus(this.orderSummary.id, {
+            status: 'PAID',
+            reference: result.transaction_id
+          }).toPromise();
+
+          // Afficher le message de succès
+          this.currentStep = 2;
+
+          // Redirection après 3 secondes
+          setTimeout(() => {
+            this.router.navigate(['/orders']);
+          }, 3000);
+        } else if (result.status === "REFUSED") {
+          // Gérer l'échec du paiement
+          console.error('Paiement refusé:', result);
+          // Afficher un message d'erreur à l'utilisateur
+        }
       } catch (error) {
-        console.error('Erreur de paiement:', error);
+        console.error('Erreur lors du paiement:', error);
+        // Gérer l'erreur et afficher un message à l'utilisateur
+      } finally {
         this.loading = false;
       }
     }
   }
+
 
 
   formatPhoneNumber(event: any) {
