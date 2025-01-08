@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface Order {
   id: string;
   date: String;
-  status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
+  status: 'pending' | 'processing_payment' | 'paid' | 'in_progress' | 'completed' | 'cancelled';
   items: Array<{
     name: string;
     price: number;
@@ -14,20 +14,29 @@ export interface Order {
   }>;
   total: number;
   styliste: string;
+  payment_status?: string;
+  payment_reference?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class OrderService {
-
   private apiUrl = 'http://localhost:3000/';
 
   constructor(private http: HttpClient) {}
-  // Récupérer tous les modèles
+
   getUserOrders(): Observable<Order[]> {
-    console.log("appel de order", this.apiUrl+"userOrders");
-    return this.http.get<Order[]>(this.apiUrl+"userOrders");
+    return this.http.get<Order[]>(this.apiUrl + "userOrders");
+  }
+
+  updateOrderPaymentStatus(orderId: string, paymentData: {
+    status: string;
+    reference: string;
+  }): Observable<Order> {
+    return this.http.patch<Order>(`${this.apiUrl}userOrders/${orderId}`, {
+      payment_status: paymentData.status,
+      payment_reference: paymentData.reference
+    });
   }
 }

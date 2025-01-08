@@ -94,3 +94,9 @@ export class HomeFooterComponent {
 bon vas ydonne le meiluer de toi meme etant donne que pour cette fois tu n'as a faire que le header ! c'est une seule partie alors donne tout que ce soit parfaitement parfait  et comme je suis nouveau dans angular si il y ades trucs a integrer tu signalelle aussi !
 
 (et asussi si il faut que je cree un composant navbar apart tu me signalem aussi mais tu devras le faire tout aussi exeptionel , pour l'instant mon fichier app.component.html est encore vide donc tout est a faire et bon a prendre, surtout qu'en tant que nouveau j'ai encore du mal avec l'agencement des composants)
+
+
+
+
+
+134418579865e4a196c1f8b6.60425865

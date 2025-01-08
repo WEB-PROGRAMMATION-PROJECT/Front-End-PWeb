@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import {OrderService} from '../../services/Order/order.service';
+import {CinetPayService} from '../../services/Order/cinetpay.service';
 
 interface PaymentDetails {
   phoneNumber: string;
@@ -59,7 +61,9 @@ export class CheckoutComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cinetPayService: CinetPayService,
+    private orderService: OrderService
   ) {
     this.initializeForm();
   }
@@ -93,31 +97,33 @@ export class CheckoutComponent implements OnInit {
       this.loading = true;
 
       try {
-        const paymentDetails: PaymentDetails = {
+        const paymentDetails = {
           phoneNumber: this.paymentForm.get('phoneNumber')?.value,
           amount: this.orderSummary.total,
           orderId: this.orderSummary.id,
-          paymentMethod: this.paymentForm.get('paymentMethod')?.value
         };
 
-        // Simulate payment processing
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        // Simulate success
-        this.currentStep = 2;
-
-        // Redirect after success message
-        setTimeout(() => {
-          this.router.navigate(['/orders']);
-        }, 3000);
+        // Initialiser le paiement avec CinetPay
+        this.cinetPayService.initializePayment(paymentDetails)
+          .subscribe({
+            next: (response) => {
+              // Rediriger vers l'URL de paiement CinetPay
+              window.location.href = response.data.payment_url;
+            },
+            error: (error) => {
+              console.error('Erreur d\'initialisation du paiement:', error);
+              this.loading = false;
+              // Gérer l'erreur (afficher un message à l'utilisateur)
+            }
+          });
 
       } catch (error) {
-        console.error('Payment failed:', error);
-      } finally {
+        console.error('Erreur de paiement:', error);
         this.loading = false;
       }
     }
   }
+
 
   formatPhoneNumber(event: any) {
     let value = event.target.value.replace(/\D/g, '');
@@ -131,5 +137,8 @@ export class CheckoutComponent implements OnInit {
     const method = this.paymentMethods.find(m => m.id === methodId);
     return method ? method.icon : '';
   }
+
+
+
 }
 

@@ -14,6 +14,7 @@ import {LoginComponent} from './Auth/login/login.component';
 import {ModelDetailComponent} from './Products/model-detail/model-detail.component';
 import {CheckoutComponent} from './Products/checkout/checkout.component';
 import {AddModelComponentComponent} from './Stylistes/add-model-component/add-model-component.component';
+import {PaymentReturnComponent} from './Products/payment-return/payment-return.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirige vers une page d'accueil par défaut
   { path: 'home', component: MainHomeComponent }, // Page d'accueil principale
@@ -58,5 +59,9 @@ export const routes: Routes = [
   },
 
   { path: '**', redirectTo: '/home' }, // Redirige toutes les routes inconnues vers l'accueil
+  {
+    path: 'payment/return',
+    component: PaymentReturnComponent
+  }
 ];
 

@@ -228,8 +228,17 @@
       "experience": 8
     }
   ],
-  "locations": ["Paris", "Lyon", "Marseille", "Bordeaux", "Lille"],
-  "specialties": ["Haute Couture", "Prêt-à-porter", "Mode Traditionnelle", "Robes de Mariée", "Costumes sur Mesure", "Mode Éthique"],
+  "locations": [
+    { "id": 1, "name": "Paris" },
+    { "id": 2, "name": "Lyon" },
+    { "id": 3, "name": "Marseille" },
+    { "id": 4, "name": "Bordeaux" },
+    { "id": 5, "name": "Lille" }
+  ],
+  "specialties": [
+    { "id": 1, "name": "Haute Couture" },
+    { "id": 2, "name": "Prêt-à-porter" }
+  ],
   "clothingModels": [
     {
       "id": 1,
