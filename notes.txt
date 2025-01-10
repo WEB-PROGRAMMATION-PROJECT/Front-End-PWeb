@@ -40,63 +40,460 @@ o Suivi des commandes en temps réel.
 
 voila un peu de quoi il s'agit (je rappele que vu que tu n'as pas forcement les images je te conseilleraii d'utiiser viaplaceholder dans un premier temps je remplacerai apres)
 
-
-en fait mon boulot a moi consiste a creer le page d'acceuil de cette application web , (nous bossons encore sur le front end) et moi ce que je voudrais c'est imoressioner mon proffesseur avec une page d'aceuil extremement belle , stylee , moderne , bref le maaaximum qui puisse etre fait par un super ingenieur fontEnd et c'est pourquoi je m'adresse a toi en fait.
-je sais faire une si grande page ne sera pas de tout repos , et c'est pour ca que auqnd tu codes , si un message ne suffit pas pour tout le long code , tu peux le faire au message qui suit , (pour ce qui est des trucs qui doivent venir de la BD et du bacend ) vu qu'il n'y a pas encore de backend , ca peut se contenter d'etre d'bord statique (ou gnerre dans une boucle Json a toi de voir le meixu pour es trucs comme les articles polulaires et les meilleirs stylistes et des wigdget qui presente une info articuliere comme l'ardiiste ou le stylise le plus preisee , oudes soldes bref ce genre de chose squoi )
-j'atendds vraiment un sresultat exeptionel , interface moderne , avec principalement du blanc et du noir (ca fait tres fashion surtout avec certains effets cool transparent et blur la ) , pourquoi pas des efets blur parfois , bref un truc qui dechire ! , une belle landing parge (pour ce qui est du hader ) avec carousel assombri magnifique , et pleins d'autres effets cool (tu es totalement libre). aussi je t;invite a utiliser plein de librairis de composants angular si tu en as besoin , (tu donnes juste les commandes pur installer pour que ca puisse marcher chez moi ).
+LE THEME DE MON APPLICATION ULTRA FASHION ET MODERNE ET TRES TECHNIQUE , (OUI J'INSISTE SUR L'UI MODERNE ) EST LE BLANC ET LE NOIR ET AVEC UNE TOUCHE DE GRIS.
 
 
-et come je sais que faire un tel travail n'est pas de tout repos en une seule fois , j'ai divie la page d'acceuil en
- composants principaux : le header , le content , et le footer , (mais en vrai c'est juste le haut , le milleu et le bas ) et on va y aller pas a pas , j'ai deja fait les ng generate :
+bon , maintenant pour ce qu'il y a a faire :
 
- import { Component } from '@angular/core';
+j'ai deja faus le composant (ou les composants) du userspace , c'est en fait l'espace utilisateur ou il peut voir ses commandes ,son profile , ses adresses de livraisons , mais maintenant il faut faire l'espace du styliste , ou il pourra voir ses modeles (les modeles qu'il a eu) , ou il pourra voir lui aussi son rpofile et le modifer , et ou il poura aussi voir les commandes qui lui ont ete faites.
 
- @Component({
-   selector: 'app-home-header',
-   imports: [],
-   templateUrl: './home-header.component.html',
-   standalone: true,
-   styleUrl: './home-header.component.css'
- })
- export class HomeHeaderComponent {
+bon , pour te donner plus de details je te montre deja comment est fait le userspace et la partie des adrresses de livraisons , histoire que tu vois un peu ce a quoi je m'attends :
 
- }
+<div class="user-space-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- User Profile Summary -->
+    <div class="user-summary">
+      <div class="avatar-container">
+        <img [src]="userInfo?.avatar || 'https://via.placeholder.com/100'" [alt]="userInfo?.name" class="user-avatar">
+        <div class="online-status"></div>
+      </div>
+      <div class="user-info">
+        <h3 class="user-name">{{ userInfo?.name }}</h3>
+        <p class="user-email">{{ userInfo?.email }}</p>
+      </div>
+    </div>
 
-le content :
-import { Component } from '@angular/core';
+    <!-- Navigation -->
+    <nav class="navigation">
+      <ul class="nav-links">
+        <li>
+          <a routerLink="./profile" routerLinkActive="active" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Mon Profil</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="./orders" routerLinkActive="active" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span>Mes Commandes</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="./addresses" routerLinkActive="active" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Mes Adresses</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button class="action-button support-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        Support
+      </button>
+      <button class="action-button logout-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Déconnexion
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <span class="breadcrumb-item">Mon Espace</span>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-item active">Profil</span>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
+
+// user-space.component.ts
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import {UserInfo, UserService} from '../../../services/User/user.service';
+
+
 
 @Component({
-  selector: 'app-home-content',
-  imports: [],
-  templateUrl: './home-content.component.html',
+  selector: 'app-user-space',
   standalone: true,
-  styleUrl: './home-content.component.css'
+  imports: [CommonModule, RouterModule],
+  templateUrl: './user-space.component.html',
+  styleUrls: ['./user-space.component.scss']
 })
-export class HomeContentComponent {
+export class UserSpaceComponent implements OnInit {
+   userInfo :UserInfo ;
+    userId=1;
+  constructor(private userService : UserService) {}
 
+  ngOnInit() {
+    this.userService.getUserInfo(this.userId).subscribe((data) => {
+      this.userInfo = data;
+    });
+    // Initialisation des données utilisateur
+  }
 }
 
-et le footer :
-import { Component } from '@angular/core';
+
+et pour la partie des adresses :
+
+// addresses.component.ts
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+
+interface Address {
+  id: string;
+  label: string;
+  fullName: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  phone: string;
+  isDefault: boolean;
+}
 
 @Component({
-  selector: 'app-home-footer',
-
-  imports: [],
-  templateUrl: './home-footer.component.html',
+  selector: 'app-addresses',
   standalone: true,
-  styleUrl: './home-footer.component.css'
-})
-export class HomeFooterComponent {
+  imports: [CommonModule, ReactiveFormsModule],
+  template: `
+    <div class="addresses-container">
+      <div class="addresses-header">
+        <h1>Mes Adresses</h1>
+        <button class="add-address-btn" (click)="toggleAddressForm()">
+          {{ showAddressForm ? 'Annuler' : 'Ajouter une adresse' }}
+        </button>
+      </div>
 
+      <form *ngIf="showAddressForm" [formGroup]="addressForm" (ngSubmit)="onSubmit()" class="address-form">
+        <div class="form-group">
+          <label for="label">Nom de l'adresse</label>
+          <input id="label" type="text" formControlName="label" placeholder="ex: Domicile, Bureau">
+        </div>
+
+        <div class="form-group">
+          <label for="fullName">Nom complet</label>
+          <input id="fullName" type="text" formControlName="fullName">
+        </div>
+
+        <div class="form-group">
+          <label for="street">Adresse</label>
+          <input id="street" type="text" formControlName="street">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city">Ville</label>
+            <input id="city" type="text" formControlName="city">
+          </div>
+
+          <div class="form-group">
+            <label for="postalCode">Code postal</label>
+            <input id="postalCode" type="text" formControlName="postalCode">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="country">Pays</label>
+          <input id="country" type="text" formControlName="country">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Téléphone</label>
+          <input id="phone" type="tel" formControlName="phone">
+        </div>
+
+        <div class="form-group checkbox">
+          <label>
+            <input type="checkbox" formControlName="isDefault">
+            Définir comme adresse par défaut
+          </label>
+        </div>
+
+        <button type="submit" class="submit-btn">Enregistrer l'adresse</button>
+      </form>
+
+      <div class="addresses-list">
+        <div *ngFor="let address of addresses" class="address-card">
+          <div class="address-content">
+            <h3>{{ address.label }}</h3>
+            <p>{{ address.fullName }}</p>
+            <p>{{ address.street }}</p>
+            <p>{{ address.postalCode }} {{ address.city }}</p>
+            <p>{{ address.country }}</p>
+            <p>{{ address.phone }}</p>
+            <span *ngIf="address.isDefault" class="default-badge">Par défaut</span>
+          </div>
+
+          <div class="address-actions">
+            <button class="edit-btn" (click)="editAddress(address)">Modifier</button>
+            <button class="delete-btn" (click)="deleteAddress(address.id)">Supprimer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  styleUrls: ['./addresses.component.scss']
+})
+export class AddressesComponent implements OnInit {
+  addresses: Address[] = [];
+  showAddressForm = false;
+  addressForm: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.addressForm = this.fb.group({
+      label: ['', Validators.required],
+      fullName: ['', Validators.required],
+      street: ['', Validators.required],
+      city: ['', Validators.required],
+      postalCode: ['', Validators.required],
+      country: ['', Validators.required],
+      phone: ['', Validators.required],
+      isDefault: [false]
+    });
+  }
+
+  ngOnInit() {
+    // Simuler des données d'adresses
+    this.addresses = this.getMockAddresses();
+  }
+
+  toggleAddressForm() {
+    this.showAddressForm = !this.showAddressForm;
+    if (!this.showAddressForm) {
+      this.addressForm.reset();
+    }
+  }
+
+  onSubmit() {
+    if (this.addressForm.valid) {
+      console.log(this.addressForm.value);
+      // Implement save logic here
+      this.toggleAddressForm();
+    }
+  }
+
+  editAddress(address: Address) {
+    this.addressForm.patchValue(address);
+    this.showAddressForm = true;
+  }
+
+  deleteAddress(id: string) {
+    // Implement delete logic here
+    console.log('Delete address', id);
+  }
+
+  private getMockAddresses(): Address[] {
+    return [
+      {
+        id: '1',
+        label: 'Domicile',
+        fullName: 'Jean Dupont',
+        street: '123 rue de Paris',
+        city: 'Paris',
+        postalCode: '75001',
+        country: 'France',
+        phone: '0123456789',
+        isDefault: true
+      }
+      // Ajoutez plus d'adresses mock ici
+    ];
+  }
 }
 
-bon vas ydonne le meiluer de toi meme etant donne que pour cette fois tu n'as a faire que le header ! c'est une seule partie alors donne tout que ce soit parfaitement parfait  et comme je suis nouveau dans angular si il y ades trucs a integrer tu signalelle aussi !
+bon je prefere aussi te dire que mes donnes viennent souvent de json server (de faocn temporaire car je n'ai pas encore de backend) , par xemple mon fichier db.json ici :
 
-(et asussi si il faut que je cree un composant navbar apart tu me signalem aussi mais tu devras le faire tout aussi exeptionel , pour l'instant mon fichier app.component.html est encore vide donc tout est a faire et bon a prendre, surtout qu'en tant que nouveau j'ai encore du mal avec l'agencement des composants)
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Robes de Soirée",
+      "image": "robe.webp",
+      "count": 156,
+      "href": "/models"
+    },
+
+  ],
+
+  "TopDesigners": [
+    {
+      "id": 1,
+      "name": "Claire Fontaine",
+      "role": "Directrice Créative",
+      "location": "Paris, France",
+      "image": "tail.jpg",
+      "specialties": ["Haute Couture", "Robes de Soirée", "Sur Mesure"],
+      "collections": 24,
+      "awards": 7
+    },
+
+
+    un styliste par xemple :
+
+    styliste = {
+nom: 'Marie Dubois',
+titre: 'Styliste Haute Couture',
+photoUrl: 'profileStyliste.jpg',
+coverUrl: 'coverStyliste.jpg',
+specialites: ['Robes de soirée', 'Haute couture', 'Tenues sur mesure'],
+stats: {
+  creations: 124,
+  clients: 1200,
+  note: 4.8
+},
+reseauxSociaux: {
+  instagram: 'mariedubois_couture',
+  pinterest: 'mariedubois_style'
+},
+creations: {}};
+
+bref un styliste a plein d'attributs :
+CREATE TABLE users (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100),
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    phone VARCHAR(20),
+    type ENUM('client', 'styliste', 'admin') NOT NULL,
+    remember_token VARCHAR(100),
+    email_verified_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL
+);
+
+-- Table des stylistes
+CREATE TABLE stylistes (
+    id BIGINT UNSIGNED PRIMARY KEY,
+    points INT DEFAULT 0,
+    role VARCHAR(100),
+    location VARCHAR(100),
+    experience INT,
+    collections INT DEFAULT 0,
+    awards INT DEFAULT 0,
+    rating DECIMAL(3,2) DEFAULT 0,
+    bio TEXT,
+    photo_profil VARCHAR(255),
+    response_time VARCHAR(50),
+    whatsapp VARCHAR(20),
+    completed_orders INT DEFAULT 0,
+    FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE
+);
+(ce sera comme ca dans ma BD)
+
+bon maintenant sache qu'il y a deja une page pour que le styliste puisse ajouter un modele sur la plateforme :
+
+  { path: 'add-model', component: AddModelComponentComponent}, // Page des ajouts de modele par un styliste
+
+  donc ton boutonn devras juste mener vers elle ,
+  maintena t je vais te donner plus de details sur le systeme du styliste car apres avor recu une commande il doit etre en mesure en fixer le prix final de la commande , pui ensuite il foit etre en mesure de valider la commande.
+
+
+  TU UTILISERA DES OBJET JSON STATIQUES D'ABORD EN GUISE DE DONNEES.
+
+
+POU QUE TU COMPRENNES ENCORE MIEUX VOILA LE CONTEXTE DE LA COMMANDE D'UN MODELE PAR UN CLIENT :
+
+ca c'est ce qui se passait cote client a partir ce la description de ce process tu peux meiux comorendre ce qu'il se passe cote espace stylise :
+
+
+LE THEME PRINCIPAL DE MON APPLICATION C'EST DU NOIR DU BLANC ET DU GRIS , MON APLLICATION REPOSE SUR UN STYLE VRAIMENT SUPER BEAU ET ELEGANT AVEC DES FONCTIONALITES TRES TECHNIQUES ET AVANCEES, DE STYLE ET TOUT , J'AI DONC BESOIN QUE TU ME FASSES UNE PAGE QUI REPRESENTE LE DETAIL D'UN MODEL CHOISI PAR L'TULISATUER , DANS CETTE PAGE IL POURRAS VOIR LE FAMEUX MODELE  (LES MODELES N'ONT QUE DES PRIX APPROXIMATIFS CAR TOUT LE MONDE NE FAIT PAS LA MEME TAILLE POUR LA COUTURE ET LE VOLUME D TISSUS A UTILISER ET CA RENDRE EN COMPTE QUAND ON VEUT FAIE UN HABIT ) , AINSI DONC IL POURRA CLIQUER SUR 'INTERESSEE' (CE QUI VA AJOUTER LE MODELE A UN ESPACE COMME SON APNIER (MAIS QUI N'EN AI PAS VRAIMENT UN C'EST PLUS COMME UN ESPCE FAVORIS ) , ET IL POURRAS AUSSI CLIQUER SUR 'COMMANDER' UNE FOIS QU'IL CLIQUE DESSUS , UN MODAL S'AOUVRE DANS LEQUEL IL VOIR LE STYLISTE QUI L'A FAIT ,  ET UN BOUTON POUR CONTACTER LE STYLISTE , ON LUI EXPLIQUE BIEN DANS LE MODAL QUE APRES LE CONTACT ET LA NEGOCIATION A LA FOIS DU PRIX ET DES DELAIS DE COUTURE , LE STYLISTE VA ATTRIBUER UN PRIX A SA COMMANDE (NOUS FERONS LA PAGE DES COMMANDES DU STYLISTE PLUS TARD DANS CETTE PAGE LE STYLISTE SERA EN MESURE DE VENIR , TROUVER UNE COMMANDE FAITE PAR UN UTILISATEUR , LA VALIDER (EN LUI FOXANT UN PRIX) LA COMMANDE PASSERA ALORS EN ATTENTE DE PAIEMENT ) ET UNE FOIS QUE SA COMMANDE EST VALIDEEE PAR LE STYLISTE , L'UTILISATIEUR VIENS FAIRE LA VALIDATION FINALE EN EFFECUANT LE PAIEMENT VIA MOBILE MONEY (STRYPE PEUT ETRE) (ON FERA LA PAGE DE PAIEMENT D'UN MODELE PLUS TARD) LE MODELE PASSE ALORS EN ATTENTE DE COUTURE , ET UNE FOIS FINI , LE STYLISTE LE VALIDE COMME FINI ET LE MODLE PASSE EN ATTENTE DE LIVRAISON.
+(C'EST UNE SORTE DE JEU INTERACTIF ENTRE L'UTILISATUER ET LE STYLISTE LE TOUT PARCE QUE LE CONTACT EST SUPER IMPORTANT ETRE LES DEUX , ILS FAUTS QU'ILS RENTRENT EN CONTACT ET S'ARRANGENT SUR LES PRIX ET LES DELAIS)
+
+DONC JE PENSE QUE DANS CE MODAL (OU PAS FORCEMENT UN MODDAL HEIN SI TU AS UNE MEILLEURE SOLUTION PLUS MODERNE TU LE FAIS ) CE SOIT BIEN DECRIS , AUSSI ON RPOPSERA UN LIEN VERS LA PAGE D'AIDE SI BESOIN , MAIS PRESENER LE STYLSYTE ET FURIR UN BOUTON DE CONTACT (UN CHAT VIA L'APPLICATION SERA INTEGRE DANS LES PROCHAINES VERSIONS MAIS POUR LE MOMENT IL EST JUSTE REDIRIGEE SUR WHATSAPP) ,
+
+DONC EN GROS C'EST LA PAGE DE DETAIL DU MODELE QUE TU DOIS FAIRE , UTILISE DU JSON N'OUBLIE PAS COMME CA CE SERA PLUS SIMPLE QUAND J'INTEGRERAIT LE VRAI BACKEND , AUSSI UN MODLEE A PLUSIEURS PHOTOS ET PLEINS D'AUTRES ATTRIBUTS
+
+
+
+mon je vais creer un composant styliste-space , comme le usersapce donc , et ensuite les sous composants internes , donc il faut deja le styliste space , et apres il faudra certainemment l'espace dedans pour voir les coimmandes et faire les operations dites sur ces commandes
+
+
+la route sera un peu comme celle du userspace :
+{
+    path: 'user',
+    component: UserSpaceComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'profile',
+        pathMatch: 'full'
+      },
+      {
+        path: 'profile',
+        component: UserProfileComponent,
+        title: 'Mon Profil'
+      },
+      {
+        path: 'orders',
+        component: OrderHistoryComponent,
+        title: 'Mes Commandes'
+      },
+      {
+        path: 'addresses',
+        component: AddressesComponent,
+        title: 'Mes Adresses'
+      }
+    ]
+  },
+
+  {
+      path: 'stylist',
+      component: UserSpaceComponent,
+      children: [
+        {
+          path: '',
+          redirectTo: 'profile',
+          pathMatch: 'full'
+        },
+        {
+          path: 'profile',
+          component: UserProfileComponent,
+          title: 'Mon Profil'
+        },
+        {
+          path: 'orders',
+          component: OrderHistoryComponent,
+          title: 'Mes Commandes'
+        },
+        {
+          path: 'models',
+          component: AddressesComponent,
+          title: 'Mes modeles'
+        }
+      ]
+    },
 
 
 
 
-
-134418579865e4a196c1f8b6.60425865
