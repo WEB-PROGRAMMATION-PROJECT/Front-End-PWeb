@@ -1,0 +1,86 @@
+<!-- stylist-models.component.html -->
+<div class="models-container">
+  <div class="models-header">
+    <h1>Mes Créations</h1>
+    <div class="header-actions">
+      <div class="filters">
+        <select (change)="filterModels($any($event.target).value)" class="filter-select">
+          <option value="all">Tous les modèles</option>
+          <option value="available">Disponibles</option>
+          <option value="in_progress">En cours</option>
+          <option value="completed">Complétés</option>
+        </select>
+
+        <select (change)="sortModels($any($event.target).value)" class="sort-select">
+          <option value="newest">Plus récents</option>
+          <option value="popular">Plus populaires</option>
+          <option value="price_asc">Prix croissant</option>
+          <option value="price_desc">Prix décroissant</option>
+        </select>
+      </div>
+
+      <button class="add-model-btn" routerLink="../add-model">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="add-icon">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Nouvelle Création
+      </button>
+    </div>
+  </div>
+
+  <div class="models-grid">
+    @for (model of getFilteredModels(); track model.id) {
+      <div class="model-card">
+        <div class="model-image">
+          <img [src]="model.images[0]" [alt]="model.name">
+          <div class="model-status" [class]="model.status">
+            {{ model.status === 'available' ? 'Disponible' :
+            model.status === 'in_progress' ? 'En cours' : 'Complété' }}
+          </div>
+        </div>
+
+        <div class="model-content">
+          <h3>{{ model.name }}</h3>
+          <div class="model-categories">
+            @for (category of model.categories; track category) {
+              <span class="category-tag">{{ category }}</span>
+            }
+          </div>
+
+          <div class="model-info">
+            <div class="info-item">
+              <span class="label">Prix estimé:</span>
+              <span class="value">{{ formatPrice(model.price) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Délai:</span>
+              <span class="value">{{ model.estimatedTime.min }}-{{ model.estimatedTime.max }} semaines</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Commandes:</span>
+              <span class="value">{{ model.ordersCount }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="model-actions">
+          <button class="edit-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="edit-icon">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Modifier
+          </button>
+          <button class="delete-btn" (click)="deleteModel(model.id)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="delete-icon">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            Supprimer
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

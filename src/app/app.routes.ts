@@ -17,6 +17,8 @@ import {AddModelComponentComponent} from './Stylistes/add-model-component/add-mo
 import {PaymentReturnComponent} from './Products/payment-return/payment-return.component';
 import {StylisteSpaceComponent} from './Stylistes/StylisteSpace/styliste-space/styliste-space.component';
 import {StylisteProfileComponent} from './Stylistes/StylisteSpace/styliste-profile/styliste-profile.component';
+import {StylisteOrdersComponent} from './Stylistes/StylisteSpace/styliste-orders/styliste-orders.component';
+import {StylistModelsComponent} from './Stylistes/StylisteSpace/stylist-models/stylist-models.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirige vers une page d'accueil par défaut
   { path: 'home', component: MainHomeComponent }, // Page d'accueil principale
@@ -76,12 +78,12 @@ export const routes: Routes = [
       },
       {
         path: 'orders',
-        component: OrderHistoryComponent,
+        component: StylisteOrdersComponent,
         title: 'Mes Commandes'
       },
       {
         path: 'models',
-        component: AddressesComponent,
+        component: StylistModelsComponent,
         title: 'Mes modeles'
       }
     ]
