@@ -1,16 +1,14 @@
-// user-space.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import {OrderHistoryComponent} from '../order-history/order-history.component';
-import {AddressesComponent} from '../addresses/addresses.component';
-import {UserProfileComponent} from '../user-profile/user-profile.component';
-
+import { Router } from '@angular/router';  
+import { BackendService } from '../../../services/backend.service';
 
 interface UserInfo {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  avatar: string;
+  profileImage: string; // Remplacer avatar par profileImage
 }
 
 @Component({
@@ -24,16 +22,15 @@ interface UserInfo {
         <!-- User Profile Summary -->
         <div class="user-summary">
           <div class="avatar-container">
-            <img [src]="userInfo.avatar || 'https://via.placeholder.com/100'" [alt]="userInfo.name" class="user-avatar">
+            <img [src]="userInfo.profileImage || 'test.jpg'" [alt]="userInfo.firstName" class="user-avatar">
             <div class="online-status"></div>
           </div>
           <div class="user-info">
-            <h3 class="user-name">{{ userInfo.name }}</h3>
+            <h3 class="user-name">{{ userInfo.firstName }} {{ userInfo.lastName }}</h3>
             <p class="user-email">{{ userInfo.email }}</p>
           </div>
         </div>
-
-        <!-- Navigation -->
+<!-- Navigation -->
         <nav class="navigation">
           <ul class="nav-links">
             <li>
@@ -75,7 +72,7 @@ interface UserInfo {
             </svg>
             Support
           </button>
-          <button class="action-button logout-button">
+          <button class="action-button logout-button" (click)="onLogout()">
             <svg xmlns="http://www.w3.org/2000/svg" class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
               <polyline points="16 17 21 12 16 7"></polyline>
@@ -106,14 +103,67 @@ interface UserInfo {
 })
 export class UserSpaceComponent implements OnInit {
   userInfo: UserInfo = {
-    name: 'foxy',
-    email: 'foxy.fox@example.com',
-    avatar: 'test.jpg'
+    firstName: '',
+    lastName: '',
+    email: '',
+    profileImage: ''  // Remplacer avatar par profileImage
   };
 
-  constructor() {}
+  user: any;
+  isStylist: boolean = false;
 
-  ngOnInit() {
-    // Initialisation des données utilisateur
+  constructor(private router: Router, private userService: BackendService) {}
+
+  ngOnInit(): void {
+    // Charger les données depuis le localStorage
+    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!userData || !userData.id) {
+      // Rediriger vers la page de connexion si aucun utilisateur n'est trouvé
+      window.location.href = '/login';
+      return;
+    }
+
+    this.user = userData;
+    this.isStylist = this.user.user_type === 'stylist';
+
+    // Préremplir les données de base
+    this.userInfo = {
+      firstName: this.user.first_name,
+      lastName: this.user.last_name,
+      email: this.user.email,
+      profileImage: '' // Par défaut, aucune image de profil
+    };
+
+    if (this.isStylist) {
+      // Charger les données spécifiques au styliste
+      this.userService.getStylistDetails(this.user.id).subscribe(
+        (data) => {
+          // Assurez-vous que l'URL de l'image est correcte
+          console.log(data.profile_picture_url);
+          this.userInfo.profileImage = data.profile_picture_url
+            ? `http://127.0.0.1:8000/storage/${data.profile_picture_url}`
+            : `test.jpg` ;
+        
+        },
+        (error) => {
+          console.error('Erreur lors du chargement des données stylistes :', error);
+        }
+      );
+    } else {
+     
+      
+    }
   }
+  onLogout() {
+    this.userService.logout().subscribe(
+      () => {
+        // Rediriger l'utilisateur après la déconnexion
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        console.error('Erreur lors de la déconnexion :', error);
+      }
+    );
+  }
+  
 }

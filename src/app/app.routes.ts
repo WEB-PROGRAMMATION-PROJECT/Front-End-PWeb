@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import {StylisteProfileComponent} from './Stylistes/styliste-profile/styliste-profile.component';
 import {AppComponent} from './app.component';
 import {MainHomeComponent} from './Home/main-home/main-home.component';
@@ -14,6 +16,7 @@ import {LoginComponent} from './Auth/login/login.component';
 import {ModelDetailComponent} from './Products/model-detail/model-detail.component';
 import {CheckoutComponent} from './Products/checkout/checkout.component';
 import {AddModelComponentComponent} from './Stylistes/add-model-component/add-model-component.component';
+
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirige vers une page d'accueil par défaut
   { path: 'home', component: MainHomeComponent }, // Page d'accueil principale
