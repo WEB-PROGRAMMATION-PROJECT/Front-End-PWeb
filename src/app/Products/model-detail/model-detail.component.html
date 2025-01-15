@@ -1,19 +1,20 @@
 <!-- model-detail.component.html -->
 <main>
   <!-- Hero Section -->
-  <section class="hero-section">
-    <img [src]="currentImage().url" [alt]="currentImage().alt">
+  <section class="hero-section" *ngIf="model">
+    <img *ngIf="currentImage()" [src]="currentImage()?.url" [alt]="currentImage()?.alt">
     <div class="hero-section__overlay"></div>
     <div class="hero-section__content">
-      <h1>{{ model.name }}</h1>
-      <p>{{ model.description }}</p>
+      <h1>{{ model?.name }}</h1>
+      <p>{{ model?.description }}</p>
     </div>
   </section>
+  <div *ngIf="!model">Loading...</div>
 
   <!-- Thumbnail Gallery -->
   <div class="thumbnail-gallery">
     <div
-      *ngFor="let image of model.images; let i = index"
+      *ngFor="let image of model?.images; let i = index"
       class="thumbnail__item"
       [class.active]="currentImageIndex() === i"
       (click)="setCurrentImageIndex(i)"
@@ -29,7 +30,7 @@
       <!-- Story Section -->
       <section class="info-section">
         <h2 class="info-section__title">À propos de cette création</h2>
-        <p>{{ model.story }}</p>
+        <p>{{ model?.story }}</p>
       </section>
 
       <!-- Price & Time Section -->
@@ -37,15 +38,15 @@
         <div class="metric-card">
           <h3>Prix approximatif</h3>
           <p class="metric-value">
-            {{ model.approximatePrice.min | currency:'XAF':'symbol-narrow' }} -
-            {{ model.approximatePrice.max | currency:'XAF':'symbol-narrow' }}
+            {{ model?.approximatePrice.min | currency:'XAF':'symbol-narrow' }} -
+            {{ model?.approximatePrice.max | currency:'XAF':'symbol-narrow' }}
           </p>
         </div>
         <div class="metric-card">
           <h3>Délai estimé</h3>
           <p class="metric-value">
-            {{ model.estimatedTime.min }}-{{ model.estimatedTime.max }}
-            {{ model.estimatedTime.unit }}
+            {{ model?.estimatedTime.min }}-{{ model?.estimatedTime.max }}
+            {{ model?.estimatedTime.unit }}
           </p>
         </div>
       </section>
@@ -54,7 +55,7 @@
       <section class="info-section">
         <h2 class="info-section__title">Matériaux</h2>
         <div class="materials-grid">
-          <div class="info-card" *ngFor="let material of model.materials">
+          <div class="info-card" *ngFor="let material of model?.materials">
             <h3>{{ material.name }}</h3>
             <p>{{ material.description }}</p>
           </div>
@@ -68,25 +69,25 @@
       <div class="designer-card">
         <div class="designer-profile">
           <div class="designer-avatar">
-            <img [src]="model.designer.avatar" [alt]="model.designer.name">
+            <img [src]="model?.designer.avatar" [alt]="model?.designer.name">
           </div>
           <div class="designer-info">
-            <h3>{{ model.designer.name }}</h3>
+            <h3>{{ model?.designer.name }}</h3>
             <div class="designer-stats">
-              <span class="rating">★ {{ model.designer.rating }}</span>
+              <span class="rating">★ {{ model?.designer.rating }}</span>
               <span class="separator">·</span>
-              <span>{{ model.designer.completedOrders }} commandes</span>
+              <span>{{ model?.designer.completedOrders }} commandes</span>
             </div>
           </div>
         </div>
 
         <div class="designer-details">
-          <p>{{ model.designer.bio }}</p>
+          <p>{{ model?.designer.bio }}</p>
 
           <div class="specialties">
             <h4>Spécialités</h4>
             <div class="style-tags">
-              <span class="style-tag" *ngFor="let specialty of model.designer.specialties">
+              <span class="style-tag" *ngFor="let specialty of model?.designer.specialties">
                 {{ specialty }}
               </span>
             </div>
@@ -108,13 +109,59 @@
       <section class="styles-section">
         <h3>Style</h3>
         <div class="style-tags">
-          <span class="style-tag" *ngFor="let style of model.styles">
+          <span class="style-tag" *ngFor="let style of model?.styles">
             {{ style }}
           </span>
         </div>
       </section>
     </div>
   </div>
+
+
+  <!-- Ajoutez cette section dans model-detail.component.html juste avant la fermeture de </main> -->
+  <section class="comments-section">
+    <h2 class="comments-section__title">Commentaires</h2>
+
+    <!-- Formulaire d'ajout de commentaire -->
+    <div class="comment-form">
+    <textarea
+      [ngModel]="newComment()"
+      (ngModelChange)="newComment.set($event)"
+      placeholder="Partagez votre avis sur cette création..."
+      class="comment-input"
+    ></textarea>
+      <button
+        class="btn btn-primary"
+        (click)="addComment()"
+        [disabled]="!newComment().trim()"
+      >
+        Commenter
+      </button>
+    </div>
+
+    <!-- Liste des commentaires -->
+    <div class="comments-list">
+      <div class="comment-card" *ngFor="let comment of model?.comments">
+        <div class="comment-header">
+          <img [src]="comment.userAvatar" [alt]="comment.userName" class="comment-avatar">
+          <div class="comment-meta">
+            <h4 class="comment-author">{{ comment.userName }}</h4>
+            <span class="comment-date">{{ comment.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+        </div>
+        <p class="comment-content">{{ comment.content }}</p>
+        <div class="comment-actions">
+          <button
+            class="like-button"
+            (click)="likeComment(comment.id)"
+          >
+            ♥ {{ comment.likes }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <!-- Order Dialog -->

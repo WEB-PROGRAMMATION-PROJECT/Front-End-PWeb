@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import {StylisteProfileComponent} from './Stylistes/styliste-profile/styliste-profile.component';
+import {StylisteProfileComponent as voirStyliste } from './Stylistes/styliste-profile/styliste-profile.component';
 import {AppComponent} from './app.component';
 import {MainHomeComponent} from './Home/main-home/main-home.component';
 import {DesignersPageComponent} from './Stylistes/designers-page/designers-page.component';
@@ -17,10 +17,15 @@ import {ModelDetailComponent} from './Products/model-detail/model-detail.compone
 import {CheckoutComponent} from './Products/checkout/checkout.component';
 import {AddModelComponentComponent} from './Stylistes/add-model-component/add-model-component.component';
 
+import {PaymentReturnComponent} from './Products/payment-return/payment-return.component';
+import {StylisteSpaceComponent} from './Stylistes/StylisteSpace/styliste-space/styliste-space.component';
+import {StylisteProfileComponent} from './Stylistes/StylisteSpace/styliste-profile/styliste-profile.component';
+import {StylisteOrdersComponent} from './Stylistes/StylisteSpace/styliste-orders/styliste-orders.component';
+import {StylistModelsComponent} from './Stylistes/StylisteSpace/stylist-models/stylist-models.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirige vers une page d'accueil par défaut
   { path: 'home', component: MainHomeComponent }, // Page d'accueil principale
-  { path: 'styliste-profile', component: StylisteProfileComponent }, // Page styliste-profile
+  { path: 'styliste-profile', component: voirStyliste }, // Page styliste-profile
   { path: 'stylistes', component: DesignersPageComponent }, // Page des stylistes
   { path: 'mensurations', component: MeasurementGuideComponent }, // Page des mensurations
   { path: 'models', component: ClothingModelsPageComponent }, // Page des mensurations
@@ -29,7 +34,7 @@ export const routes: Routes = [
   { path: 'detail', component: ModelDetailComponent }, // Page des inscriptions
   { path: 'checkout', component: CheckoutComponent }, // Page des inscriptions
   { path: 'add-model', component: AddModelComponentComponent}, // Page des inscriptions
-
+  {path: 'payment/return', component: PaymentReturnComponent},
 
 
 
@@ -60,6 +65,47 @@ export const routes: Routes = [
     ]
   },
 
+  {
+    path: 'stylist',
+    component: StylisteSpaceComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'profile',
+        pathMatch: 'full'
+      },
+      {
+        path: 'profile',
+        component: StylisteProfileComponent,
+        title: 'Mon Profil'
+      },
+      {
+        path: 'orders',
+        component: StylisteOrdersComponent,
+        title: 'Mes Commandes'
+      },
+      {
+        path: 'models',
+        component: StylistModelsComponent,
+        title: 'Mes modeles'
+      }
+    ]
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
   { path: '**', redirectTo: '/home' }, // Redirige toutes les routes inconnues vers l'accueil
+
+
 ];
 

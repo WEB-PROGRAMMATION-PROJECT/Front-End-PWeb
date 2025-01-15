@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import {OrderService} from '../../services/Order/order.service';
+import {CinetPayService} from '../../services/Order/cinetpay.service';
 
 interface PaymentDetails {
   phoneNumber: string;
@@ -59,7 +61,9 @@ export class CheckoutComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cinetPayService: CinetPayService,
+    private orderService: OrderService
   ) {
     this.initializeForm();
   }
@@ -93,31 +97,45 @@ export class CheckoutComponent implements OnInit {
       this.loading = true;
 
       try {
-        const paymentDetails: PaymentDetails = {
+        const paymentDetails = {
           phoneNumber: this.paymentForm.get('phoneNumber')?.value,
           amount: this.orderSummary.total,
           orderId: this.orderSummary.id,
-          paymentMethod: this.paymentForm.get('paymentMethod')?.value
+          customerName: 'Client', // À remplacer par le nom réel du client
         };
 
-        // Simulate payment processing
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Initialiser le widget de paiement
+        const result = await this.cinetPayService.initializePayment(paymentDetails);
 
-        // Simulate success
-        this.currentStep = 2;
+        if (result.status === "ACCEPTED") {
+          // Mettre à jour le statut de la commande
+          await this.orderService.updateOrderPaymentStatus(this.orderSummary.id, {
+            status: 'PAID',
+            reference: result.transaction_id
+          }).toPromise();
 
-        // Redirect after success message
-        setTimeout(() => {
-          this.router.navigate(['/orders']);
-        }, 3000);
+          // Afficher le message de succès
+          this.currentStep = 2;
 
+          // Redirection après 3 secondes
+          setTimeout(() => {
+            this.router.navigate(['/orders']);
+          }, 3000);
+        } else if (result.status === "REFUSED") {
+          // Gérer l'échec du paiement
+          console.error('Paiement refusé:', result);
+          // Afficher un message d'erreur à l'utilisateur
+        }
       } catch (error) {
-        console.error('Payment failed:', error);
+        console.error('Erreur lors du paiement:', error);
+        // Gérer l'erreur et afficher un message à l'utilisateur
       } finally {
         this.loading = false;
       }
     }
   }
+
+
 
   formatPhoneNumber(event: any) {
     let value = event.target.value.replace(/\D/g, '');
@@ -131,5 +149,8 @@ export class CheckoutComponent implements OnInit {
     const method = this.paymentMethods.find(m => m.id === methodId);
     return method ? method.icon : '';
   }
+
+
+
 }
 

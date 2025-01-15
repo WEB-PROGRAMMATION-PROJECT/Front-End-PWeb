@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {DesignerCardComponent} from '../../widgets/designer-card/designer-card.component';
+import {DesignerService} from '../../services/Designers/designer.service';
 
 interface Designer {
   id: number;
@@ -34,12 +35,10 @@ export class DesignersPageComponent implements OnInit {
   sortOption: string = 'rating';
 
   specialtiesList: string[] = [
-    'Haute Couture', 'Prêt-à-porter', 'Mode Traditionnelle',
-    'Robes de Mariée', 'Costumes sur Mesure', 'Mode Éthique'
+
   ];
 
   locationsList: string[] = [
-    'Paris', 'Lyon', 'Marseille', 'Bordeaux', 'Lille'
   ];
 
   sortOptions = [
@@ -48,29 +47,26 @@ export class DesignersPageComponent implements OnInit {
     { value: 'experience', label: 'Plus d\'Expérience' },
     { value: 'awards', label: 'Plus de Prix' }
   ];
+  constructor(private designerService: DesignerService) {
+  }
 
   ngOnInit() {
-    // Simuler les données (à remplacer par un appel API)
-    this.designers = this.getMockDesigners();
-    this.applyFilters();
+    // Récupérer les stylistes, les localisations et les spécialités depuis JSON Server
+    this.designerService.getDesigners().subscribe(data => {
+      this.designers = data;
+      this.applyFilters();
+    });
+
+    this.designerService.getLocations().subscribe(data => {
+      this.locationsList = data;
+    });
+
+    this.designerService.getSpecialties().subscribe(data => {
+      this.specialtiesList = data;
+    });
   }
 
-  getMockDesigners(): Designer[] {
-    return Array(12).fill(null).map((_, index) => ({
-      id: index + 1,
-      name: `Designer ${index + 1}`,
-      role: 'Styliste Haute Couture',
-      location: this.locationsList[Math.floor(Math.random() * this.locationsList.length)],
-      image: `tail.jpg`,
-      specialties: Array(3).fill(null).map(() =>
-        this.specialtiesList[Math.floor(Math.random() * this.specialtiesList.length)]
-      ),
-      collections: Math.floor(Math.random() * 20) + 5,
-      awards: Math.floor(Math.random() * 10),
-      rating: Math.random() * 2 + 3,
-      experience: Math.floor(Math.random() * 15) + 2
-    }));
-  }
+
 
   applyFilters() {
     this.filteredDesigners = this.designers.filter(designer => {

@@ -1,0 +1,52 @@
+<div class="payment-return-container">
+  <div class="status-card" [ngClass]="{'success': paymentStatus === 'ACCEPTED', 'error': paymentStatus === 'REFUSED'}">
+    <!-- Icon de statut -->
+    <div class="status-icon">
+      <svg *ngIf="paymentStatus === 'ACCEPTED'" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+      <svg *ngIf="paymentStatus === 'REFUSED'" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="15" y1="9" x2="9" y2="15"></line>
+        <line x1="9" y1="9" x2="15" y2="15"></line>
+      </svg>
+    </div>
+
+    <!-- Message de statut -->
+    <h1 class="status-title">
+      {{paymentStatus === 'ACCEPTED' ? 'Paiement réussi' : 'Paiement échoué'}}
+    </h1>
+
+    <p class="status-message">
+      {{paymentStatus === 'ACCEPTED'
+      ? 'Votre commande a été confirmée avec succès.'
+      : 'Une erreur est survenue lors du traitement de votre paiement.'}}
+    </p>
+
+    <!-- Détails de la commande -->
+    <div class="order-details" *ngIf="paymentStatus === 'ACCEPTED'">
+      <div class="detail-item">
+        <span>Numéro de commande:</span>
+        <span>{{orderId}}</span>
+      </div>
+      <div class="detail-item">
+        <span>Montant payé:</span>
+        <span>{{amount | number}} FCFA</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-buttons">
+      <button class="primary-button" (click)="navigateToOrders()" *ngIf="paymentStatus === 'ACCEPTED'">
+        Voir ma commande
+      </button>
+      <button class="secondary-button" (click)="retryPayment()" *ngIf="paymentStatus === 'REFUSED'">
+        Réessayer le paiement
+      </button>
+      <button class="text-button" (click)="navigateToHome()">
+        Retour à l'accueil
+      </button>
+    </div>
+  </div>
+</div>

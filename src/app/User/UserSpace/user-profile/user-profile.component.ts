@@ -1,12 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../../../services/backend.service'; // Assurez-vous que ce service est bien importé
 import { CommonModule } from '@angular/common';  // Ajout de CommonModule pour la directive *ngIf
 import { ReactiveFormsModule } from '@angular/forms';  // Pour les formulaires réactifs
+=======
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {UserInfo, UserService} from '../../../services/User/user.service';
+>>>>>>> eef5f9b644cda7c91ae58148c7e4f5816c205419
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
+<<<<<<< HEAD
   imports: [ReactiveFormsModule, CommonModule],  // Ajout de CommonModule ici
   template: `
     <div class="profile-container">
@@ -76,6 +83,10 @@ import { ReactiveFormsModule } from '@angular/forms';  // Pour les formulaires r
       </form>
     </div>
   `,
+=======
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './user-profile.component.html',
+>>>>>>> eef5f9b644cda7c91ae58148c7e4f5816c205419
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
@@ -84,10 +95,14 @@ export class UserProfileComponent implements OnInit {
   isStylist: boolean = false;
   user: any = null; // Contient les données de l'utilisateur connecté
 
+<<<<<<< HEAD
   constructor(private fb: FormBuilder, private userService: BackendService) {
+=======
+  constructor(private fb: FormBuilder, private userService: UserService) {
+>>>>>>> eef5f9b644cda7c91ae58148c7e4f5816c205419
     this.profileForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: [''],
+      lastName: [''],
       email: ['', [Validators.required, Validators.email]],
       phone: [''],
       country: [''],
@@ -101,6 +116,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+<<<<<<< HEAD
     // Charger les données depuis le localStorage
     const userData = JSON.parse(localStorage.getItem('user') || '{}');
     if (!userData || !userData.id) {
@@ -154,6 +170,49 @@ export class UserProfileComponent implements OnInit {
     if (this.profileForm.valid) {
       console.log(this.profileForm.value);
       // Logique pour enregistrer les modifications
+=======
+    this.loadUserInfo();
+  }
+  userId=1;
+
+  loadUserInfo(): void {
+    this.userService.getUserInfo(this.userId).subscribe({
+      next: (userInfo: UserInfo) => {
+        // Préremplir les champs du formulaire avec les données de userInfo
+        this.profileForm.patchValue({
+          firstName: userInfo.firstName || '',
+          lastName: userInfo.lastName || '',
+          email: userInfo.email || '',
+          phone: userInfo.phone || '',
+          bust: userInfo.bust || '',
+          waist: userInfo.waist || '',
+          hips: userInfo.hips || ''
+        });
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des données utilisateur :', err);
+      }
+    });
+  }
+  onSubmit(): void {
+    if (this.profileForm.valid) {
+      const updatedUserInfo = this.profileForm.value;
+      console.log("valeurs du formulaire", updatedUserInfo);
+
+      // Enregistrer les modifications via le service
+      this.userService.updateUserInfo(updatedUserInfo).subscribe({
+        next: () => {
+          console.log('Les modifications ont été enregistrées avec succès !');
+          alert('Profil mis à jour avec succès.');
+        },
+        error: (err) => {
+          console.error('Erreur lors de la mise à jour du profil :', err);
+          alert('Une erreur est survenue. Veuillez réessayer.');
+        }
+      });
+    } else {
+      alert('Veuillez remplir tous les champs requis correctement.');
+>>>>>>> eef5f9b644cda7c91ae58148c7e4f5816c205419
     }
   }
 
