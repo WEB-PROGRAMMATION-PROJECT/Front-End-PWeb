@@ -53,8 +53,9 @@ export class LoginComponent {
       this.authService.login({ email, password }).subscribe(
         (response) => {
           console.log(response);
+          
           // Si la connexion est réussie, enregistrez le token ou d'autres informations si nécessaire
-          localStorage.setItem('auth_token', response.token);
+          localStorage.setItem('auth_token', response.token=(email+password) );
           console.log('Connexion réussie', response);
           // Redirection en fonction du type d'utilisateur
           localStorage.setItem('user', JSON.stringify(response.user));

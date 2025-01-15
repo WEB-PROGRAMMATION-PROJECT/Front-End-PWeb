@@ -158,6 +158,8 @@ export class UserSpaceComponent implements OnInit {
     this.userService.logout().subscribe(
       () => {
         // Rediriger l'utilisateur après la déconnexion
+        //vider le localstorage
+        localStorage.clear();
         this.router.navigate(['/home']);
       },
       (error) => {
