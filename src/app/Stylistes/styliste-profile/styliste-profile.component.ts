@@ -6,7 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgxStarsModule } from 'ngx-stars';
 import { gsap } from 'gsap';
+import { BackendService } from '../../services/backend.service';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ActivatedRoute } from '@angular/router';
 // Import des modules FullCalendar dans ton composant
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -138,7 +140,9 @@ export class StylisteProfileComponent implements OnInit, AfterViewInit {
 
   constructor(
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private backendService: BackendService,
+    private route: ActivatedRoute
   ) {
     this.contactForm = this.fb.group({
       subject: ['', Validators.required],
@@ -146,11 +150,14 @@ export class StylisteProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit() {
+  
+  ngOnInit(): void {
     gsap.registerPlugin(ScrollTrigger);
+    // Récupérez les informations du styliste à partir du service backend après la connexion
+    
   }
-
   ngAfterViewInit() {
+    
     this.initializeAnimations();
 
     this.initializeScrollAnimations();

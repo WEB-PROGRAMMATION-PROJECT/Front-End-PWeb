@@ -6,9 +6,9 @@
     </div>
 
     <div class="user-type-selector">
-      <button [class.active]="userType === 'client'" (click)="userType = 'client'">Client</button>
-      <button [class.active]="userType === 'stylist'" (click)="userType = 'stylist'">Styliste</button>
-    </div>
+      <button [class.active]="userType === 'client'" (click)="onUserTypeChange('client')" aria-label="Inscription en tant que client">Client</button>
+      <button [class.active]="userType === 'stylist'" (click)="onUserTypeChange('stylist')" aria-label="Inscription en tant que styliste">Styliste</button>
+ </div>
 
     <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="registration-form">
       <!-- Informations personnelles -->
@@ -18,16 +18,28 @@
           <div class="form-group">
             <label for="firstName">Prénom</label>
             <input id="firstName" type="text" formControlName="firstName" placeholder="Votre prénom">
+            <div *ngIf="registrationForm.get('firstName')?.invalid && registrationForm.get('firstName')?.touched" class="error-message">
+              <small *ngIf="registrationForm.get('firstName')?.errors?.['required']">Le prénom est requis.</small>
+              <small *ngIf="registrationForm.get('firstName')?.errors?.['minlength']">Le prénom doit contenir au moins 2 caractères.</small>
+            </div>
           </div>
 
           <div class="form-group">
             <label for="lastName">Nom</label>
             <input id="lastName" type="text" formControlName="lastName" placeholder="Votre nom">
+            <div *ngIf="registrationForm.get('lastName')?.invalid && registrationForm.get('lastName')?.touched" class="error-message">
+              <small *ngIf="registrationForm.get('lastName')?.errors?.['required']">Le nom est requis.</small>
+              <small *ngIf="registrationForm.get('lastName')?.errors?.['minlength']">Le nom doit contenir au moins 2 caractères.</small>
+            </div>
           </div>
 
           <div class="form-group full-width">
             <label for="email">Email</label>
             <input id="email" type="email" formControlName="email" placeholder="votre@email.com">
+            <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched" class="error-message">
+              <small *ngIf="registrationForm.get('email')?.errors?.['required']">L'email est requis.</small>
+              <small *ngIf="registrationForm.get('email')?.errors?.['email']">Veuillez entrer un email valide.</small>
+            </div>
           </div>
         </div>
       </div>
@@ -44,8 +56,8 @@
                 [type]="isPasswordVisible ? 'text' : 'password'"
                 formControlName="password"
                 placeholder="Votre mot de passe">
-              <button type="button" class="password-toggle" (click)="isPasswordVisible = !isPasswordVisible">
-                <i [class]="isPasswordVisible ? 'eye-open' : 'eye-closed'"></i>
+              <button type="button" class="password-toggle" (click)="isPasswordVisible = !isPasswordVisible" aria-label="Afficher/Masquer le mot de passe">
+                <i [ngClass]="isPasswordVisible ? 'icon-eye-open' : 'icon-eye-closed'"></i>
               </button>
             </div>
             <div class="password-strength" *ngIf="registrationForm.get('password')?.value">
@@ -64,6 +76,10 @@
           <div class="form-group">
             <label for="confirmPassword">Confirmer le mot de passe</label>
             <input id="confirmPassword" type="password" formControlName="confirmPassword">
+            <div *ngIf="registrationForm.get('confirmPassword')?.invalid && registrationForm.get('confirmPassword')?.touched" class="error-message">
+              <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['required']">Veuillez confirmer le mot de passe.</small>
+              <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['mismatch']">Les mots de passe ne correspondent pas.</small>
+            </div>
           </div>
         </div>
       </div>
@@ -78,6 +94,9 @@
               <option value="">Sélectionnez un pays</option>
               <option *ngFor="let country of countries" [value]="country">{{country}}</option>
             </select>
+            <div *ngIf="registrationForm.get('country')?.invalid && registrationForm.get('country')?.touched" class="error-message">
+              <small>Le pays est requis.</small>
+            </div>
           </div>
 
           <div class="form-group">
@@ -86,11 +105,17 @@
               <option value="">Sélectionnez une ville</option>
               <option *ngFor="let city of getCities()" [value]="city">{{city}}</option>
             </select>
+            <div *ngIf="registrationForm.get('city')?.invalid && registrationForm.get('city')?.touched" class="error-message">
+              <small>La ville est requise.</small>
+            </div>
           </div>
 
           <div class="form-group full-width">
             <label for="address">Adresse complète</label>
             <input id="address" type="text" formControlName="address" placeholder="Numéro, rue, code postal">
+            <div *ngIf="registrationForm.get('address')?.invalid && registrationForm.get('address')?.touched" class="error-message">
+              <small>Adresse complète requise.</small>
+            </div>
           </div>
         </div>
       </div>
@@ -101,8 +126,11 @@
           <h3>Profil Styliste</h3>
           <div class="form-grid">
             <div class="form-group">
-              <label for="phoneNumber">Téléphone</label>
-              <input id="phoneNumber" type="tel" formControlName="phoneNumber" placeholder="+33 6 12 34 56 78">
+              <label for="phone_number">Téléphone</label>
+              <input id="phone_number" type="tel" formControlName="phone_number" placeholder="+33 6 12 34 56 78">
+              <div *ngIf="registrationForm.get('phone_number')?.invalid && registrationForm.get('phone_number')?.touched" class="error-message">
+                <small>Le numéro de téléphone est requis et doit être valide.</small>
+              </div>
             </div>
 
             <div class="form-group full-width">
@@ -110,17 +138,17 @@
               <tag-input
                 [formControlName]="'specializations'"
                 [placeholder]="'+ Ajouter'"
-                [secondaryPlaceholder]="'Entrez vos spécialisations'"
-                [separatorKeyCodes]="[188]"
-                >
+                [secondaryPlaceholder]="'Entrez vos spécialisations'">
               </tag-input>
-              <small class="hint">Appuyez sur virgule ou Entrée pour ajouter</small>
+              <small class="hint">Appuyez sur Entrée pour ajouter</small>
+              <div *ngIf="registrationForm.get('specializations')?.invalid && registrationForm.get('specializations')?.touched" class="error-message">
+                <small>Veuillez ajouter au moins une spécialisation.</small>
+              </div>
             </div>
 
             <div class="form-group full-width">
               <label for="description">Description</label>
-              <textarea id="description" formControlName="description" rows="4"
-                        placeholder="Présentez-vous et décrivez votre style, votre expérience..."></textarea>
+              <textarea id="description" formControlName="description" rows="4" placeholder="Présentez-vous et décrivez votre style, votre expérience..."></textarea>
             </div>
 
             <div class="form-group full-width">
@@ -156,6 +184,9 @@
             <span class="checkmark"></span>
             J'accepte les conditions d'utilisation
           </label>
+          <div *ngIf="registrationForm.get('terms')?.invalid && registrationForm.get('terms')?.touched" class="error-message">
+            <small>Vous devez accepter les conditions d'utilisation.</small>
+          </div>
         </div>
       </div>
 
@@ -168,4 +199,15 @@
   <div class="image-container">
     <img [src]="'login.jpg'" alt="Fashion design" class="registration-image">
   </div>
+  <div class="alert-container">
+    <div *ngIf="successMessage" class="alert alert-success">
+      <i class="icon-success"></i> {{ successMessage }}
+    </div>
+  
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      <i class="icon-error"></i> {{ errorMessage }}
+    </div>
+  </div>
+  
+  
 </div>

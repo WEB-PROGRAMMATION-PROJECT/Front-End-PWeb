@@ -403,3 +403,68 @@ select:disabled {
 }
 
 
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+}
+
+.strength-bar {
+  height: 5px;
+  background-color: grey;
+}
+
+.strength-level-1 { background-color: red; }
+.strength-level-2 { background-color: orange; }
+.strength-level-3 { background-color: yellow; }
+.strength-level-4 { background-color: lightgreen; }
+.strength-level-5 { background-color: green; }
+
+
+.alert .icon-success {
+  color: #155724;
+  margin-right: 10px;
+}
+
+.alert .icon-error {
+  color: #721c24;
+  margin-right: 10px;
+}
+.registration-form {
+  position: relative;
+  margin-top: 40px; /* Pour laisser de l'espace au-dessus pour les alertes */
+}
+
+.alert-container {
+  position: absolute;
+  top: -60px; /* Position au-dessus du formulaire */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%; /* Prend toute la largeur du formulaire */
+}
+.alert-container {
+  position: relative;
+  margin-bottom: 20px; /* Espace entre les alertes et le formulaire */
+  text-align: center; /* Centrer le contenu */
+}
+
+.alert {
+  padding: 15px 20px;
+  border-radius: 8px; /* Coins arrondis pour le carré */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre pour un effet flottant */
+  font-size: 16px;
+  font-weight: 500;
+  margin: 10px auto; /* Séparation des alertes multiples */
+  max-width: 500px; /* Largeur maximale pour un design cohérent */
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
