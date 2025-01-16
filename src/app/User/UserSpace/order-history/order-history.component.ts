@@ -1,3 +1,4 @@
+import { Order } from './../../../services/Order/order.service';
 // order-history.component.ts
 import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -5,6 +6,7 @@ import {Commande} from '../../../Data/Commande';
 import {CommandeStoreService} from '../../../Products/store/commande.store.service';
 import {takeUntil} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import { OrderService } from '../../../services/Order/order.service';
 
 @Component({
   selector: 'app-order-history',
@@ -15,11 +17,10 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 })
 export class OrderHistoryComponent implements OnInit {
   private destroy = inject(DestroyRef)
-  commandes: Commande[] = [];
-  filteredCommandes: Commande[] = [];
+  commandes: Order[] = [];
+  filteredCommandes: Order[] = [];
   currentFilter: string = 'all';
 
-  constructor(private store: CommandeStoreService) {}
 
   statusFilters = [
     { label: 'Toutes', value: 'all' },
@@ -32,7 +33,7 @@ export class OrderHistoryComponent implements OnInit {
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
-    this.store.getAllCommandes()
+    this.orderService.getUserOrders()
       .pipe(takeUntilDestroyed(this.destroy))
       .subscribe(data => {
         this.commandes = data;

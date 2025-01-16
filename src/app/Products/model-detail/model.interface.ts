@@ -65,71 +65,71 @@ export interface FashionModel {
   status: 'available' | 'in_progress' | 'sold';
 }
 
-// export const SAMPLE_MODEL: FashionModel = {
-//   id: 'model-001',
-//   name: 'Robe de Soirée Élégante',
-//   description: 'Une création unique alliant modernité et élégance traditionnelle',
-//   story: 'Inspirée des motifs traditionnels africains et réinventée avec une touche contemporaine, cette robe représente la fusion parfaite entre héritage et modernité.',
-//   images: [
-//     { url: 'modelLarge.jpg', alt: 'Vue frontale de la robe', isCover: true },
-//     { url: 'modelLarge.jpg', alt: 'Vue de dos', isCover: false },
-//     { url: 'model2.jpg', alt: 'Détails des finitions', isCover: false }
-//   ],
-//   approximatePrice: {
-//     min: 75000,
-//     max: 150000,
-//     currency: 'XAF'
-//   },
-//   estimatedTime: {
-//     min: 2,
-//     max: 3,
-//     unit: 'semaines'
-//   },
-//   materials: [
-//     {
-//       name: 'Soie Naturelle',
-//       description: 'Tissu principal, doux et élégant'
-//     },
-//     {
-//       name: 'Dentelle',
-//       description: 'Pour les finitions et détails'
-//     }
-//   ],
-//   designer: {
-//     id: 'designer-001',
-//     name: 'Marie Kouam',
-//     avatar: 'testMini.jpg',
-//     rating: 4.8,
-//     completedOrders: 127,
-//     experience: 8,
-//     responseTime: '< 24h',
-//     whatsapp: '+237600000000',
-//     bio: 'Passionnée de mode depuis plus de 8 ans',
-//     specialties: ['Robes de soirée', 'Tenues traditionnelles']
-//   },
-//   styles: ['Moderne', 'Élégant', 'Traditionnel'],
-//   category: 'Robes de soirée',
-//   createdAt: '2024-01-02',
-//   status: 'available',
-//
-//   comments: [
-//     {
-//       id: 'comment-001',
-//       userId: 'user-001',
-//       userName: 'Sophie M.',
-//       userAvatar: 'testMini.jpg',
-//       content: 'Cette robe est magnifique ! J\'adore particulièrement les détails en dentelle.',
-//       createdAt: '2024-01-03T14:30:00',
-//       likes: 5
-//     },
-//     {
-//       id: 'comment-002',
-//       userId: 'user-002',
-//       userName: 'Pierre K.',
-//       userAvatar: 'testMini.jpg',
-//       content: 'Le rapport qualité-prix est excellent. Je recommande vivement ce styliste.',
-//       createdAt: '2024-01-03T16:45:00',
-//       likes: 3
-//     }
-//   ]
-// };
+export const SAMPLE_MODEL: FashionModel = {
+  id: 'model-001',
+  name: 'Robe de Soirée Élégante',
+  description: 'Une création unique alliant modernité et élégance traditionnelle',
+  story: 'Inspirée des motifs traditionnels africains et réinventée avec une touche contemporaine, cette robe représente la fusion parfaite entre héritage et modernité.',
+  images: [
+    { url: 'modelLarge.jpg', alt: 'Vue frontale de la robe', isCover: true },
+    { url: 'modelLarge.jpg', alt: 'Vue de dos', isCover: false },
+    { url: 'model2.jpg', alt: 'Détails des finitions', isCover: false }
+  ],
+  approximatePrice: {
+    min: 75000,
+    max: 150000,
+    currency: 'XAF'
+  },
+  estimatedTime: {
+    min: 2,
+    max: 3,
+    unit: 'semaines'
+  },
+  materials: [
+    {
+      name: 'Soie Naturelle',
+      description: 'Tissu principal, doux et élégant'
+    },
+    {
+      name: 'Dentelle',
+      description: 'Pour les finitions et détails'
+    }
+  ],
+  designer: {
+    id: 'designer-001',
+    name: 'Marie Kouam',
+    avatar: 'testMini.jpg',
+    rating: 4.8,
+    completedOrders: 127,
+    experience: 8,
+    responseTime: '< 24h',
+    whatsapp: '+237600000000',
+    bio: 'Passionnée de mode depuis plus de 8 ans',
+    specialties: ['Robes de soirée', 'Tenues traditionnelles']
+  },
+  styles: ['Moderne', 'Élégant', 'Traditionnel'],
+  category: 'Robes de soirée',
+  createdAt: '2024-01-02',
+  status: 'available',
+
+  comments: [
+    {
+      id: 'comment-001',
+      userId: 'user-001',
+      userName: 'Sophie M.',
+      userAvatar: 'testMini.jpg',
+      content: 'Cette robe est magnifique ! J\'adore particulièrement les détails en dentelle.',
+      createdAt: '2024-01-03T14:30:00',
+      likes: 5
+    },
+    {
+      id: 'comment-002',
+      userId: 'user-002',
+      userName: 'Pierre K.',
+      userAvatar: 'testMini.jpg',
+      content: 'Le rapport qualité-prix est excellent. Je recommande vivement ce styliste.',
+      createdAt: '2024-01-03T16:45:00',
+      likes: 3
+    }
+  ]
+};

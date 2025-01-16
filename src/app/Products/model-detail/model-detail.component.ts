@@ -1,8 +1,9 @@
 import {Component, OnInit, signal, computed, inject, DestroyRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FashionModel, SAMPLE_MODEL } from './model.interface';
+import { FashionModel, ModelComment, SAMPLE_MODEL } from './model.interface';
 import {CommandeStoreService} from '../store/commande.store.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-model-detail',
@@ -18,6 +19,7 @@ export class ModelDetailComponent implements OnInit {
   showOrderDialog = signal(false);
 
   currentImage = computed(() => this.model?.images[this.currentImageIndex()] || this.model?.images[0]);
+  categoryService: any;
 
   constructor(private store: CommandeStoreService) {}
 

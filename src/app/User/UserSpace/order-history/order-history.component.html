@@ -16,7 +16,7 @@
       <div class="order-header">
         <div class="order-info">
           <h3>Commande #{{ order.id }}</h3>
-          <span class="order-date">{{ order.date_commande | date:'dd/MM/yyyy' }}</span>
+          <span class="order-date">{{ order.date }}</span>
         </div>
         <span class="order-status" [class]="order.status">
               {{ getStatusLabel(order.status) }}
@@ -24,7 +24,6 @@
       </div>
 
       <div class="order-items">
-        <!--
         <div *ngFor="let item of order.items" class="order-item">
           <img [src]="item.image" [alt]="item.name">
           <div class="item-details">
@@ -33,7 +32,6 @@
             <p class="item-price">{{ item.price | currency:'EUR' }}</p>
           </div>
         </div>
-        -->
         <div>
           Detail sur le modèle
         </div>
@@ -41,10 +39,10 @@
 
       <div class="order-footer">
         <div class="styliste-info">
-          <p>Styliste: {{ order.styliste_id }}</p>
+          <p>Styliste: {{ order.styliste }}</p>
         </div>
         <div class="order-total">
-          <p>Total: <strong>{{ order.prix_total | currency:'EUR' }}</strong></p>
+          <p>Total: <strong>{{ order.total| currency:'EUR' }}</strong></p>
         </div>
       </div>
     </div>
