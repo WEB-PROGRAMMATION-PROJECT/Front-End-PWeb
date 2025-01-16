@@ -1,8 +1,8 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import {Component, OnInit, signal, computed, inject, DestroyRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FashionModel, ModelComment} from './model.interface';
-import {FormsModule} from '@angular/forms';
-import {CategoryService} from '../../services/Articles/category.service';
+import { FashionModel, SAMPLE_MODEL } from './model.interface';
+import {CommandeStoreService} from '../store/commande.store.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-model-detail',
@@ -12,13 +12,14 @@ import {CategoryService} from '../../services/Articles/category.service';
   imports: [CommonModule, FormsModule]
 })
 export class ModelDetailComponent implements OnInit {
-  model : FashionModel ;
+  private destroyRef = inject(DestroyRef);
+  model = SAMPLE_MODEL;
   currentImageIndex = signal(0);
   showOrderDialog = signal(false);
 
   currentImage = computed(() => this.model?.images[this.currentImageIndex()] || this.model?.images[0]);
 
-  constructor(private categoryService : CategoryService) {}
+  constructor(private store: CommandeStoreService) {}
 
   ngOnInit(): void {
 
@@ -50,6 +51,11 @@ export class ModelDetailComponent implements OnInit {
 
   contactDesigner(): void {
     // Implement WhatsApp redirect
+    this.store.createCommande({})
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(response => {
+        console.log('Commande créée avec succès :', response);
+      })
     window.open(`https://wa.me/${this.model.designer.whatsapp}`, '_blank');
   }
 

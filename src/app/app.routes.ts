@@ -34,7 +34,6 @@ export const routes: Routes = [
   {path: 'payment/return', component: PaymentReturnComponent},
 
 
-
   {
     path: 'user',
     component: UserSpaceComponent,
