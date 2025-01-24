@@ -6,27 +6,32 @@
 
   <div class="card-background">
     <div class="image-wrapper">
-      <img [src]="designer?.image" [alt]="designer?.name" class="designer-image">
+      <img
+      *ngIf="designer?.profile_picture_url"
+      class="profile-photo"
+      [src]="getProfilePhotoUrl()"
+      alt="{{ designer?.user.first_name }}"
+    />
       <div class="image-overlay"></div>
     </div>
   </div>
 
   <div class="card-initial-content">
-    <div class="designer-initials">{{ getDesignerInitials(designer?.name || '') }}</div>
-    <h3 class="designer-name">{{designer?.name}}</h3>
-    <span class="designer-location">{{designer?.location}}</span>
+    <div class="designer-initials">{{ getDesignerInitials(designer?.user.first_name || '') }}</div>
+    <h3 class="designer-name">{{designer?.user.first_name}}</h3>
+    <span class="designer-location">{{designer?.user.address}}</span>
   </div>
 
   <div class="card-expanded-content">
     <div class="content-header">
-      <h3 class="designer-name-large">{{designer?.name}}</h3>
-      <p class="designer-title">{{designer?.role}}</p>
+      <h3 class="designer-name-large">{{designer?.user.first_name}}</h3>
+      <p class="designer-title">{{designer?.titre}}</p>
     </div>
 
     <div class="content-body">
       <div class="specialties">
             <span
-              *ngFor="let specialty of designer?.specialties"
+              *ngFor="let specialty of getSpecializationsDisplay()"
               class="specialty-tag">
               {{specialty}}
             </span>

@@ -19,6 +19,13 @@ interface Designer {
   providedIn: 'root'
 })
 export class DesignerService {
+  
+  private apiUrl = 'http://localhost:8000/api/stylists'; // L'URL de votre API Laravel
+
+  
+  
+
+
   baseUrl = 'http://localhost:3000'; // URL de json-server
   private TopDesignersUrl = `${this.baseUrl}/TopDesigners`;
   private designersUrl = `${this.baseUrl}/designers`;
@@ -30,6 +37,9 @@ export class DesignerService {
 
   getDesigners(): Observable<Designer[]> {
     return this.http.get<Designer[]>(this.designersUrl);
+  }
+  getStylists(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
   getLocations(): Observable<string[]> {

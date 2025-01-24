@@ -112,7 +112,7 @@
       <h2>Spécialités</h2>
       <div class="specialties-container">
         <div *ngFor="let specialite of stylisteProfile.specialites" class="specialty-tag">
-          {{ specialite }}
+          {{ specialite.display }}
         </div>
         <input *ngIf="isEditing"
                type="text"
