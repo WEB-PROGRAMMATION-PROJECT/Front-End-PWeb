@@ -2,9 +2,6 @@ import { Order } from './../../../services/Order/order.service';
 // order-history.component.ts
 import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Commande} from '../../../Data/Commande';
-import {CommandeStoreService} from '../../../Products/store/commande.store.service';
-import {takeUntil} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import { OrderService } from '../../../services/Order/order.service';
 
@@ -33,13 +30,22 @@ export class OrderHistoryComponent implements OnInit {
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
-    this.orderService.getUserOrders()
+    const user = localStorage.getItem('user');
+
+    if(user){
+      const userData = JSON.parse(user);
+      const userId = userData.id;
+
+      this.orderService.getUserOrders(userId)
       .pipe(takeUntilDestroyed(this.destroy))
       .subscribe(data => {
         this.commandes = data;
         this.filteredCommandes = this.commandes;
         console.log('Commandes récupérées avec succès:', this.commandes);
       });
+    } else {
+      console.error('Veuillez vous connecter pour accéder à vos commandes.');
+    }
   }
 
   filterByStatus(status: string) {

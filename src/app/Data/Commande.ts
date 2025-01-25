@@ -14,4 +14,19 @@ export interface Commande {
   created_at?: string;
   updated_at?: string;
   deleted_at?: string;
+  client: {
+    id: number;
+    first_name: string;
+    tour_poitrine: number;
+    tour_taille: number;
+    tour_hanches: number;
+    hauteur: number;
+  };
+  model: {
+    id: number;
+    name: string;
+    image1: string;
+  };
+  totalPrice?: number;
+  expectedDeliveryDate?: string;
 }

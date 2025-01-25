@@ -1,8 +1,5 @@
 import { Routes } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
 import {StylisteProfileComponent as voirStyliste } from './Stylistes/styliste-profile/styliste-profile.component';
-import {AppComponent} from './app.component';
 import {MainHomeComponent} from './Home/main-home/main-home.component';
 import {DesignersPageComponent} from './Stylistes/designers-page/designers-page.component';
 import {MeasurementGuideComponent} from './User/measurement-guide/measurement-guide.component';
@@ -22,6 +19,7 @@ import {StylisteSpaceComponent} from './Stylistes/StylisteSpace/styliste-space/s
 import {StylisteProfileComponent} from './Stylistes/StylisteSpace/styliste-profile/styliste-profile.component';
 import {StylisteOrdersComponent} from './Stylistes/StylisteSpace/styliste-orders/styliste-orders.component';
 import {StylistModelsComponent} from './Stylistes/StylisteSpace/stylist-models/stylist-models.component';
+
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirige vers une page d'accueil par défaut
   { path: 'home', component: MainHomeComponent }, // Page d'accueil principale

@@ -25,12 +25,12 @@ interface ClothingModel {
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = 'http://localhost:3000/';
+  private apiUrl = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) {}
 
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.apiUrl+"categories");
+    return this.http.get<Category[]>(this.apiUrl+"/categories");
   }
 
 
