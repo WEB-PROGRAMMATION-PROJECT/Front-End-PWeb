@@ -1,9 +1,9 @@
-import { Order } from './../../../services/Order/order.service';
 // order-history.component.ts
 import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import { OrderService } from '../../../services/Order/order.service';
+import { Commande } from '../../../Data/Commande';
 
 @Component({
   selector: 'app-order-history',
@@ -14,8 +14,8 @@ import { OrderService } from '../../../services/Order/order.service';
 })
 export class OrderHistoryComponent implements OnInit {
   private destroy = inject(DestroyRef)
-  commandes: Order[] = [];
-  filteredCommandes: Order[] = [];
+  commandes: Commande[] = [];
+  filteredCommandes: Commande[] = [];
   currentFilter: string = 'all';
 
 

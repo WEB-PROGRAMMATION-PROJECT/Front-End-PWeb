@@ -1,50 +1,56 @@
 <div class="orders-container">
   <h1>Mes Commandes</h1>
 
-  <div class="orders-filter">
-    <button
-      *ngFor="let filter of statusFilters"
-      [class.active]="currentFilter === filter.value"
-      (click)="filterByStatus(filter.value)"
-      class="filter-btn">
-      {{ filter.label }}
-    </button>
-  </div>
+  <div class="orders-content">
+    <div class="orders-filter">
+      <button
+        *ngFor="let filter of statusFilters"
+        [class.active]="currentFilter === filter.value"
+        (click)="filterByStatus(filter.value)"
+        class="filter-btn"
+      >
+        {{ filter.label }}
+      </button>
+    </div>
 
-  <div class="orders-list">
-    <div *ngFor="let order of filteredCommandes" class="order-card">
-      <div class="order-header">
-        <div class="order-info">
-          <h3>Commande #{{ order.id }}</h3>
-          <span class="order-date">{{ order.date }}</span>
+    <div class="orders-list">
+      <div *ngFor="let order of commandes" class="order-card">
+        <div class="order-header">
+          <div class="order-info">
+            <h3>Commande #{{ order?.id }}</h3>
+            <span class="order-date">{{ order?.date_commande }}</span>
+          </div>
+          <span class="order-status" [class]="order?.status">
+            {{ getStatusLabel(order?.status) }}
+          </span>
         </div>
-        <span class="order-status" [class]="order.status">
-              {{ getStatusLabel(order.status) }}
-            </span>
-      </div>
 
-      <div class="order-items">
-        <div *ngFor="let item of order.items" class="order-item">
-          <img [src]="item.image" [alt]="item.name">
-          <div class="item-details">
-            <h4>{{ item.name }}</h4>
-            <p>Quantité: {{ item.quantity }}</p>
-            <p class="item-price">{{ item.price | currency:'EUR' }}</p>
+        <div class="order-items">
+          <div class="order-item">
+            <img [src]="order?.model.image1" [alt]="order?.model.name" />
+            <div class="item-details">
+              <h4>{{ order?.model.name }}</h4>
+              <!-- <p>Quantité: {{ item?.quantity }}</p> -->
+              <p class="item-price">{{ order.prix_total | currency : "EUR" }}</p>
+            </div>
           </div>
         </div>
-        <div>
-          Detail sur le modèle
-        </div>
-      </div>
 
-      <div class="order-footer">
-        <div class="styliste-info">
-          <p>Styliste: {{ order.styliste }}</p>
-        </div>
-        <div class="order-total">
-          <p>Total: <strong>{{ order.total| currency:'EUR' }}</strong></p>
+        <div class="order-footer">
+          <div class="styliste-info">
+            <p>Styliste: {{ order?.client.first_name }}</p>
+          </div>
+          <div class="order-total">
+            <p>
+              Total: <strong>{{ order?.prix_total | currency : "EUR" }}</strong>
+            </p>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="!commandes || commandes.length === 0" class="no-orders-message">
+    Aucune commande trouvée.
   </div>
 </div>
