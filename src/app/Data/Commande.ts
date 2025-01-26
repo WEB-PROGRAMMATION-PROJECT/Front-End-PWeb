@@ -7,7 +7,7 @@ export interface Commande {
   adresse_livraison_id: number;
   state: number;
   prix_total: number;
-  date_commande: string;
+  date_commande: Date;
   date_livraison_estimee?: string;
   status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
   note?: string;

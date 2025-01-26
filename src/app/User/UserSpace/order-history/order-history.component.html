@@ -17,8 +17,8 @@
       <div *ngFor="let order of commandes" class="order-card">
         <div class="order-header">
           <div class="order-info">
-            <h3>Commande #{{ order?.id }}</h3>
-            <span class="order-date">{{ order?.date_commande }}</span>
+            <h3>Commande #{{ order?.reference }}</h3>
+            <span class="order-date">{{ order?.date_commande | date:'dd-MM-YYYY' }}</span>
           </div>
           <span class="order-status" [class]="order?.status">
             {{ getStatusLabel(order?.status) }}
