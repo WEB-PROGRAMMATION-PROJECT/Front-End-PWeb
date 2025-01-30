@@ -131,6 +131,33 @@
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
+.material-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Crée une grille responsive */
+  gap: 15px; /* Espacement entre les éléments */
+}
+
+.material-chip {
+  padding: 10px;
+  background-color: #121212;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.material-chip:hover {
+  background-color: #2a2a2a;
+}/* Applique un fond différent lorsque l'élément est sélectionné */
+.material-chip.selected {
+  background-color: #646cff;  /* Vert pour un élément sélectionné */
+  color: white;
+}
+
+
+
 .material-card input,
 .material-card textarea {
   width: 100%;

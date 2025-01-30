@@ -210,7 +210,7 @@ export class RegistrationComponent implements OnInit {
         data => {
           console.log('Inscription réussie', data);
           if (this.userType === 'stylist') {
-            this.router.navigate(['/styliste-profile']);
+            this.router.navigate(['/login']);
           } else {
             this.router.navigate(['/mensurations']);
           }

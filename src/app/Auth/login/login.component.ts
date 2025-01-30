@@ -75,9 +75,9 @@ export class LoginComponent {
   redirectUser(user: any) {
     // Vérifiez que vous utilisez la bonne propriété
     if (user.user_type === 'stylist') {
-      this.router.navigate(['/user']);
+      this.router.navigate(['/stylist']);
     } else {
-      this.router.navigate(['/user']);
+      this.router.navigate(['/mensurations']);
     }
   }
   

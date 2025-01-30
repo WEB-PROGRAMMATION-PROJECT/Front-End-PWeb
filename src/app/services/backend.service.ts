@@ -48,7 +48,7 @@ export class BackendService {
   }
   // Méthode pour mettre à jour le profil du styliste
   updateStylistProfile(stylistId: number, updatedProfile: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/stylist/${stylistId}`, updatedProfile);
+    return this.http.put(`${this.apiUrl}/Modif_stylist/${stylistId}`, updatedProfile);
   }
   updateClientDetails(userId: number, updatedData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/client/${userId}/update`, updatedData);
@@ -56,7 +56,7 @@ export class BackendService {
 
   // Méthode pour mettre à jour la photo de profil
   updateProfilePhoto(stylistId: number, formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/Modif_stylist/${stylistId}/update-profile-photo`, formData);
+    return this.http.post(`${this.apiUrl}/stylist/${stylistId}/update-profile-photo`, formData);
   }
 
   // Méthode pour mettre à jour la photo de couverture

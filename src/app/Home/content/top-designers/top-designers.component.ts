@@ -1,5 +1,6 @@
 // top-designers.component.ts
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import {NgForOf} from '@angular/common';
 import {DesignerCardComponent} from '../../../widgets/designer-card/designer-card.component';
@@ -72,7 +73,7 @@ export class TopDesignersComponent implements OnInit {
 
   selectedDesigner: Designer | null = null;
 
-  constructor(private homeDataService : HomeDataServiceService,private stylistService: DesignerService) {}
+  constructor(private homeDataService : HomeDataServiceService,private stylistService: DesignerService,private router: Router) {}
 
   ngOnInit(): void {
     // Charger les designers
@@ -110,7 +111,6 @@ export class TopDesignersComponent implements OnInit {
     if (!name) return ''; // Vérifie si le nom est défini
     return name.split(' ').map(n => n[0]).join('').toUpperCase(); // Retourne les initiales en majuscules
   }
-
 
   platformStats: Platform[] = [
     { title: 'Créateurs', value: '250+', icon: 'fas fa-users' },

@@ -25,7 +25,7 @@
   <div class="card-expanded-content">
     <div class="content-header">
       <h3 class="designer-name-large">{{designer?.user.first_name}}</h3>
-      <p class="designer-title">{{designer?.titre}}</p>
+      <p class="designer-title">{{designer?.titre}}Haute couture</p>
     </div>
 
     <div class="content-body">
@@ -50,7 +50,7 @@
     </div>
 
     <div class="content-footer">
-      <button class="discover-button" (click)="onDiscoverClick()">
+      <button class="discover-button" (click)="onDiscoverClick(designer)">
         <span class="button-text">Découvrir</span>
         <span class="button-icon">→</span>
       </button>

@@ -36,7 +36,7 @@
 
     <div class="profile-info">
       <div class="profile-name-container">
-        <h1 *ngIf="!isEditing">{{ stylisteProfile.prenom }} {{ stylisteProfile.nom }}</h1>
+        <h1 *ngIf="!isEditing" style="color: aliceblue;">{{ stylisteProfile.prenom }} {{ stylisteProfile.nom }}</h1>
         <div *ngIf="isEditing" class="edit-name">
           <input type="text" [(ngModel)]="stylisteProfile.prenom" placeholder="Prénom">
           <input type="text" [(ngModel)]="stylisteProfile.nom" placeholder="Nom">

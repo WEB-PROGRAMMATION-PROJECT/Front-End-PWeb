@@ -10,7 +10,7 @@
     <div class="models-carousel">
       <div class="model-grid">
         <app-model-card
-          *ngFor="let model of featuredModels"
+          *ngFor="let model  of models"
           [model]="model">
         </app-model-card>
       </div>
@@ -30,7 +30,7 @@
       <h2>Explorez nos Catégories</h2>
     </div>
     <div class="categories-grid">
-      <article *ngFor="let category of categories" class="category-card">
+      <article *ngFor="let category of availableCategories" class="category-card">
         <div class="category-image">
           <img [src]="category.image" [alt]="category.name">
         </div>

@@ -1,43 +1,40 @@
-<!-- styliste-profile.component.html -->
 <div class="profile-container" #profileContainer>
   <!-- Section Header -->
   <div class="profile-header">
-    <div class="profile-cover" [style.backgroundImage]="'url(' + styliste.coverUrl + ')'">
+    <div class="profile-cover" [style.backgroundImage]="'url(' + (styliste.cover_image_url || 'coverStyliste.jpg') + ')'">
       <div class="overlay"></div>
     </div>
 
     <div class="profile-info">
       <div class="profile-avatar">
-        <img [src]="styliste.photoUrl" [alt]="styliste.nom" />
+        <img [src]="styliste.profile_picture_url" [alt]="styliste.user.first_name" />
         <div class="status-badge" [class.online]="isOnline">
           {{ isOnline ? 'En ligne' : 'Hors ligne' }}
         </div>
       </div>
 
       <div class="profile-details">
-        <h1>{{styliste.nom}}</h1>
-        <p class="subtitle">{{styliste.titre}}</p>
+        <h1>{{styliste.user.first_name}}  {{styliste.user.last_name}}</h1>
+        <p class="subtitle">{{styliste.titre || 'Styliste professionnel'}}</p>
 
         <div class="stats-container">
           <div class="stat" *ngFor="let stat of statsArray">
-<!--            <div class="stat-value" [countUp]="stat.value" [duration]="2.5">0</div>-->
-            <div class="stat-value" >0</div>
-
+            <div class="stat-value">{{stat.value}}</div>
             <div class="stat-label">{{stat.label}}</div>
           </div>
         </div>
 
         <div class="tags-container">
-          <span class="tag" *ngFor="let specialite of styliste.specialites">
-            {{specialite}}
+          <span class="tag" *ngFor="let specialization of styliste.specializations">
+            {{specialization}}
           </span>
         </div>
 
         <div class="social-links">
-          <a *ngIf="styliste.reseauxSociaux.instagram" href="#" class="social-link instagram">
+          <a *ngIf="styliste.social_links?.instagram" href="#" class="social-link instagram">
             <i class="fab fa-instagram"></i>
           </a>
-          <a *ngIf="styliste.reseauxSociaux.pinterest" href="#" class="social-link pinterest">
+          <a *ngIf="styliste.social_links?.pinterest" href="#" class="social-link pinterest">
             <i class="fab fa-pinterest"></i>
           </a>
         </div>
@@ -84,10 +81,7 @@
       </div>
 
       <div class="creations-grid">
-        <div class="creation-card" *ngFor="let creation of filteredCreations"
-             [@cardAnimation]="'in'"
-             (mouseenter)="onCardHover(creation.id)"
-             (mouseleave)="onCardLeave(creation.id)">
+        <div class="creation-card" *ngFor="let creation of filteredCreations">
           <div class="card-image">
             <img [src]="creation.images[0]" [alt]="creation.nom" loading="lazy">
             <div class="card-overlay">
@@ -119,7 +113,7 @@
             <circle cx="60" cy="60" r="54" [style.strokeDashoffset]="calculateRatingCircle()"></circle>
           </svg>
           <div class="rating-value">
-            {{styliste.stats.note}}
+            {{styliste.rating}}
           </div>
         </div>
 
@@ -135,7 +129,7 @@
       </div>
 
       <div class="reviews-list">
-        <div class="review-card" *ngFor="let avis of avis" [@reviewAnimation]>
+        <div class="review-card" *ngFor="let avis of avis">
           <div class="review-header">
             <img [src]="avis.clientPhoto" [alt]="avis.clientNom" class="reviewer-avatar">
             <div class="review-meta">
@@ -150,11 +144,8 @@
           <p class="review-content">{{avis.commentaire}}</p>
 
           <div class="review-photos" *ngIf="avis.photos?.length">
-            <img *ngFor="let photo of avis.photos" [src]="photo"
-                 (click)="openPhotoGallery(avis.photos)" loading="lazy">
+            <img *ngFor="let photo of avis.photos" [src]="photo" (click)="openPhotoGallery(avis.photos)" loading="lazy">
           </div>
-
-
         </div>
       </div>
     </div>
@@ -164,14 +155,6 @@
       <div class="calendar-container">
         <div class="calendar-header">
           <h3>Disponibilités</h3>
-          <div class="calendar-legend">
-            <span class="legend-item available">
-              <span class="dot"></span> Disponible
-            </span>
-            <span class="legend-item booked">
-              <span class="dot"></span> Réservé
-            </span>
-          </div>
         </div>
 
         <full-calendar [options]="calendarOptions"></full-calendar>
@@ -198,7 +181,7 @@
 <ng-template #contactModal>
   <div class="modal-content">
     <div class="modal-header">
-      <h4>Contacter {{styliste.nom}}</h4>
+      <h4>Contacter {{styliste.user.first_name}}</h4>
       <button class="close-btn" (click)="closeModal()">×</button>
     </div>
     <div class="modal-body">

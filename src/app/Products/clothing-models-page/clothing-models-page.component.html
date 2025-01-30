@@ -1,4 +1,3 @@
-<!-- clothing-models-page.component.html -->
 <div class="models-page">
   <header class="page-header">
     <h1 class="main-title">Collection de Modèles</h1>
@@ -67,7 +66,7 @@
     <app-clothing-model-card
       *ngFor="let model of filteredModels"
       [model]="model"
-      (order)="onModelOrder($event)"
+      (order)="onModelOrder(model.id)"
       class="model-card-wrapper">
     </app-clothing-model-card>
   </section>

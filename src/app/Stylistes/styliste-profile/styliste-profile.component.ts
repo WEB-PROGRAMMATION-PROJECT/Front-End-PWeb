@@ -7,6 +7,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgxStarsModule } from 'ngx-stars';
 import { gsap } from 'gsap';
 import { BackendService } from '../../services/backend.service';
+import { DesignerService } from '../../services/Designers/designer.service';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ActivatedRoute } from '@angular/router';
 // Import des modules FullCalendar dans ton composant
@@ -15,6 +16,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { trigger, transition, style, animate } from '@angular/animations';
+
 
 @Component({
   selector: 'app-styliste-profile',
@@ -47,22 +49,13 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class StylisteProfileComponent implements OnInit, AfterViewInit {
   @ViewChild('profileContainer') profileContainer!: ElementRef;
 
-  styliste = {
-    nom: 'Marie Dubois',
-    titre: 'Styliste Haute Couture',
-    photoUrl: 'profileStyliste.jpg',
-    coverUrl: 'coverStyliste.jpg',
-    specialites: ['Robes de soirée', 'Haute couture', 'Tenues sur mesure'],
+  styliste:any = {
     stats: {
-      creations: 124,
-      clients: 1200,
-      note: 4.8
+      creations: 0,
+      clients: 0,
+      note: 0,
     },
-    reseauxSociaux: {
-      instagram: 'mariedubois_couture',
-      pinterest: 'mariedubois_style'
-    },
-    creations: {},
+    
   };
 
   isOnline = true;
@@ -115,6 +108,7 @@ export class StylisteProfileComponent implements OnInit, AfterViewInit {
     },
     // Ajoutez plus d'avis ici
   ];
+  selectedStylistId!: number;
 
   calendarOptions: any = {
     initialView: 'dayGridMonth',
@@ -142,20 +136,79 @@ export class StylisteProfileComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private backendService: BackendService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private Servicestyliste: DesignerService,
   ) {
     this.contactForm = this.fb.group({
       subject: ['', Validators.required],
       message: ['', Validators.required]
     });
   }
+  
 
   
   ngOnInit(): void {
     gsap.registerPlugin(ScrollTrigger);
-    // Récupérez les informations du styliste à partir du service backend après la connexion
-    
+  
+    // Récupérer l'ID du styliste à partir de l'URL
+    this.route.params.subscribe(params => {
+      this.selectedStylistId = +params['id']; // L'ID du styliste sélectionné
+      console.log('ID du styliste sélectionné :', this.selectedStylistId);
+  
+      // Charger les données du styliste
+      this.loadStylistData();
+    });
   }
+  loadStylistData(): void {
+    this.Servicestyliste.getStylistById(this.selectedStylistId).subscribe(
+      (data) => {
+        this.styliste = data;
+        console.log('Données du styliste chargées :', this.styliste);
+
+        // Vérifiez que les statistiques sont valides
+      if (!this.styliste.stats) {
+        this.styliste.stats = { creations: 0, clients: 0, note: 0 };
+      }
+   
+        // Gérer la photo de profil
+        this.styliste.profile_picture_url = this.styliste.profile_picture_url 
+          ? `http://127.0.0.1:8000/storage/${this.styliste.profile_picture_url}` 
+          : 'assets/images/default-profile.jpg';
+  
+        // Traiter les spécialisations (si elles existent)
+        this.styliste.specializations = this.processSpecializations(this.styliste.specializations);
+        console.log('Specializations:', this.styliste.specializations);
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des données du styliste :', error);
+        // Gestion des erreurs avec valeurs par défaut
+        this.styliste.profile_picture_url = 'assets/images/default-profile.jpg';
+        this.styliste.specializations = [];
+      }
+    );
+  }
+  
+  // Méthode pour traiter les spécialisations
+  processSpecializations(specializations: any): string[] {
+    if (!specializations) return [];
+  
+    try {
+      // Vérifie si les spécialisations sont sous forme de chaîne JSON et les parse
+      const parsedSpecializations = typeof specializations === 'string'
+        ? JSON.parse(specializations)
+        : specializations;
+  
+      return parsedSpecializations.map((specialty: { display: string }) => specialty.display);
+    } catch (error) {
+      console.error('Erreur lors du traitement des spécialisations :', error);
+      return [];
+    }
+  }
+  
+  
+ 
+  
+  
   ngAfterViewInit() {
     
     this.initializeAnimations();
@@ -209,11 +262,15 @@ export class StylisteProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
-  get statsArray() {
+  get statsArray(): { value: number; label: string }[] {
+    if (!this.styliste || !this.styliste.stats) {
+      return []; // Retourne un tableau vide si les stats ne sont pas encore disponibles
+    }
+  
     return [
-      { value: this.styliste.stats.creations, label: 'Créations' },
-      { value: this.styliste.stats.clients, label: 'Clients' },
-      { value: this.styliste.stats.note, label: 'Note moyenne' }
+      { value: this.styliste.stats.creations || 0, label: 'Créations' },
+      { value: this.styliste.stats.clients || 0, label: 'Clients' },
+      { value: this.styliste.stats.note || 0, label: 'Note' },
     ];
   }
 

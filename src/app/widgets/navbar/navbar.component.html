@@ -28,7 +28,7 @@
                   <h3 class="navbar__category-title_fox">Catégories</h3>
                   <a [href]="category.href"
                      class="navbar__category-link_fox"
-                     *ngFor="let category of item.categories">
+                     *ngFor="let category of availableCategories; track category">
                     {{category.name}}
                     <span class="navbar__category-description_fox" *ngIf="category.description">
                       {{category.description}}
@@ -88,7 +88,7 @@
         <div class="navbar__mobile-categories_fox" *ngIf="item.categories">
           <a [href]="category.href"
              class="navbar__mobile-category_fox"
-             *ngFor="let category of item.categories">
+             *ngFor="let category of availableCategories; track category">
             {{category.name}}
           </a>
         </div>

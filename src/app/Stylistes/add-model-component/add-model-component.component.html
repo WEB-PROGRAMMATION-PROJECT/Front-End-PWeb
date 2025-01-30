@@ -19,14 +19,14 @@
       </div>
 
       <div class="form-field categories">
-        <label>Catégories (max 3)</label>
+        <label>Catégories</label>
         <div class="categories-grid">
           @for (category of availableCategories; track category) {
             <div class="category-chip"
                  [class.selected]="isSelectedCategory(category)"
                  (click)="toggleCategory(category)"
                  [class.disabled]="!isSelectedCategory(category) && selectedCategories.length >= 3">
-              {{category}}
+              {{category.name}}
             </div>
           }
         </div>
@@ -51,6 +51,14 @@
         <button type="button" class="add-btn" (click)="addMaterial()">
           + Ajouter un matériau
         </button>
+        <div class="material-grid">
+          <div *ngFor="let material of materiaux; let i = index" 
+               class="material-chip"
+               [class.selected]="isSelected(material)"
+               (click)="toggleSelection(material)">
+            {{ material.name }}
+          </div>
+        </div>
       </div>
     </section>
 

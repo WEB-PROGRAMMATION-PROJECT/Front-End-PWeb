@@ -26,12 +26,14 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirige vers une page d'accueil par défaut
   { path: 'home', component: MainHomeComponent }, // Page d'accueil principale
   { path: 'styliste-profile', component: voirStyliste }, // Page styliste-profile
+  { path: 'styliste-profile/:id', component: voirStyliste },
   { path: 'stylistes', component: DesignersPageComponent }, // Page des stylistes
   { path: 'mensurations', component: MeasurementGuideComponent }, // Page des mensurations
   { path: 'models', component: ClothingModelsPageComponent }, // Page des mensurations
   { path: 'register', component: RegistrationComponent }, // Page des inscriptions
   { path: 'login', component: LoginComponent }, // Page des inscriptions
   { path: 'detail', component: ModelDetailComponent }, // Page des inscriptions
+  { path: 'detail/:id', component: ModelDetailComponent }, 
   { path: 'checkout', component: CheckoutComponent }, // Page des inscriptions
   { path: 'add-model', component: AddModelComponentComponent}, // Page des inscriptions
   {path: 'payment/return', component: PaymentReturnComponent},

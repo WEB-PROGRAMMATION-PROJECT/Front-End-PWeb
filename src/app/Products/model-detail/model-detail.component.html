@@ -2,7 +2,9 @@
 <main>
   <!-- Hero Section -->
   <section class="hero-section" *ngIf="model">
-    <img *ngIf="currentImage()" [src]="currentImage()?.url" [alt]="currentImage()?.alt">
+    <img *ngIf="imageList.length > 0" [src]="imageList[currentImageIndex]" [alt]="'Image ' + (currentImageIndex + 1)">
+
+
     <div class="hero-section__overlay"></div>
     <div class="hero-section__content">
       <h1>{{ model?.name }}</h1>
@@ -14,12 +16,12 @@
   <!-- Thumbnail Gallery -->
   <div class="thumbnail-gallery">
     <div
-      *ngFor="let image of model?.images; let i = index"
+      *ngFor="let image of imageList let i = index"
       class="thumbnail__item"
-      [class.active]="currentImageIndex() === i"
+      [class.active]="currentImageIndex === i"
       (click)="setCurrentImageIndex(i)"
     >
-      <img [src]="image.url" [alt]="image.alt">
+      <img  [src]="image" alt="Miniature {{ i + 1 }}">
     </div>
   </div>
 
@@ -38,15 +40,15 @@
         <div class="metric-card">
           <h3>Prix approximatif</h3>
           <p class="metric-value">
-            {{ model?.approximatePrice.min | currency:'XAF':'symbol-narrow' }} -
-            {{ model?.approximatePrice.max | currency:'XAF':'symbol-narrow' }}
+            {{ model?.prix_min| currency:'XAF':'symbol-narrow' }} -
+            {{ model?.prix_max | currency:'XAF':'symbol-narrow' }}
           </p>
         </div>
         <div class="metric-card">
           <h3>Délai estimé</h3>
           <p class="metric-value">
-            {{ model?.estimatedTime.min }}-{{ model?.estimatedTime.max }}
-            {{ model?.estimatedTime.unit }}
+            {{ model?.temps_min }}-{{ model?.temps_max }}
+            {{ model?.unite_temps }}
           </p>
         </div>
       </section>
@@ -55,9 +57,9 @@
       <section class="info-section">
         <h2 class="info-section__title">Matériaux</h2>
         <div class="materials-grid">
-          <div class="info-card" *ngFor="let material of model?.materials">
-            <h3>{{ material.name }}</h3>
-            <p>{{ material.description }}</p>
+          <div class="info-card">
+            <h3 *ngIf="model?.materiaux_ids?.length">{{ getMateriauxNames(model.materiaux_ids).join(', ') }}</h3>
+            <p></p>
           </div>
         </div>
       </section>
@@ -69,26 +71,31 @@
       <div class="designer-card">
         <div class="designer-profile">
           <div class="designer-avatar">
-            <img [src]="model?.designer.avatar" [alt]="model?.designer.name">
+           <img 
+  *ngIf="model?.styliste_id && getStylisteDetails(model?.styliste_id)" 
+  [src]="getStylisteDetails(model?.styliste_id)?.profile_picture_url" 
+  [alt]="getStylisteName(model?.styliste_id) || 'Styliste inconnu'">
+
           </div>
           <div class="designer-info">
-            <h3>{{ model?.designer.name }}</h3>
+            <h3>{{getStylisteName(model.styliste_id)}}</h3>
             <div class="designer-stats">
-              <span class="rating">★ {{ model?.designer.rating }}</span>
+              <span class="rating">★ {{ getStylisteDetails(model.styliste_id)?.rating }}</span>
               <span class="separator">·</span>
-              <span>{{ model?.designer.completedOrders }} commandes</span>
+              <span>{{ getStylisteDetails(model.styliste_id)?.completed_orders }} commandes </span>
             </div>
           </div>
         </div>
 
         <div class="designer-details">
-          <p>{{ model?.designer.bio }}</p>
+          <p>{{ getStylisteDetails(model.styliste_id)?.description }}</p>
 
           <div class="specialties">
             <h4>Spécialités</h4>
             <div class="style-tags">
-              <span class="style-tag" *ngFor="let specialty of model?.designer.specialties">
-                {{ specialty }}
+              <span class="style-tag" 
+                *ngFor="let specialty of getSpecializationsDisplay(getStylisteDetails(model?.styliste_id)?.specializations)">
+              {{specialty}}
               </span>
             </div>
           </div>
@@ -109,8 +116,8 @@
       <section class="styles-section">
         <h3>Style</h3>
         <div class="style-tags">
-          <span class="style-tag" *ngFor="let style of model?.styles">
-            {{ style }}
+          <span class="style-tag"><!-- *ngFor="let style of model?.styles"-->
+          <!--   {{ style }} -->
           </span>
         </div>
       </section>

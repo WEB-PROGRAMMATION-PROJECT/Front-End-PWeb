@@ -117,7 +117,7 @@ export class StylisteProfileComponent implements OnInit {
           photo_profil: data.profile_picture_url 
             ? `http://127.0.0.1:8000/storage/${data.profile_picture_url}` 
             : 'default-profile.jpg',  // Photo de profil
-          cover_photo: data.cover_image_url || `http://127.0.0.1:8000/storage/${data.profile_picture_url}`,  // Photo de couverture
+          cover_photo: data.cover_image_url || `expert2.jpg`,  // Photo de couverture
           specialites: specializations,  // Spécialités
           collections: data.collections || 0,  // Nombre de collections
           awards: data.awards || 0,  // Nombre de récompenses
@@ -146,14 +146,15 @@ saveProfile() {
     id: this.stylisteProfile.id,
     user_id: stylistId,
     phone_number: this.stylisteProfile.phone,
-    whatsapp: this.stylisteProfile.whatsapp,
+    email:this.stylisteProfile.email,
+    address:this.stylisteProfile.location,
     description: this.stylisteProfile.bio,
-    titre: this.stylisteProfile.role,
     specializations: JSON.stringify(this.stylisteProfile.specialites),
     social_links: JSON.stringify(this.stylisteProfile.social_media), 
     // Ajouter d'autres champs que vous voulez sauvegarder
   };
 
+  console.log(updatedProfile);
   // Appel à la méthode du backend pour enregistrer les modifications
   this.backendService.updateStylistProfile(stylistId, updatedProfile).subscribe(
     (response) => {
@@ -172,7 +173,7 @@ updateProfilePhoto(event: Event) {
   if (file) {
     const formData = new FormData();
     formData.append('profile_picture', file);
-
+console.log(file);
     const stylistId = this.getUserId();
     this.backendService.updateProfilePhoto(stylistId, formData).subscribe(
       (response) => {

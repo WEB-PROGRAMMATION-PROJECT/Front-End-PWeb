@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { DesignerService } from '../../services/Designers/designer.service';
 import {
   faSearch,
   faUser,
@@ -11,7 +12,6 @@ import {
   faBell
 } from '@fortawesome/free-solid-svg-icons';
 import { gsap } from 'gsap';
-import {CategoryService} from '../../services/Articles/category.service';
 
 interface Category {
   name: string;
@@ -51,7 +51,9 @@ export class NavbarComponent implements OnInit {
   isSearchActive: boolean = false;
   isMobileMenuOpen: boolean = false;
   lastScrollPosition: number = 0;
+  availableCategories: Category[] = [];
   hideNav: boolean = false;
+  materiaux: any[] = [];
 
   menuItems: MenuItem[] = [
     {
@@ -86,11 +88,26 @@ export class NavbarComponent implements OnInit {
   ];
   categories: Category[] = [];
 
-  constructor(private el: ElementRef, private categoryService: CategoryService) {}
+  constructor(private el: ElementRef,private categoryService: DesignerService) {}
 
   ngOnInit() {
     this.initAnimations();
-    this.loadCategories();
+    this.categoryService.getCategories().subscribe(
+      (categories: Category[]) => {
+        this.availableCategories = categories.slice(0, 5);  // Recevoir un tableau d'objets Category
+      },
+      error => {
+        console.error('Erreur lors du chargement des catégories', error);
+      }
+    );
+    this.categoryService.getMateriaux().subscribe(
+      (data) => {
+        this.materiaux = data;  // Stocker les matériaux dans le tableau
+      },
+      (error) => {
+        console.error('Erreur lors du chargement des matériaux:', error);
+      }
+    );
   }
 
   private loadCategories(): void {

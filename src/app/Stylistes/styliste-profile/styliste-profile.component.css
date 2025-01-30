@@ -176,6 +176,7 @@ body {
 
 /* Tags */
 .tags-container {
+  
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
@@ -191,6 +192,7 @@ body {
   color: var(--gray-800);
   font-weight: 500;
   transition: var(--transition);
+  background-color: rgba(129, 167, 245, 0.1);
 }
 
 .tag:hover {

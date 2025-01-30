@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 interface Designer {
   id: number;
   user_id?: number;  // Optionnel
   phone_number?: string;  // Optionnel
-  specializations?: { display: string, value: string }[];  // Optionnel
+  specializations?:string | { display: string, value: string }[];  // Optionnel
   titre?: string | null;  // Optionnel
   description: string;
   profile_picture_url?: string | null;  // Optionnel
@@ -42,6 +43,8 @@ export class DesignerCardComponent {
   @Input() designer?: Designer;
   isSelected = false;
 
+  constructor(private router: Router) {}
+
   /**
    * Construire une URL complète pour la photo de profil.
    * @returns URL complète ou image par défaut
@@ -70,19 +73,50 @@ export class DesignerCardComponent {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   }
   getSpecializationsDisplay(): string[] {
-    // Check if specializations exists and is an array
-    if (Array.isArray(this.designer?.specializations)) {
-      return this.designer.specializations.map(specialization => specialization.display);
-    } else {
-      return []; // Return an empty array if it's not an array or is undefined
+    if (!this.designer?.specializations) {
+      return [];
+    }
+  
+    // Vérifie si specializations est une chaîne, et la parse si nécessaire
+    try {
+      const specializations = typeof this.designer.specializations === 'string' 
+        ? JSON.parse(this.designer.specializations)
+        : this.designer.specializations;
+  
+      // Retourne uniquement les valeurs "display"
+      return specializations.map((specialty: { display: string }) => specialty.display);
+    } catch (error) {
+      console.error('Erreur lors du parsing des specializations :', error);
+      return [];
     }
   }
   
-
-  /**
-   * Gestion du clic sur le bouton "Découvrir".
-   */
-  onDiscoverClick(): void {
-    console.log('Discover clicked for:', this.designer?.user.first_name);
+  
+/**
+ * Gestion du clic sur le bouton "Découvrir".
+ * @param designer - L'objet contenant les informations du styliste.
+ */
+onDiscoverClick(designer: any): void {
+  // Vérification si le designer est défini et possède un ID
+  if (!designer || !designer.user_id) {
+    console.error('Erreur : Designer invalide ou ID manquant', designer);
+    return;
   }
+
+  // Affiche l'ID et d'autres informations utiles dans la console pour debug
+  console.log('Découvrir : navigation vers le styliste avec ID =', designer.user_id);
+  console.log('Nom du styliste :', designer?.user?.first_name || 'Nom non défini');
+
+  // Redirection vers la page du styliste
+  this.router.navigate(['/styliste-profile', designer.user_id]).then((success) => {
+    if (success) {
+      console.log('Navigation réussie vers /styliste-profile/', designer.user_id);
+    } else {
+      console.error('La navigation a échoué.');
+    }
+  }).catch((error) => {
+    console.error('Erreur lors de la navigation :', error);
+  });
+}
+
 }
