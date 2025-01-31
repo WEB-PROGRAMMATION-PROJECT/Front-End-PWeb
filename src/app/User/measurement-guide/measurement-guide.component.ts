@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MensurationService } from '../../services/mensuration/mensuration.service';
+import { Router } from '@angular/router'; 
 interface MeasurementStep {
   id: string;
   title: string;
@@ -239,7 +240,7 @@ export class MeasurementGuideComponent implements OnInit {
   ];
   
 
-  constructor(private fb: FormBuilder, private apiService: MensurationService) {
+  constructor(private fb: FormBuilder, private apiService: MensurationService,private router: Router) {
     this.measurementForm = this.fb.group({
       searchQuery: [''],
       ...this.createFormControls()
@@ -329,6 +330,7 @@ export class MeasurementGuideComponent implements OnInit {
       this.apiService.saveMeasurements(formattedData).subscribe(
         response => {
           console.log('Données enregistrées avec succès', response);
+          this.router.navigate(['/user']);
         },
         error => {
           console.error('Erreur lors de l\'enregistrement des données', error);

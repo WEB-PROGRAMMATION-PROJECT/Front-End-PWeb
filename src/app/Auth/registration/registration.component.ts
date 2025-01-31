@@ -212,7 +212,7 @@ export class RegistrationComponent implements OnInit {
           if (this.userType === 'stylist') {
             this.router.navigate(['/login']);
           } else {
-            this.router.navigate(['/mensurations']);
+            this.router.navigate(['/login']);
           }
         },
         error => this.handleErrors(error)
