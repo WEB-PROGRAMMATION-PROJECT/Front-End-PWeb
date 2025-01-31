@@ -6,7 +6,6 @@
       <select>
         <option value="all">Toutes les commandes</option>
         <option value="pending">En attente de validation</option>
-        <option value="waitingPayment">En attente de paiement</option>
         <option value="inProgress">En cours de confection</option>
         <option value="completed">Terminées</option>
       </select>
@@ -18,10 +17,9 @@
     <div *ngFor="let order of orders" class="order-card" (click)="openOrderDetails(order)">
       <div class="order-header">
         <div class="client-info">
-          <img [src]="order.clientImage" [alt]="order.clientName" class="client-avatar">
           <div class="client-details">
-            <h3>{{ order.clientName }}</h3>
-            <span class="order-date">Commandé le {{ order.orderDate | date:'dd/MM/yyyy' }}</span>
+            <h3>{{ order.client.first_name }}</h3>
+            <span class="order-date">Commandé le {{ order.date_commande }}</span>
           </div>
         </div>
         <span [class]="'status-badge ' + getStatusClass(order.status)">
@@ -30,10 +28,10 @@
       </div>
 
       <div class="order-content">
-        <img [src]="order.modelImage" [alt]="order.modelName" class="model-image">
+        <img [src]="order.model.image1" [alt]="order.model.name" class="model-image">
         <div class="model-details">
-          <h4>{{ order.modelName }}</h4>
-          <span class="model-ref">Réf: {{ order.modelReference }}</span>
+          <h4>{{ order.model.name }}</h4>
+          <span class="model-ref">Réf: {{ order.reference }}</span>
           <p *ngIf="order.totalPrice" class="price">{{ order.totalPrice }}€</p>
         </div>
       </div>
@@ -42,7 +40,7 @@
         <button class="action-button" *ngIf="order.status === 'pending'" (click)="openOrderDetails(order)">
           Valider la commande
         </button>
-        <button class="action-button" *ngIf="order.status === 'inProgress'" (click)="markAsCompleted(order)">
+        <button class="action-button" *ngIf="order.status === 'in_progress'" (click)="markAsCompleted(order)">
           Marquer comme terminée
         </button>
         <button class="contact-button" (click)="contactClient(order); $event.stopPropagation()">
@@ -65,12 +63,12 @@
 
       <div class="modal-body">
         <div class="order-overview">
-          <img [src]="selectedOrder.modelImage" [alt]="selectedOrder.modelName" class="model-image-large">
+          <img [src]="selectedOrder.model.image1" [alt]="selectedOrder.model.name" class="model-image-large">
           <div class="order-info">
-            <h3>{{ selectedOrder.modelName }}</h3>
-            <p class="ref">Réf: {{ selectedOrder.modelReference }}</p>
-            <p class="client">Client: {{ selectedOrder.clientName }}</p>
-            <p class="date">Date: {{ selectedOrder.orderDate | date:'dd/MM/yyyy' }}</p>
+            <h3>{{ selectedOrder.model.name }}</h3>
+            <p class="ref">Réf: {{ selectedOrder.reference }}</p>
+            <p class="client">Client: {{ selectedOrder.client.first_name }}</p>
+            <p class="date">Date: {{ selectedOrder.date_commande }}</p>
           </div>
         </div>
 
@@ -79,26 +77,21 @@
           <div class="measures-grid">
             <div class="measure-item">
               <span class="label">Tour de poitrine</span>
-              <span class="value">{{ selectedOrder.measures?.bust }} cm</span>
+              <span class="value">{{ selectedOrder.client.tour_poitrine }} cm</span>
             </div>
             <div class="measure-item">
               <span class="label">Tour de taille</span>
-              <span class="value">{{ selectedOrder.measures?.waist }} cm</span>
+              <span class="value">{{ selectedOrder.client.tour_hanches }} cm</span>
             </div>
             <div class="measure-item">
               <span class="label">Tour de hanches</span>
-              <span class="value">{{ selectedOrder.measures?.hips }} cm</span>
+              <span class="value">{{ selectedOrder.client.tour_taille }} cm</span>
             </div>
             <div class="measure-item">
               <span class="label">Hauteur</span>
-              <span class="value">{{ selectedOrder.measures?.height }} cm</span>
+              <span class="value">{{ selectedOrder.client.hauteur }} cm</span>
             </div>
           </div>
-        </div>
-
-        <div class="message-section" *ngIf="selectedOrder.clientMessage">
-          <h4>Message du client</h4>
-          <p class="client-message">{{ selectedOrder.clientMessage }}</p>
         </div>
 
         <div class="validation-section" *ngIf="selectedOrder.status === 'pending'">

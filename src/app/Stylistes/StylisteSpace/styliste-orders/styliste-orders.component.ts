@@ -1,113 +1,77 @@
 // styliste-orders.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Command {
-  id: number;
-  clientName: string;
-  clientImage: string;
-  modelName: string;
-  modelImage: string;
-  status: 'pending' | 'waitingPayment' | 'inProgress' | 'completed' | 'cancelled';
-  orderDate: string;
-  totalPrice?: number;
-  expectedDeliveryDate?: string;
-  measures?: {
-    bust: number;
-    waist: number;
-    hips: number;
-    height: number;
-  };
-  clientMessage?: string;
-  modelReference: string;
-}
+import { Commande } from '../../../Data/Commande';
+import { OrderService } from '../../../services/Order/order.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-styliste-orders',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './styliste-orders.component.html',
-  styleUrls: ['./styliste-orders.component.scss']
+  styleUrls: ['./styliste-orders.component.scss'],
 })
 export class StylisteOrdersComponent implements OnInit {
-  orders: Command[] = [
-    {
-      id: 1,
-      clientName: 'Sophie Martin',
-      clientImage: 'https://via.placeholder.com/50',
-      modelName: 'Robe de Soirée Élégante',
-      modelImage: 'https://via.placeholder.com/150',
-      status: 'pending',
-      orderDate: '2024-01-08',
-      modelReference: 'RS-2024-001',
-      measures: {
-        bust: 90,
-        waist: 70,
-        hips: 95,
-        height: 165
-      },
-      clientMessage: 'J\'aimerais cette robe pour un mariage dans 2 mois.'
-    },
-    {
-      id: 2,
-      clientName: 'Marie Dupont',
-      clientImage: 'https://via.placeholder.com/50',
-      modelName: 'Tailleur Modern Chic',
-      modelImage: 'https://via.placeholder.com/150',
-      status: 'waitingPayment',
-      orderDate: '2024-01-05',
-      totalPrice: 450,
-      modelReference: 'TC-2024-002',
-      expectedDeliveryDate: '2024-02-05',
-      measures: {
-        bust: 88,
-        waist: 68,
-        hips: 92,
-        height: 170
-      }
-    }
-  ];
-
-  selectedOrder: Command | null = null;
+  selectedOrder: Commande | null = null;
   priceInput: number | null = null;
   deliveryDateInput: string = '';
 
-  constructor() {}
+  private destroy = inject(DestroyRef);
+  orders: Commande[] = [];
+  filteredOrders: Commande[] = [];
+  currentFilter: string = 'all';
+
+  constructor(private orderService: OrderService) {}
 
   ngOnInit() {
-    // Ici on pourra plus tard charger les commandes depuis un service
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      const userData = JSON.parse(user);
+      const userId = userData.id;
+
+      this.orderService
+        .getStylistOrders(userId)
+        .pipe(takeUntilDestroyed(this.destroy))
+        .subscribe((data) => {
+          this.orders = data;
+          this.filteredOrders = this.orders;
+          console.log('Commandes récupérées avec succès:', this.orders);
+        });
+    } else {
+      console.error('Veuillez vous connecter pour accéder à vos commandes.');
+    }
   }
 
-  getStatusLabel(status: Command['status']): string {
+  getStatusLabel(status: Commande['status']): string {
     const statusMap = {
-      pending: 'En attente de validation',
-      waitingPayment: 'En attente de paiement',
-      inProgress: 'En cours de confection',
+      pending: 'En attente de validation et paiement',
+      in_progress: 'En cours de confection',
       completed: 'Terminée',
-      cancelled: 'Annulée'
+      cancelled: 'Annulée',
     };
     return statusMap[status];
   }
 
-  getStatusClass(status: Command['status']): string {
+  getStatusClass(status: Commande['status']): string {
     const statusClassMap = {
-      pending: 'status-pending',
-      waitingPayment: 'status-waiting',
-      inProgress: 'status-progress',
-      completed: 'status-completed',
-      cancelled: 'status-cancelled'
+      pending: 'En attente de validation et paiement',
+      in_progress: 'En cours de confection',
+      completed: 'Terminée',
+      cancelled: 'Annulée',
     };
     return statusClassMap[status];
   }
 
-  openOrderDetails(order: Command) {
+  openOrderDetails(order: Commande) {
     this.selectedOrder = order;
     this.priceInput = order.totalPrice || null;
     this.deliveryDateInput = order.expectedDeliveryDate || '';
   }
 
-  validateOrder(order: Command) {
+  validateOrder(order: Commande) {
     if (!this.priceInput || !this.deliveryDateInput) {
       alert('Veuillez remplir tous les champs requis');
       return;
@@ -115,7 +79,7 @@ export class StylisteOrdersComponent implements OnInit {
 
     order.totalPrice = this.priceInput;
     order.expectedDeliveryDate = this.deliveryDateInput;
-    order.status = 'waitingPayment';
+    order.status = 'pending';
     this.selectedOrder = null;
   }
 
@@ -123,12 +87,12 @@ export class StylisteOrdersComponent implements OnInit {
     this.selectedOrder = null;
   }
 
-  markAsCompleted(order: Command) {
+  markAsCompleted(order: Commande) {
     order.status = 'completed';
   }
 
-  contactClient(order: Command) {
+  contactClient(order: Commande) {
     // Implémentation de la fonction de contact (WhatsApp, etc.)
-    console.log('Contacter le client:', order.clientName);
+    console.log('Contacter le client:', order.client.first_name);
   }
 }

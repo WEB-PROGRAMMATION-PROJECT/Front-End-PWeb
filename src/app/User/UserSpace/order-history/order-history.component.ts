@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+// order-history.component.ts
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Order, OrderService } from '../../../services/Order/order.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import { OrderService } from '../../../services/Order/order.service';
+import { Commande } from '../../../Data/Commande';
 
 @Component({
   selector: 'app-order-history',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './order-history.component.html',
+  templateUrl:'./order-history.component.html',
   styleUrls: ['./order-history.component.scss']
 })
 export class OrderHistoryComponent implements OnInit {
-  orders: Order[] | undefined; // Make orders optional
-  filteredOrders: Order[] | undefined; // Make filteredOrders optional
+  private destroy = inject(DestroyRef)
+  commandes: Commande[] = [];
+  filteredCommandes: Commande[] = [];
   currentFilter: string = 'all';
-  ordersLoading = true; // Add loading flag
-  ordersError: string | null = null; // for error messages
+
 
   statusFilters = [
     { label: 'Toutes', value: 'all' },
@@ -27,48 +30,41 @@ export class OrderHistoryComponent implements OnInit {
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
-    this.loadOrders();
-  }
+    const user = localStorage.getItem('user');
 
-  loadOrders() {
-    this.ordersLoading = true;
-    this.ordersError = null; // Clear any previous errors
-    this.orderService.getUserOrders().subscribe({
-      next: (orders) => {
-        this.orders = orders;
-        this.filterOrders(this.currentFilter); // Filter after loading
-      },
-      error: (error) => {
-        console.error("Error loading orders:", error);
-        this.ordersError = "Une erreur s'est produite lors du chargement des commandes."; // Set error message
-      },
-      complete: () => {
-        this.ordersLoading = false;
-      }
-    });
-  }
+    if(user){
+      const userData = JSON.parse(user);
+      const userId = userData.id;
 
-  filterOrders(status: string) {
-    this.currentFilter = status;
-    if (this.orders) { // Check if orders is defined
-      if (status === 'all') {
-        this.filteredOrders = this.orders;
-      } else {
-        this.filteredOrders = this.orders.filter(order => order.status === status);
-      }
+      this.orderService.getUserOrders(userId)
+      .pipe(takeUntilDestroyed(this.destroy))
+      .subscribe(data => {
+        this.commandes = data;
+        this.filteredCommandes = this.commandes;
+        console.log('Commandes récupérées avec succès:', this.commandes);
+      });
     } else {
-      this.filteredOrders = []; // Or undefined if you prefer
+      console.error('Veuillez vous connecter pour accéder à vos commandes.');
+    }
+  }
+
+  filterByStatus(status: string) {
+    this.currentFilter = status;
+    if (status === 'all') {
+      this.filteredCommandes = this.commandes;
+    } else {
+      this.filteredCommandes = this.commandes.filter(commande => commande.status === status);
     }
   }
 
 
-  getStatusLabel(status: string | undefined): string { // status can be undefined
+  getStatusLabel(status: string | undefined): string {
     const statusMap: { [key: string]: string } = {
       'pending': 'En attente',
       'in_progress': 'En cours',
       'completed': 'Terminée',
       'cancelled': 'Annulée'
     };
-    return status ? statusMap[status] || status : ""; // Handle undefined status
+    return statusMap[status] || status;
   }
 }

@@ -10,7 +10,7 @@ interface Modele {
   image3: string;
   image4: string;
   image5: string;
-  story: string;
+
   description?: string;
   categorie_id: number;
   styliste_id: number;

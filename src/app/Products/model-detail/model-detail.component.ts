@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../../services/Articles/category.service';
@@ -6,6 +6,8 @@ import { DesignerService } from '../../services/Designers/designer.service';
 import { FashionModel, ModelComment } from './model.interface';
 import { signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
+import {CommandeStoreService} from '../store/commande.store.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop'
 
 
 interface Modele {
@@ -16,7 +18,7 @@ interface Modele {
   image3?: string;
   image4?: string;
   image5?: string;
-  story: string;
+ 
   description?: string;
   categorie_id: number;
   styliste_id: number;
@@ -51,9 +53,11 @@ export class ModelDetailComponent implements OnInit {
   showOrderDialog = signal(false);
   newComment = signal('');
   stylistProfilePictureUrl: string;
+  whatsapp_styliste:string;
+  constructor(private route: ActivatedRoute, private clothingModelService: DesignerService,private store: CommandeStoreService, private destroyRef: DestroyRef ) {}
 
 
-  constructor(private route: ActivatedRoute,private categoryService: CategoryService, private clothingModelService: DesignerService) {}
+  categoryService: any;
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -104,11 +108,12 @@ export class ModelDetailComponent implements OnInit {
 
       designers.forEach((designer: any) => {
         const profileUrl = `http://127.0.0.1:8000/storage/${designer.profile_picture_url}`;
-
+const phone = designer.phone_number;
         this.stylisteDetails.set(designer.id, {
           profile_picture_url: profileUrl,
           description: designer.description,
           rating: designer.rating,
+          phone_number: designer.phone_number,
           completed_orders: designer.completed_orders,
           specializations: this.getSpecializationsDisplay(designer.specializations),
         });
@@ -116,6 +121,7 @@ export class ModelDetailComponent implements OnInit {
         // Si c'est le styliste actuel, mettre à jour la variable
         if (designer.id === this.model?.styliste_id) {
           this.stylistProfilePictureUrl = profileUrl;
+          this.whatsapp_styliste=phone;
         }
       });
 
@@ -155,7 +161,7 @@ export class ModelDetailComponent implements OnInit {
       const parsedSpecializations = typeof specializations === 'string'
         ? JSON.parse(specializations)
         : specializations;
-        console.log(parsedSpecializations.map((specialty: { display: string }) => specialty.display))
+        
 
       return parsedSpecializations.map((specialty: { display: string }) => specialty.display);
     } catch (error) {
@@ -213,10 +219,20 @@ export class ModelDetailComponent implements OnInit {
   }
 
   contactDesigner(): void {
-    if (this.model?.designer?.whatsapp) {
-      window.open(`https://wa.me/${this.model.designer.whatsapp}`, '_blank');
-    }
-  }
+  
+        if (this.model?.designer?.whatsapp) {
+          window.open(`https://wa.me/${this.whatsapp_styliste}`, '_blank');
+        }
+ 
+        // Implement WhatsApp redirect
+        this.store.createCommande({})
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe(response => {
+            console.log('Commande créée avec succès :', response);
+          })
+        window.open(`https://wa.me/${this.whatsapp_styliste}`, '_blank');
+
+      }
 
   Commentaires
   
